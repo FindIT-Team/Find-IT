@@ -52,7 +52,7 @@
     "@types/passport-github": "^1.1.11",
     "@types/passport-google-oauth": "^1.0.44",
     "@types/passport-local": "^1.0.37",
-    "@types/supertest": "^2.0.12",
+    "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.42.0",
