@@ -1,0 +1,12 @@
+.numberInput {
+  @apply w-full flex flex-row gap-3 items-center justify-between;
+
+  > label {
+    @apply text-xl font-light;
+  }
+
+  > input {
+    @apply border rounded border-gray-300 px-3 py-1.5 focus:outline-0;
+    @apply pointer-events-auto;
+  }
+}

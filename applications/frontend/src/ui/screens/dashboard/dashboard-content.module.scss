@@ -1,0 +1,172 @@
+//TODO: Adaptive
+.error {
+  @apply flex w-full h-full justify-center items-center text-lg text-center p-5 bg-gray-50 border rounded font-medium tracking-wide;
+}
+
+.container {
+  @apply flex flex-col py-5 px-3.5;
+
+  > h2 {
+    @apply px-2 py-1 font-medium;
+  }
+
+  > ol {
+    @apply flex flex-col bg-gray-50 rounded border shadow-sm h-full;
+    @apply overflow-x-hidden pointer-events-auto;
+
+    > li {
+      @apply bg-white border-b flex flex-col;
+
+      * {
+        @apply pointer-events-none;
+      }
+
+      &:last-child {
+        @apply border-none;
+      }
+    }
+  }
+}
+
+.project, .notice, .responseOffer {
+  @apply flex flex-row justify-between p-3.5 h-[70px];
+}
+
+.project, .notice {
+  > div {
+    &:first-child {
+      @apply flex flex-col justify-between items-start;
+
+      > h1 {
+        @apply font-light;
+      }
+
+      h6 {
+        @apply text-xs text-gray-500 font-medium;
+      }
+    }
+
+    &:last-child {
+      @apply flex flex-col;
+
+      > button {
+        @apply bg-white text-sm rounded;
+        @apply transition ease-in-out pointer-events-auto;
+
+        &:hover {
+          @apply bg-gray-100;
+        }
+      }
+    }
+  }
+}
+
+.project {
+  > div {
+    &:first-child {
+      > div {
+        @apply flex flex-row justify-between gap-3;
+      }
+    }
+
+    &:last-child {
+      @apply justify-center items-center;
+
+      > button {
+        @apply border px-2 py-1 shadow;
+      }
+    }
+  }
+}
+
+.notice {
+  > div {
+    &:last-child {
+      @apply justify-between items-end gap-2;
+
+      > button {
+        > svg {
+          @apply w-5 text-gray-500;
+        }
+      }
+
+      > h6 {
+        @apply text-xs text-gray-500 font-medium;
+      }
+    }
+  }
+}
+
+.responseOffer {
+  @apply items-center;
+
+  > div {
+    &:first-child {
+      @apply flex flex-row gap-2;
+
+      > div {
+        @apply flex flex-col justify-center items-center;
+
+        > svg {
+          @apply w-5 text-gray-500;
+        }
+
+        &:last-child {
+          @apply flex flex-col items-start;
+
+          > h1 {
+            @apply font-light;
+          }
+
+          > div {
+            @apply flex flex-row justify-between gap-3;
+          }
+
+          h6 {
+            @apply text-xs text-gray-500 font-medium;
+          }
+        }
+      }
+    }
+
+    &:last-child {
+      @apply flex flex-row items-center justify-center gap-2.5;
+
+      > button {
+        @apply pointer-events-auto transition ease-in-out p-1 rounded;
+
+        > svg {
+          @apply h-5;
+        }
+
+        &:hover {
+          @apply bg-gray-100;
+        }
+      }
+    }
+  }
+}
+
+.subscription {
+  @apply flex flex-col justify-between items-center p-2 h-full;
+
+  > h3 {
+    @apply tracking-wide my-1;
+  }
+}
+
+.thanksImage {
+  @apply w-full h-full rounded;
+  background-image: url('/thanks.jpeg');
+  background-size: cover;
+  background-position: center center;
+  background-color: white;
+}
+
+.noSubscriptionImage {
+  @apply w-full h-full rounded;
+  background-image: url('/no-subscription.jpeg');
+  background-size: cover;
+  background-position: center center;
+  background-color: white;
+}

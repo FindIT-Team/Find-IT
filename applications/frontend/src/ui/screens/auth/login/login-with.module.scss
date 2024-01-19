@@ -1,0 +1,15 @@
+.loginWith {
+  @apply w-full flex flex-col gap-4;
+
+  h1 {
+    @apply text-center text-3xl font-bold;
+  }
+
+  > ul {
+    @apply w-full flex flex-row gap-4 justify-center;
+
+    @media screen and (min-width: 1020px) {
+      @apply justify-between px-5;
+    }
+  }
+}

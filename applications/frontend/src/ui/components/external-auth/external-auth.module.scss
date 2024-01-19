@@ -1,0 +1,12 @@
+.loginWithButton {
+  @apply w-14 h-14 flex flex-nowrap justify-center items-center border border-gray-300 rounded;
+  @apply pointer-events-auto transition ease-in-out;
+
+  &:hover {
+    @apply bg-gray-200;
+  }
+
+  img {
+    @apply w-10 h-10;
+  }
+}

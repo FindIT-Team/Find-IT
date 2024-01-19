@@ -1,0 +1,15 @@
+.sidebar {
+  @apply fixed w-16 bg-white inset-y-0 left-0 shadow border-r flex flex-col justify-between;
+
+  > div {
+    @apply flex flex-col flex-nowrap my-3 items-center gap-4;
+
+    > button {
+      @apply flex justify-center items-center rounded-lg p-1.5 w-10;
+
+      > svg {
+        @apply w-full h-full;
+      }
+    }
+  }
+}

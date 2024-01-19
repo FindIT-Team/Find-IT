@@ -1,0 +1,46 @@
+.splitTextInput {
+  @apply flex flex-col w-full items-center justify-center;
+
+  > div {
+    width: 90%;
+
+    &:first-child {
+      @apply flex flex-row flex-nowrap items-stretch justify-center;
+      @apply pointer-events-auto;
+
+      > div {
+        @apply flex flex-row flex-nowrap w-full items-center justify-center;
+
+        > span {
+          @apply bg-gray-100 border border-r-0 border-gray-300 rounded-l p-3;
+        }
+
+        > input {
+          @apply w-full border border-r-0 p-3 focus:outline-0;
+        }
+      }
+
+      > button {
+        @apply bg-blue-600 rounded-r px-3 text-white;
+        @apply transition ease-in-out;
+
+        &:hover {
+          @apply bg-blue-700;
+        }
+
+        &:disabled {
+          @apply bg-gray-500;
+        }
+      }
+    }
+
+    &:last-child {
+      @apply absolute inset-y-full;
+      @apply flex justify-start;
+
+      > span {
+        @apply text-red-500 bg-transparent;
+      }
+    }
+  }
+}

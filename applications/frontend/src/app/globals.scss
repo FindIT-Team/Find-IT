@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  @apply pointer-events-none;
+}
+
+main {
+  @apply fixed w-full h-full flex;
+}
