@@ -5,7 +5,7 @@ import { ProjectEntity } from '../../entities/project.entity';
 import { UserEntity } from '../../entities/user.entity';
 import { DashboardService } from './dashboard.service';
 
-@Controller('api/dashboard')
+@Controller('dashboard')
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 

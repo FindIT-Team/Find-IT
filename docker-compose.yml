@@ -1,8 +1,10 @@
 version: "3.9"
 services:
   backend:
+    container_name: backend
     build:
       context: applications/backend/
+      dockerfile: Dockerfile
 
     restart: always
 
@@ -10,8 +12,10 @@ services:
       - database
 
   frontend:
+    container_name: frontend
     build:
       context: applications/frontend/
+      dockerfile: Dockerfile
 
     ports:
       - "0.0.0.0:80:3000"
@@ -22,13 +26,14 @@ services:
       - backend
 
   database:
+    container_name: database
     image: postgres:latest
 
     environment:
       POSTGRES_DB: findit
       POSTGRES_USER: webserver
       POSTGRES_PASSWORD: 123456
-      PGDATA: /var/lib/postgresql/data/pgdata
+      PGDATA: /var/lib/postgresql/data/pg-data
 
     restart: always
 
