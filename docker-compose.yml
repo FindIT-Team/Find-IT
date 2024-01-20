@@ -5,8 +5,8 @@ services:
       context: applications/backend/
 
     ports:
-      - "3000:4000"
-      - "127.0.0.1:3000:4000"
+      - "1105:4000"
+      - "127.0.0.1:1105:4000"
 
     restart: always
 
