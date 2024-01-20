@@ -9,7 +9,9 @@ on:
 jobs:
 
   build:
-    environment: Default
+    environment: 
+      name: production
+      url: https://findit-team.github.io/findit
     runs-on: ubuntu-latest
 
     steps:
