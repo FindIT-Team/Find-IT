@@ -10,7 +10,7 @@ jobs:
   deploy:
     environment: 
       name: production
-      url: https://findit-team.github.io/findit
+      url: https://findit-team.github.io/
     runs-on: ubuntu-latest
 
     steps:
