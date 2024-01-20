@@ -7,8 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-
-  build:
+  deploy:
     environment: 
       name: production
       url: https://findit-team.github.io/findit
