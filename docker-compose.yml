@@ -1,11 +1,11 @@
-version: "10"
+version: "3.9"
 services:
   backend:
     build:
       context: applications/backend/
 
     ports:
-      - "192.168.91.107:3000:4000"
+      - "3000:4000"
       - "127.0.0.1:3000:4000"
 
     restart: always
@@ -18,7 +18,7 @@ services:
       context: applications/frontend/
 
     ports:
-      - "192.168.91.107:80:3000"
+      - "80:3000"
       - "127.0.0.1:80:3000"
 
     restart: always
