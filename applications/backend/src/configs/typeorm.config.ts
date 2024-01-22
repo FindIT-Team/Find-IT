@@ -16,14 +16,14 @@ export default class TypeOrmConfig {
       password: configService.get('DB_PASSWD'),
       database: configService.get('DB_NAME'),
 
-      synchronize: true,
+      synchronize: configService.get('DB_SYNC') ?? true,
       autoLoadEntities: true,
       entities: ['entities/*.ts'],
 
       retryAttempts: 5,
       retryDelay: 3000,
 
-      logger: 'file',
+      logger: 'advanced-console',
       cache: { duration: 3000 },
     };
   }

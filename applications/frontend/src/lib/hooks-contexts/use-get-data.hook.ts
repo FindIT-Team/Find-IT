@@ -43,7 +43,8 @@ const useGetData = (url: string) => {
   }, [url]);
 
   if (typeof data === 'string' && data.includes('error')) throw new Error(data);
-  else if (data && 'error' in data) throw new Error(data.error);
+  else if (data && Object.keys(data).includes('error'))
+    throw new Error(data.error);
 
   return data;
 };
