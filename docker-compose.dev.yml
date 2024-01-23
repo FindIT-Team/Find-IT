@@ -2,18 +2,33 @@ version: "3.9"
 services:
   backend:
     container_name: backend
+
     build:
       context: applications/backend/
       dockerfile: Dockerfile
       target: dev
 
-    restart: always
+    develop:
+      watch:
+        - path: ./applications/backend/
+          action: sync
+          target: /app
+          ignore:
+            - node_modules/
 
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   frontend:
     container_name: frontend
+
+    develop:
+      watch:
+        - path: ./applications/frontend/
+          action: sync
+          target: /app
+
     build:
       context: applications/frontend/
       dockerfile: Dockerfile
@@ -25,7 +40,9 @@ services:
     restart: always
 
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+        restart: true
 
   database:
     container_name: database
@@ -38,5 +55,3 @@ services:
 
     volumes:
       - ./applications/database/data/dev:/var/lib/postgresql/data/pg-data
-volumes:
-    postgres:
