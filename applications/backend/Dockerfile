@@ -40,4 +40,4 @@ FROM base AS test
 
 RUN [ "sh", "-c", "rm .env.*" ]
 
-CMD [ "npm", "run", "test --passWithNoTests" ]
+CMD [ "sh", "-c", "npm run test --passWithNoTests" ]
