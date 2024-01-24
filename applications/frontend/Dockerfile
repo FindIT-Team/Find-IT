@@ -7,12 +7,13 @@ LABEL ENV=${ENV}
 
 ENV API_ENDPOINT=http://backend:3000/api
 
-WORKDIR /app
+WORKDIR /project/apps/frontend
 ENV PORT=3000
 COPY package*.json ./
-RUN [ "sh", "-c", "npm i next" ]
 RUN [ "sh", "-c", "npm i" ]
+RUN [ "sh", "-c", "npm i -D" ]
 COPY . .
+COPY ../../.eslintrc.js ../../
 EXPOSE ${PORT}
 
 RUN [ "sh", "-c", "npx next telemetry disable" ]

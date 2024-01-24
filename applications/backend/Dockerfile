@@ -11,12 +11,13 @@ ENV DB_PORT=5432
 ENV DB_USERNAME=webserver
 ENV DB_PASSWD=123456
 
-WORKDIR /app
+WORKDIR /project/apps/backend
 ENV PORT=3000
 COPY package*.json ./
-RUN [ "sh", "-c", "npm i -g @nestjs/cli" ]
 RUN [ "sh", "-c", "npm i" ]
+RUN [ "sh", "-c", "npm i -D" ]
 COPY . .
+COPY ../../.eslintrc.js ../../
 EXPOSE ${PORT}
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT}/api/health || exit 1" ]
