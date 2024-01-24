@@ -11,24 +11,18 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
       
-    - name: Run test on the Docker image
+    - name: Run test
       run: make test
 
-  development:
-    runs-on: ubuntu-latest
-    environment:
-      name: development
+  # development:
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: development
       
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
       
-    - name: Run development env inside Docker
-      run: make start-dev
+  #   - name: Run development
+  #     run: make start-dev
