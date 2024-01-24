@@ -23,8 +23,6 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD [ "sh
 
 FROM base AS production
 
-RUN [ "sh", "-c", "mv .env.${NODE_ENV} .env" ]
-RUN [ "sh", "-c", "rm .env.*" ]
 RUN [ "sh", "-c", "npm run build" ]
 
 ENTRYPOINT [ "npm", "run", "start:prod" ]
@@ -32,14 +30,9 @@ ENTRYPOINT [ "npm", "run", "start:prod" ]
 
 FROM base AS development
 
-RUN [ "sh", "-c", "mv .env.${NODE_ENV} .env" ]
-RUN [ "sh", "-c", "rm .env.*" ]
-
 ENTRYPOINT [ "npm", "run", "dev" ]
 
 
 FROM base AS test
-
-RUN [ "sh", "-c", "rm .env.*" ]
 
 CMD [ "sh", "-c", "npm run test" ]
