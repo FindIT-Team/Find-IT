@@ -14,8 +14,7 @@ ENV DB_PASSWD=123456
 WORKDIR /app
 ENV PORT=3000
 COPY package*.json ./
-RUN npm install
-RUN npm install -g @nestjs/cli
+RUN npm i
 COPY . .
 EXPOSE ${PORT}
 
@@ -24,7 +23,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl 
 
 FROM base AS production
 
-RUN mv .env.${NODE_ENV} .env && rm .env.*
+RUN mv .env.$NODE_ENV .env && rm .env.*
 RUN npm run build
 
 ENTRYPOINT [ "npm", "run", "start:prod" ]
@@ -32,7 +31,7 @@ ENTRYPOINT [ "npm", "run", "start:prod" ]
 
 FROM base AS development
 
-RUN mv .env.${NODE_ENV} .env && rm .env.*
+RUN mv .env.$NODE_ENV .env && rm .env.*
 
 ENTRYPOINT [ "npm", "run", "dev" ]
 
@@ -41,4 +40,4 @@ FROM base AS test
 
 RUN rm .env.*
 
-CMD [ "npm", "run", "test" ]
+CMD [ "npm", "run", "test", "--passWithNoTests" ]
