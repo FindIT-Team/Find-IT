@@ -10,7 +10,7 @@ ENV API_ENDPOINT=http://backend:3000/api
 WORKDIR /app
 ENV PORT=3000
 COPY package*.json ./
-RUN npm install
+RUN npm i
 COPY . .
 EXPOSE ${PORT}
 
