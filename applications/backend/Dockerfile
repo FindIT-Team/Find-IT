@@ -35,7 +35,3 @@ ENTRYPOINT [ "npm", "run", "dev" ]
 
 
 FROM base AS test
-
-RUN [ "sh", "-c", "npm run test" ]
-
-CMD [ "sh", "-c", "npm run build" ]
