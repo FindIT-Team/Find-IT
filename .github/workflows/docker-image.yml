@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v5
+      uses: docker/setup-buildx-action@v3
       
     - name: Run test on the Docker image
       run: make test
@@ -28,7 +28,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v5
+      uses: docker/setup-buildx-action@v3
       
     - name: Run development env inside Docker
       run: make start-dev
