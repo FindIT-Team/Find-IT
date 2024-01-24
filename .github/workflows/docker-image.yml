@@ -1,19 +1,39 @@
-name: Docker Image CI
+name: CI/CD
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  test:
+  backend-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
       
-    - name: Run test
-      run: make test
+    - name: Run
+      run: make test-backend
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Run
+      run: make test-frontend
+
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Run
+      run: npm run lint -ws
 
   # development:
   #   runs-on: ubuntu-latest
