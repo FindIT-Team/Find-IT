@@ -1,37 +1,44 @@
-FROM node:latest AS BASE
+FROM node:latest AS base
+
+ARG ENV
+
+ENV NODE_ENV=${ENV}
+LABEL ENV=${ENV}
+
+ENV DB_NAME=findit-${ENV}
+ENV DB_HOST=database
+ENV DB_PORT=5432
+ENV DB_USERNAME=webserver
+ENV DB_PASSWD=123456
+
 WORKDIR /app
-
+ENV PORT=3000
 COPY package*.json ./
-
-RUN npm i
-
+RUN npm install
+RUN npm install -g @nestjs/cli
 COPY . .
+EXPOSE ${PORT}
 
-FROM base AS prod
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://localhost:$PORT/api/health || exit 1
 
-RUN rm .env.development && rm .env.test && mv .env.production .env
 
-ENV NODE_ENV=production
+FROM base AS production
 
+RUN mv .env.${NODE_ENV} .env && rm .env.*
 RUN npm run build
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://localhost:4000/api/health || exit 1
 
 ENTRYPOINT [ "npm", "run", "start:prod" ]
 
-FROM base AS dev
 
-RUN rm .env.production && rm .env.test && mv .env.development .env
+FROM base AS development
 
-ENV NODE_ENV=development
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://localhost:4000/api/health || exit 1
+RUN mv .env.${NODE_ENV} .env && rm .env.*
 
 ENTRYPOINT [ "npm", "run", "dev" ]
 
+
 FROM base AS test
-LABEL env=test
 
-RUN rm .env.production && rm .env.development && mv .env.test .env
+RUN rm .env.*
 
-ENV NODE_ENV=test
+CMD [ "npm", "run", "test" ]

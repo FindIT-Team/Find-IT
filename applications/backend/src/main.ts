@@ -50,7 +50,7 @@ async function bootstrap() {
 
   app.useGlobalGuards(new AuthGuard());
 
-  await app.listen(configService.get('PORT') ?? 3000);
+  await app.listen(configService.get('PORT'));
 }
 
 bootstrap().then();

@@ -1,43 +1,46 @@
-version: "3.9"
+version: '3.9'
+name: findit-production
 services:
-  backend:
-    container_name: backend
-    build:
-      context: applications/backend/
-      dockerfile: Dockerfile
-      target: prod
+  database:
+    extends:
+      file: docker-compose.yml
+      service: database
 
-    restart: always
+    build:
+      args:
+        - ENV=production
+
+    volumes:
+      - ./applications/database/data/production:/var/lib/postgresql/data/pg-data:rw
+
+
+  backend:
+    extends:
+      file: docker-compose.yml
+      service: backend
+
+    build:
+      target: production
+      args:
+        - ENV=production
 
     depends_on:
       database:
         condition: service_healthy
 
   frontend:
-    container_name: frontend
+    extends:
+      file: docker-compose.yml
+      service: frontend
+
     build:
-      context: applications/frontend/
-      dockerfile: Dockerfile
-      target: prod
-
-    ports:
-      - "0.0.0.0:80:3000"
-
-    restart: always
+      target: production
+      args:
+        - ENV=production
 
     depends_on:
       backend:
         condition: service_healthy
-        restart: true
 
-  database:
-    container_name: database
-    build:
-      context: applications/database/
-      dockerfile: Dockerfile
-      target: prod
-
-    restart: always
-
-    volumes:
-      - ./applications/database/data/prod:/var/lib/postgresql/data/pg-data
+    ports:
+      - '0.0.0.0:80:3000'

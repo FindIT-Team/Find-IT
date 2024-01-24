@@ -1,0 +1,40 @@
+version: "3.9"
+name: findit
+services:
+  database:
+    build:
+      context: ./applications/database
+
+    restart: always
+
+
+  backend:
+    build:
+      context: ./applications/backend
+
+    develop:
+      watch:
+        - path: ./applications/backend
+          action: sync
+          target: /app
+          ignore:
+            - node_modules
+            - dist
+
+    restart: always
+
+
+  frontend:
+    build:
+      context: ./applications/frontend
+
+    develop:
+      watch:
+        - path: ./applications/frontend
+          action: sync
+          target: /app
+          ignore:
+            - node_modules
+            - .next
+
+    restart: always

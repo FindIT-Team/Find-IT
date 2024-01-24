@@ -1,57 +1,46 @@
-version: "3.9"
+version: '3.9'
+name: findit-development
 services:
-  backend:
-    container_name: backend
+  database:
+    extends:
+      file: docker-compose.yml
+      service: database
 
     build:
-      context: applications/backend/
-      dockerfile: Dockerfile
-      target: dev
+      args:
+        - ENV=development
 
-    develop:
-      watch:
-        - path: ./applications/backend/
-          action: sync
-          target: /app
-          ignore:
-            - node_modules/
+    volumes:
+      - ./applications/database/data/development:/var/lib/postgresql/data/pg-data:rw
+
+
+  backend:
+    extends:
+      file: docker-compose.yml
+      service: backend
+
+    build:
+      target: development
+      args:
+        - ENV=development
 
     depends_on:
       database:
         condition: service_healthy
 
   frontend:
-    container_name: frontend
-
-    develop:
-      watch:
-        - path: ./applications/frontend/
-          action: sync
-          target: /app
+    extends:
+      file: docker-compose.yml
+      service: frontend
 
     build:
-      context: applications/frontend/
-      dockerfile: Dockerfile
-      target: dev
-
-    ports:
-      - "0.0.0.0:80:3000"
-
-    restart: always
+      target: development
+      args:
+        - ENV=development
 
     depends_on:
       backend:
         condition: service_healthy
-        restart: true
 
-  database:
-    container_name: database
-    build:
-      context: applications/database/
-      dockerfile: Dockerfile
-      target: dev
-
-    restart: always
-
-    volumes:
-      - ./applications/database/data/dev:/var/lib/postgresql/data/pg-data
+    ports:
+      - '0.0.0.0:80:3000'

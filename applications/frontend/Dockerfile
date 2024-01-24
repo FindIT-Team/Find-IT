@@ -1,29 +1,33 @@
-FROM node:latest AS BASE
+FROM node:latest AS base
+
+ARG ENV
+
+ENV NODE_ENV=${ENV}
+LABEL ENV=${ENV}
+
+ENV API_ENDPOINT=http://backend:3000/api
+
 WORKDIR /app
-
+ENV PORT=3000
 COPY package*.json ./
-
-RUN npm i
+RUN npm install
+COPY . .
+EXPOSE ${PORT}
 
 RUN npx next telemetry disable
 
-COPY . .
-
-FROM base AS prod
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://localhost:$PORT || exit 1
 
 RUN mv .env.development .env
 
-ENV NODE_ENV=production
-ENV API_ENDPOINT=http://backend:4000/api
+
+FROM base AS production
 
 RUN npm run build
 
 ENTRYPOINT [ "npm", "run", "start" ]
 
-FROM base AS dev
 
-RUN mv .env.development .env
-
-ENV NODE_ENV=development
+FROM base AS development
 
 ENTRYPOINT [ "npm", "run", "dev" ]

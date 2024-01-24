@@ -1,18 +1,16 @@
 start-dev:
-	@docker-compose -f docker-compose.dev.yml -p findit build --no-cache --quiet
-	@docker-compose -f docker-compose.dev.yml -p findit watch --quiet
+	@docker-compose -f docker-compose.dev.yml watch
 
-start-prod:
-	@docker-compose -f docker-compose.prod.yml -p findit up -d
+start:
+	@docker-compose -f docker-compose.prod.yml up -d --build
 
-start-test:
-	@docker-compose -f docker-compose.test.yml -p findit-test build --no-cache --quiet
-	@docker-compose -f docker-compose.test.yml -p findit-test run backend npm run test --detectOpenHandles
+test:
+	@docker-compose -f docker-compose.test.yml up --abort-on-container-exit
 	@docker-compose -p findit-test down --remove-orphans -v
-	@docker image prune --filter "label=env=test" -f -a
+	@docker image prune --filter "label=ENV=test" -f -a
 
 stop:
-	@docker-compose -p findit down --remove-orphans -v
+	@docker-compose -f docker-compose.test.yml -f docker-compose.dev.yml -f docker-compose.prod.yml down --remove-orphans -v
 
 cleanup:
 	@docker system prune -a

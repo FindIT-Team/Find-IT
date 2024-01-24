@@ -1,19 +1,27 @@
-version: "3.9"
+version: '3.9'
+name: findit-test
 services:
   database:
-    container_name: database
+    extends:
+      file: docker-compose.yml
+      service: database
+
     build:
-      context: applications/database/
-      dockerfile: Dockerfile
-      target: test
+      args:
+        - ENV=test
 
   backend:
-    container_name: backend
+    extends:
+      file: docker-compose.yml
+      service: backend
+
     build:
-      context: applications/backend/
-      dockerfile: Dockerfile
       target: test
+      args:
+        - ENV=test
 
     depends_on:
       database:
         condition: service_healthy
+
+    restart: no
