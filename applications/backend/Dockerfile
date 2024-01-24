@@ -14,30 +14,30 @@ ENV DB_PASSWD=123456
 WORKDIR /app
 ENV PORT=3000
 COPY package*.json ./
-RUN npm i
+RUN [ "sh", "-c", "npm i" ]
 COPY . .
 EXPOSE ${PORT}
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://localhost:$PORT/api/health || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT}/api/health || exit 1" ]
 
 
 FROM base AS production
 
-RUN mv .env.$NODE_ENV .env && rm .env.*
-RUN npm run build
+RUN [ "sh", "-c", "mv .env.$${NODE_ENV} .env && rm .env.*" ]
+RUN [ "sh", "-c", "npm run build" ]
 
 ENTRYPOINT [ "npm", "run", "start:prod" ]
 
 
 FROM base AS development
 
-RUN mv .env.$NODE_ENV .env && rm .env.*
+RUN [ "sh", "-c", "mv .env.${NODE_ENV} .env && rm .env.*" ]
 
 ENTRYPOINT [ "npm", "run", "dev" ]
 
 
 FROM base AS test
 
-RUN rm .env.*
+RUN [ "sh", "-c", "rm .env.*" ]
 
-CMD [ "npm", "run", "test", "--passWithNoTests" ]
+CMD [ "npm", "run", "test --passWithNoTests" ]

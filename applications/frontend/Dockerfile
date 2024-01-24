@@ -10,15 +10,15 @@ ENV API_ENDPOINT=http://backend:3000/api
 WORKDIR /app
 ENV PORT=3000
 COPY package*.json ./
-RUN npm i
+RUN [ "sh", "-c", "npm i" ]
 COPY . .
 EXPOSE ${PORT}
 
-RUN npx next telemetry disable
+RUN [ "sh", "-c", "npx next telemetry disable" ]
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://localhost:$PORT || exit 1
 
-RUN mv .env.development .env
+RUN [ "sh", "-c", "mv .env.development .env" ]
 
 
 FROM base AS production
