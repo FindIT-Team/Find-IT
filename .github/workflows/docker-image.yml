@@ -3,17 +3,22 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  deploy:
-    environment: 
-      name: production
-      url: https://findit-team.github.io/
+  test:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: make start
+    - name: Run test on the Docker image
+      run: make test
+
+  development:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+      
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run development env inside Docker
+      run: make start-dev
