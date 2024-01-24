@@ -25,3 +25,15 @@ services:
         condition: service_healthy
 
     restart: no
+
+  frontend:
+    extends:
+      file: docker-compose.yml
+      service: frontend
+
+    build:
+      target: test
+      args:
+        - ENV=test
+
+    restart: no

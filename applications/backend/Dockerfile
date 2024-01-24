@@ -14,6 +14,7 @@ ENV DB_PASSWD=123456
 WORKDIR /app
 ENV PORT=3000
 COPY package*.json ./
+RUN [ "sh", "-c", "npm i -g @nestjs/cli" ]
 RUN [ "sh", "-c", "npm i" ]
 COPY . .
 EXPOSE ${PORT}
@@ -35,4 +36,6 @@ ENTRYPOINT [ "npm", "run", "dev" ]
 
 FROM base AS test
 
-CMD [ "sh", "-c", "npm run test" ]
+RUN [ "sh", "-c", "npm run test" ]
+
+CMD [ "sh", "-c", "npm run build" ]

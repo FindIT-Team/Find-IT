@@ -46,7 +46,7 @@ services:
         condition: service_healthy
 
     env_file:
-        - ./applications/frontend/.env.production
+        - ./applications/frontend/.env.development
 
     ports:
       - '0.0.0.0:80:3000'

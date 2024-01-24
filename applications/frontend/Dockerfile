@@ -10,6 +10,7 @@ ENV API_ENDPOINT=http://backend:3000/api
 WORKDIR /app
 ENV PORT=3000
 COPY package*.json ./
+RUN [ "sh", "-c", "npm i next" ]
 RUN [ "sh", "-c", "npm i" ]
 COPY . .
 EXPOSE ${PORT}
@@ -29,3 +30,8 @@ ENTRYPOINT [ "npm", "run", "start" ]
 FROM base AS development
 
 ENTRYPOINT [ "npm", "run", "dev" ]
+
+
+FROM base AS test
+
+CMD [ "sh", "-c", "npm run build" ]
