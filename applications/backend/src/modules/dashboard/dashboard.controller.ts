@@ -10,20 +10,16 @@ export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
   @Get('user')
-  async user(@User() user: UserEntity): Promise<{
+  async getUser(@User() user: UserEntity): Promise<{
     id: string;
     username: string;
     subscription: { type: string; expiresIn: Date };
   }> {
-    return {
-      id: user.id,
-      username: user.username,
-      subscription: user.subscription,
-    };
+    return await this.dashboardService.getUser(user);
   }
 
   @Get('notices')
-  async notices(
+  async getNotices(
     @Query() query: Record<string, any>,
     @User() user: UserEntity,
   ): Promise<[NoticeEntity[], number]> {
@@ -43,7 +39,7 @@ export class DashboardController {
   }
 
   @Get('projects')
-  async projects(
+  async getProjects(
     @Query() query: Record<string, any>,
     @User() user: UserEntity,
   ): Promise<[ProjectEntity[], number]> {
@@ -51,7 +47,7 @@ export class DashboardController {
   }
 
   @Get('responses-offers')
-  async responsesOffers(
+  async getResponsesOffers(
     @Query() query: Record<string, any>,
     @User() user: UserEntity,
   ): Promise<[ProjectEntity[], number]> {

@@ -3,6 +3,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { ProjectEntity } from '../../entities/project.entity';
 import { NoticesService } from '../notices/notices.service';
 import { NoticeEntity } from '../../entities/notice.entity';
+import { UserEntity } from '../../entities/user.entity';
 
 @Injectable()
 export class DashboardService {
@@ -111,5 +112,9 @@ export class DashboardService {
       relations: ['projectToUsers', 'projectToUsers.user'],
       order: { updatedAt: 'DESC' },
     });
+  }
+
+  async getUser(user: UserEntity): Promise<UserEntity> {
+    return user;
   }
 }
