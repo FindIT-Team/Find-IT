@@ -32,8 +32,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install deps
+      run: npm i -ws && npm i -D -ws
+
     - name: Run
       run: npm run lint -ws
+
+    - name: Remove deps
+      run: npm prune -ws
 
   # development:
   #   runs-on: ubuntu-latest
