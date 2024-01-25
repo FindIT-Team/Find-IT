@@ -28,6 +28,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    needs:
+      - backend-tests
+      - frontend-tests
 
     steps:
     - uses: actions/checkout@v4
