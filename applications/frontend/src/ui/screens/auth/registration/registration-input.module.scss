@@ -34,12 +34,15 @@
     @apply font-bold text-4xl text-center;
   }
 
-  > ul {
-    @apply w-full border rounded absolute bg-white -bottom-3;
+  > div {
+    @apply w-full inline-flex justify-center items-center relative top-5;
+    > ul {
+      @apply w-full border rounded absolute bg-white;
 
-    > li {
-      @apply flex flex-row flex-nowrap justify-between items-center px-3 py-2 first:rounded-t last:rounded-b;
-      @apply pointer-events-auto transition ease-in-out;
+      > li {
+        @apply flex flex-row flex-nowrap justify-between items-center px-3 py-2 first:rounded-t last:rounded-b;
+        @apply pointer-events-auto transition ease-in-out;
+      }
     }
   }
 

@@ -16,7 +16,7 @@ services:
       watch:
         - path: ./applications/backend
           action: sync
-          target: /app
+          target: /project/apps/backend
           ignore:
             - node_modules
             - dist
@@ -32,7 +32,7 @@ services:
       watch:
         - path: ./applications/frontend
           action: sync
-          target: /app
+          target: /project/apps/frontend
           ignore:
             - node_modules
             - .next

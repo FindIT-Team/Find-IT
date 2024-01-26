@@ -48,42 +48,44 @@ const RegistrationGender = ({
             <span>{selectedGender.value}</span>
             <ChevronUpDownIcon />
           </Listbox.Button>
-          <Transition
-            as={Fragment}
-            enter="transition ease-in-out duration-[250ms]"
-            enterFrom={'opacity-0'}
-            enterTo={'opacity-100'}
-            leave="transition ease-in-out duration-[250ms]"
-            leaveFrom={'opacity-100'}
-            leaveTo={'opacity-0'}
-          >
-            <Listbox.Options>
-              {genders.map((gender) => (
-                <Listbox.Option
-                  key={gender.id}
-                  value={gender}
-                  className={({ selected, active }) =>
-                    selected
-                      ? 'bg-white cursor-default'
-                      : active
-                        ? 'bg-amber-50 cursor-pointer'
-                        : 'bg-white'
-                  }
-                >
-                  {({ selected }) => (
-                    <>
-                      <button>{gender.value}</button>
-                      {selected ? (
-                        <div className={'w-5'}>
-                          <CheckIcon className={'w-full'} />
-                        </div>
-                      ) : null}
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
+          <div>
+            <Transition
+              as={Fragment}
+              enter="transition ease-in-out duration-[250ms]"
+              enterFrom={'opacity-0'}
+              enterTo={'opacity-100'}
+              leave="transition ease-in-out duration-[250ms]"
+              leaveFrom={'opacity-100'}
+              leaveTo={'opacity-0'}
+            >
+              <Listbox.Options>
+                {genders.map((gender) => (
+                  <Listbox.Option
+                    key={gender.id}
+                    value={gender}
+                    className={({ selected, active }) =>
+                      selected
+                        ? 'bg-white cursor-default'
+                        : active
+                          ? 'bg-amber-50 cursor-pointer'
+                          : 'bg-white'
+                    }
+                  >
+                    {({ selected }) => (
+                      <>
+                        <button>{gender.value}</button>
+                        {selected ? (
+                          <div className={'w-5'}>
+                            <CheckIcon className={'w-full'} />
+                          </div>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Transition>
+          </div>
         </Listbox>
         <button
           disabled={selectedGender.id === '' || isSubmitting}
