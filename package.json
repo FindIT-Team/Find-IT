@@ -19,5 +19,6 @@
   "bugs": {
     "url": "https://github.com/FindIT-Team/FindIT/issues"
   },
-  "homepage": "https://github.com/FindIT-Team/FindIT#readme"
+  "homepage": "https://github.com/FindIT-Team/FindIT#readme",
+  "license": "UNLICENSED"
 }

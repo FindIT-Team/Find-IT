@@ -13,7 +13,7 @@ test-frontend:
 	@docker compose -f docker-compose.test.yml run --rm frontend npm run build
 	@docker image prune --filter "label=ENV=test" -f -a
 
-test:
+tests:
 	@make test-backend
 	@make test-frontend
 
