@@ -1,4 +1,4 @@
-import { UserEntity } from '../../entities/user.entity';
+import { UserEntity } from '../../../entities/user.entity';
 
 export class CreateNoticeDto {
   type: string;

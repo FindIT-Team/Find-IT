@@ -1,5 +1,5 @@
-import { UserEntity } from '../../entities/user.entity';
-import { ProjectEntity } from '../../entities/project.entity';
+import { UserEntity } from '../../../entities/user.entity';
+import { ProjectEntity } from '../../../entities/project.entity';
 
 export class CreateProjectToUserDto {
   isOwner?: boolean;
