@@ -11,7 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import { StoreService } from '../store/store.service';
 import { AuthService } from './auth.service';
 import { Socket } from '../../types/socket.type';
-import { gatewayInit } from '../../utils/gateway-init';
+import { gatewayInit } from '../../utils/gateway-init.util';
 import { websocketConfig } from '../../configs/websocket.config';
 
 @WebSocketGateway(websocketConfig('/api/websocket'))
@@ -40,7 +40,8 @@ export class AuthGateway
     const { user, sessionID } = client.request;
     const ip: string = (client.request.headers['ip'] as string) ?? undefined;
     await this.authService.login(user.id, sessionID, this.sessions, ip);
-    client.join(user.id);
+    client.join(`user:${user.id}`);
+    console.log(new Date(), client.request.session.cookie);
   }
 
   async handleDisconnect(@ConnectedSocket() client: Socket): Promise<void> {
