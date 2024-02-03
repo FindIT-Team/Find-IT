@@ -1,6 +1,18 @@
 version: '3.9'
 name: findit-development
 services:
+  store:
+    extends:
+      file: docker-compose.yml
+      service: store
+
+    build:
+      args:
+        - ENV=development
+
+    volumes:
+      - ./applications/store/data/development:/data:rw
+
   database:
     extends:
       file: docker-compose.yml

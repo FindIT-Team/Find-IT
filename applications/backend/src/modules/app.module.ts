@@ -9,6 +9,8 @@ import { ProjectsModule } from './projects/projects.module';
 import { UsersModule } from './users/users.module';
 import { HealthModule } from './health/health.module';
 import { AuthModule } from './auth/auth.module';
+import { StoreModule } from './store/store.module';
+import { StoreConfigAsync } from '../configs/store.config';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync(TypeOrmConfigAsync),
+    StoreModule.forRootAsync(StoreConfigAsync),
     AuthModule,
     HealthModule,
     UsersModule,

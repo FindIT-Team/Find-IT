@@ -1,0 +1,5 @@
+FROM redis:latest as base
+
+ENV REDIS_PROTECTED_MODE=no
+
+EXPOSE 6379

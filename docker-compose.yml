@@ -1,6 +1,12 @@
 version: "3.9"
 name: findit
 services:
+  store:
+    build:
+        context: ./applications/store
+
+    restart: always
+
   database:
     build:
       context: ./applications/database
