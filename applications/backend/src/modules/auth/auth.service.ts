@@ -9,7 +9,7 @@ import { UsersService } from '../users/users.service';
 export class AuthService {
   constructor(private readonly usersService: UsersService) {}
 
-  async validate({ uniq, password }: AuthDto): Promise<UserEntity | null> {
+  async validate({ uniq, password }: AuthDto): Promise<UserEntity> {
     const user = await this.usersService.findOne({
       where: [{ username: uniq }, { email: uniq }],
       select: [
@@ -22,28 +22,20 @@ export class AuthService {
       ],
     });
 
-    if (user) {
-      if (!(await compare(password, user.password)))
-        user.authLogs.history.push({
-          ip: '',
-          strategy: 'local',
-          success: false,
-          date: new Date(),
-        });
-      else
-        user.authLogs.history.push({
-          ip: '',
-          strategy: 'local',
-          success: true,
-          date: new Date(),
-        });
+    if (!user) return null;
 
-      await user.save();
+    let success = false;
+    if (await compare(password, user.password)) success = true;
+    user.authLogs.history.push({
+      ip: '',
+      strategy: 'local',
+      success,
+      date: new Date(),
+    });
 
-      return user.authLogs.history[user.authLogs.history.length - 1].success
-        ? user
-        : null;
-    } else return null;
+    await user.save();
+
+    return success ? user : null;
   }
 
   async oauthValidate(
@@ -164,25 +156,47 @@ export class AuthService {
     };
   }
 
-  async login(id: string): Promise<void> {
+  async login(
+    userId: string,
+    sessionId: string,
+    sessions: Record<string, Array<string>>,
+    ip: string,
+  ): Promise<void> {
     const user: UserEntity = await this.usersService.findOne({
-      where: { id },
+      where: { id: userId },
       select: ['id', 'authLogs'],
     });
 
+    const history = user.authLogs.history;
+    const i = history.lastIndexOf(history.findLast((h) => h.ip === ''));
+    if (i !== -1) history[i].ip = ip;
+
     user.authLogs = {
       ...user.authLogs,
+      history,
       isLoggedIn: true,
     };
+
+    if (sessions[userId] && !sessions[userId].includes(sessionId))
+      sessions[userId] = [...sessions[userId], sessionId];
+    else sessions[userId] = [sessionId];
 
     await user.save();
   }
 
-  async logout(id: string): Promise<void> {
+  async logout(
+    userId: string,
+    sessionId: string,
+    sessions: Record<string, Array<string>>,
+  ): Promise<void> {
     const user: UserEntity = await this.usersService.findOne({
-      where: { id },
+      where: { id: userId },
       select: ['id', 'authLogs'],
     });
+
+    sessions[userId] = sessions[userId].filter((id) => id !== sessionId);
+
+    if (sessions[userId].length !== 0) return;
 
     user.authLogs = {
       ...user.authLogs,

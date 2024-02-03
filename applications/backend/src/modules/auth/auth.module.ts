@@ -8,6 +8,7 @@ import { YandexStrategy } from './strategies/yandex.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
+import { AuthGateway } from './auth.gateway';
 
 @Module({
   imports: [PassportModule.register({ session: true }), UsersModule],
@@ -21,6 +22,7 @@ import { PassportModule } from '@nestjs/passport';
     GoogleStrategy,
     YandexStrategy,
     GithubStrategy,
+    AuthGateway,
   ],
   controllers: [AuthController],
 })
