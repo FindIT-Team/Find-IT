@@ -8,13 +8,14 @@ import {
   Session,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto } from '../../dto/user/create-user.dto';
 import { AuthService } from './auth.service';
 import { AppleAuthGuard } from './guards/apple-auth.guard';
 import { GithubAuthGuard } from './guards/github-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { YandexAuthGuard } from './guards/yandex-auth.guard';
+import { RegisterDto } from './dto/register.dto';
+import { Session as Sess } from 'express-session';
 
 @Controller('auth')
 export class AuthController {
@@ -27,10 +28,10 @@ export class AuthController {
 
   @Post('registration')
   async registration(
-    @Body() createUserDto: CreateUserDto,
-    @Session() session: Record<string, any>,
+    @Body() registerDto: RegisterDto,
+    @Session() session: Sess,
   ): Promise<void> {
-    return await this.authService.register(createUserDto, session);
+    return await this.authService.register(registerDto, session);
   }
 
   @Get('oauth/apple-auth')

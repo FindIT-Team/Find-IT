@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
-import { AuthDto } from '../../dto/auth.dto';
-import { CreateUserDto } from '../../dto/user/create-user.dto';
+import { AuthDto } from './dto/auth.dto';
 import { UserEntity } from '../../entities/user.entity';
 import { UsersService } from '../users/users.service';
+import { RegisterDto } from './dto/register.dto';
+import { FindOneOptions } from 'typeorm';
+import { Session } from 'express-session';
 
 @Injectable()
 export class AuthService {
@@ -41,6 +43,20 @@ export class AuthService {
   async oauthValidate(
     profile: Record<string, any>,
   ): Promise<{ type: string; payload: unknown }> {
+    const findUser = async (where?: FindOneOptions<UserEntity>['where']) => {
+      return await this.usersService.findOne({
+        where,
+        select: [
+          'id',
+          'role',
+          'subscription',
+          'username',
+          'linkedOAuth',
+          'authLogs',
+        ],
+      });
+    };
+
     let user = null;
     let formatted = null;
 
@@ -52,20 +68,10 @@ export class AuthService {
       }
 
       case 'google': {
-        user = await this.usersService.findOne({
-          where: [
-            { linkedOAuth: { google: profile.id } },
-            { email: profile.emails[0].value },
-          ],
-          select: [
-            'id',
-            'role',
-            'subscription',
-            'username',
-            'linkedOAuth',
-            'authLogs',
-          ],
-        });
+        user = findUser([
+          { linkedOAuth: { google: profile.id } },
+          { email: profile.emails[0].value },
+        ]);
 
         if (user && !user.linkedOAuth.google)
           user.linkedOAuth.google = profile.id;
@@ -81,20 +87,10 @@ export class AuthService {
         break;
       }
       case 'yandex': {
-        user = await this.usersService.findOne({
-          where: [
-            { linkedOAuth: { yandex: profile.id } },
-            { email: profile.emails[0].value },
-          ],
-          select: [
-            'id',
-            'role',
-            'subscription',
-            'username',
-            'linkedOAuth',
-            'authLogs',
-          ],
-        });
+        user = findUser([
+          { linkedOAuth: { yandex: profile.id } },
+          { email: profile.emails[0].value },
+        ]);
 
         if (user && !user.linkedOAuth.yandex)
           user.linkedOAuth.yandex = profile.id;
@@ -139,12 +135,8 @@ export class AuthService {
       : { type: 'DefaultRegistrationValues', payload: formatted };
   }
 
-  async register(
-    createUserDto: CreateUserDto,
-    session: Record<string, any>,
-  ): Promise<void> {
-    const user: UserEntity = await this.usersService.create(createUserDto);
-    if (user) delete user.password;
+  async register(registerDto: RegisterDto, session: Session): Promise<void> {
+    const user: UserEntity = await this.usersService.create(registerDto);
 
     session['passport'] = {
       user: {
