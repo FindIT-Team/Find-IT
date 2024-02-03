@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Repository } from 'typeorm';
-import { CreateProjectDto } from '../../dto/project/create-project.dto';
+import { CreateProjectDto } from './dto/create-project.dto';
 import { ProjectEntity } from '../../entities/project.entity';
 import { UserEntity } from '../../entities/user.entity';
 import { ProjectsToUsersService } from '../projects-to-users/projects-to-users.service';

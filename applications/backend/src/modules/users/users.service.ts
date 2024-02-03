@@ -6,8 +6,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcrypt';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
-import { CreateUserDto } from '../../dto/user/create-user.dto';
-import { UpdateUserDto } from '../../dto/user/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { ProjectsToUsersEntity } from '../../entities/projects-to-users.entity';
 import { UserEntity } from '../../entities/user.entity';
 import { ProjectsToUsersService } from '../projects-to-users/projects-to-users.service';

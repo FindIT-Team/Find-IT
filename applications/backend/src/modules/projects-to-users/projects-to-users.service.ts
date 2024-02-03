@@ -1,7 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateProjectToUserDto } from '../../dto/project-to-user/create-project-to-user.dto';
+import { CreateProjectToUserDto } from './dto/create-project-to-user.dto';
 import { ProjectsToUsersEntity } from '../../entities/projects-to-users.entity';
 
 @Injectable()

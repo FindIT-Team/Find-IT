@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
-import { CreateNoticeDto } from '../../dto/notice/create-notice.dto';
+import { CreateNoticeDto } from './dto/create-notice.dto';
 import { NoticeEntity } from '../../entities/notice.entity';
 
 @Injectable()
