@@ -10,7 +10,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     super({ usernameField: 'uniq' });
   }
 
-  async validate(uniq: string, password: string): Promise<UserEntity | null> {
-    return await this.authService.validate({ uniq: uniq, password: password });
+  async validate(uniq: string, password: string): Promise<UserEntity> {
+    return await this.authService.validate({ uniq, password });
   }
 }
