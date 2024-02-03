@@ -6,13 +6,15 @@ import { AuthGuard } from './modules/auth/auth.guard';
 import session from 'express-session';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
-
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { StoreService } from './modules/store/store.service';
+import { SessionConfig } from './configs/session.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false });
 
   const configService = app.get(ConfigService);
+  const storeService = app.get(StoreService);
 
   app.enableCors(CorsConfig);
   app.useGlobalPipes(
@@ -36,14 +38,9 @@ async function bootstrap() {
 
   app.use(
     session({
+      ...SessionConfig,
+      store: storeService.session,
       secret: configService.get('SECRET'),
-      saveUninitialized: false,
-      resave: false,
-      cookie: {
-        signed: true,
-        maxAge: 1000 * 60 * 60 * 24,
-        domain: 'localhost',
-      },
     }),
   );
   app.use(passport.session());
