@@ -23,8 +23,14 @@ export default class TypeOrmConfig {
       retryAttempts: 5,
       retryDelay: 3000,
 
-      logger: 'advanced-console',
-      cache: { duration: 3000 },
+      logger: 'file',
+      cache: {
+        type: 'redis',
+        options: {
+          url: configService.get('STORE_URL'),
+        },
+        duration: 3000,
+      },
     };
   }
 }
