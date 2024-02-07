@@ -13,6 +13,9 @@ services:
     volumes:
       - ./applications/store/data/development:/data:rw
 
+    ports:
+      - '6379:6379'
+
   database:
     extends:
       file: docker-compose.yml
@@ -24,6 +27,9 @@ services:
 
     volumes:
       - ./applications/database/data/development:/var/lib/postgresql/data/pg-data:rw
+
+    ports:
+      - '5432:5432'
 
 
   backend:
@@ -43,22 +49,28 @@ services:
     env_file:
       - ./applications/backend/.env.development
 
-  frontend:
-    extends:
-      file: docker-compose.yml
-      service: frontend
-
-    build:
-      target: development
-      args:
-        - ENV=development
-
-    depends_on:
-      backend:
-        condition: service_healthy
-
-    env_file:
-        - ./applications/frontend/.env.development
+    volumes:
+      - ./applications/backend/postman:/project/apps/backend/postman
 
     ports:
-      - '0.0.0.0:80:3000'
+      - '80:3000'
+
+#  frontend:
+#    extends:
+#      file: docker-compose.yml
+#      service: frontend
+#
+#    build:
+#      target: development
+#      args:
+#        - ENV=development
+#
+#    depends_on:
+#      backend:
+#        condition: service_healthy
+#
+#    env_file:
+#        - ./applications/frontend/.env.development
+#
+#    ports:
+#      - '0.0.0.0:80:3000'

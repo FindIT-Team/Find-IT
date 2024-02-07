@@ -42,7 +42,11 @@ export class ProjectEntity extends BaseEntity {
   @Column({ nullable: true })
   budget: string;
 
-  @OneToMany(() => ProjectsToUsersEntity, (e) => e.project)
+  @OneToMany(
+    () => ProjectsToUsersEntity,
+    (e: ProjectsToUsersEntity) => e.project,
+    { cascade: true },
+  )
   projectToUsers: ProjectsToUsersEntity[];
 
   @UpdateDateColumn()

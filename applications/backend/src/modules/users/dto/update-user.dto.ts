@@ -1,7 +1,6 @@
+import { OmitType, PartialType } from '@nestjs/swagger';
 import { UserEntity } from '../../../entities/user.entity';
 
-export class UpdateUserDto {
-  id: string;
-  key: keyof UserEntity;
-  value: never;
-}
+export class UpdateUserDto extends PartialType(
+  OmitType(UserEntity, ['id', 'notices', 'userToProjects', 'createdAt']),
+) {}

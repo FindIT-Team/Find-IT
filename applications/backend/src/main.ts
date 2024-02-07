@@ -9,9 +9,14 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { StoreService } from './modules/store/store.service';
 import { SessionConfig } from './configs/session.config';
+import * as fs from 'fs';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import * as path from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { abortOnError: false });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    abortOnError: false,
+  });
 
   const configService = app.get(ConfigService);
   const storeService = app.get(StoreService);
@@ -33,6 +38,10 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, options, {
       ignoreGlobalPrefix: true,
     });
+    fs.writeFileSync(
+      path.join('postman', 'openapi.json'),
+      JSON.stringify(document),
+    );
     SwaggerModule.setup('/api/docs', app, document);
   }
 

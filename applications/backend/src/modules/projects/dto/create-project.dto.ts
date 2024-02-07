@@ -1,16 +1,9 @@
-export class CreateProjectDto {
-  title: string;
+import { PickType } from '@nestjs/swagger';
+import { ProjectEntity } from '../../../entities/project.entity';
 
-  description: string;
-
-  employersNeeds?: {
-    ProjectManagement: number;
-    Backend: number;
-    Frontend: number;
-    MachineLearning: number;
-    DevOps: number;
-    QA: number;
-  };
-
-  budget: string;
-}
+export class CreateProjectDto extends PickType(ProjectEntity, [
+  'title',
+  'description',
+  'employersNeeds',
+  'budget',
+]) {}

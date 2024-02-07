@@ -99,7 +99,7 @@ export class UserEntity extends BaseEntity {
   @OneToMany(() => NoticeEntity, (e) => e.user)
   notices: NoticeEntity[];
 
-  @OneToMany(() => ProjectsToUsersEntity, (e) => e.project)
+  @OneToMany(() => ProjectsToUsersEntity, (e) => e.project, { cascade: true })
   userToProjects: ProjectsToUsersEntity[];
 
   @UpdateDateColumn()
@@ -113,17 +113,15 @@ export class UserEntity extends BaseEntity {
     this.password = await hash(this.password, 10);
   }
 
-  @BeforeInsert()
-  async parseUsername(): Promise<void> {
-    this.username = this.username.toLowerCase();
-  }
+  // @BeforeInsert()
+  // async parseUsername(): Promise<void> {
+  //   this.username = this.username.toLowerCase();
+  // }
 
   @AfterUpdate()
   async checkAuthLogs(): Promise<void> {
-    if (this.authLogs.history.length > 10) {
-      this.authLogs.history = this.authLogs.history.slice(
-        this.authLogs.history.length - 10,
-      );
-    }
+    const history = this.authLogs.history;
+    if (history.length > 10)
+      this.authLogs.history = history.slice(history.length - 10);
   }
 }

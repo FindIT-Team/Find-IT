@@ -1,21 +1,11 @@
-export class CreateUserDto {
-  username: string;
-  email: string;
-  password: string;
+import { PickType } from '@nestjs/swagger';
+import { UserEntity } from '../../../entities/user.entity';
 
-  name: {
-    firstName: string;
-    lastName: string;
-  };
-
-  skills: {
-    ProjectManagement: number;
-    Backend: number;
-    Frontend: number;
-    MachineLearning: number;
-    DevOps: number;
-    QA: number;
-  };
-
-  gender: 'Male' | 'Female';
-}
+export class CreateUserDto extends PickType(UserEntity, [
+  'username',
+  'email',
+  'password',
+  'name',
+  'skills',
+  'gender',
+]) {}

@@ -14,7 +14,7 @@ import { Socket } from '../../types/socket.type';
 import { gatewayInit } from '../../utils/gateway-init.util';
 import { websocketConfig } from '../../configs/websocket.config';
 
-@WebSocketGateway(websocketConfig('/api/websocket'))
+@WebSocketGateway(websocketConfig('auth'))
 export class AuthGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {

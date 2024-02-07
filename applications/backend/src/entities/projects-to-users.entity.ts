@@ -1,4 +1,5 @@
 import {
+  AfterRemove,
   BaseEntity,
   Column,
   Entity,
@@ -32,4 +33,9 @@ export class ProjectsToUsersEntity extends BaseEntity {
 
   @ManyToOne(() => ProjectEntity, (e) => e.projectToUsers)
   project: ProjectEntity;
+
+  @AfterRemove()
+  async checkOwner(): Promise<void> {
+    if (this.isOwner) await this.project.remove();
+  }
 }

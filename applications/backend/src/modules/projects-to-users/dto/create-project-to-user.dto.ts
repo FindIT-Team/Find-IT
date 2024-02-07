@@ -1,15 +1,7 @@
-import { UserEntity } from '../../../entities/user.entity';
-import { ProjectEntity } from '../../../entities/project.entity';
+import { ProjectsToUsersEntity } from '../../../entities/projects-to-users.entity';
+import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 
-export class CreateProjectToUserDto {
-  isOwner?: boolean;
-  permissions?: string[];
-  status:
-    | 'userInvited'
-    | 'userRequested'
-    | 'userJoined'
-    | 'userRejected'
-    | 'userRemoved';
-  user: UserEntity;
-  project: ProjectEntity;
-}
+export class CreateProjectToUserDto extends IntersectionType(
+  PickType(ProjectsToUsersEntity, ['status', 'permissions']),
+  PartialType(PickType(ProjectsToUsersEntity, ['isOwner'])),
+) {}

@@ -1,7 +1,7 @@
-import { UserEntity } from '../../../entities/user.entity';
+import { PickType } from '@nestjs/swagger';
+import { NoticeEntity } from '../../../entities/notice.entity';
 
-export class CreateNoticeDto {
-  type: string;
-  message: string;
-  user: UserEntity;
-}
+export class CreateNoticeDto extends PickType(NoticeEntity, [
+  'type',
+  'message',
+]) {}
