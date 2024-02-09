@@ -135,7 +135,7 @@ export class AuthService {
       : { type: 'DefaultRegistrationValues', payload: formatted };
   }
 
-  async register(registerDto: RegisterDto, session: Session): Promise<void> {
+  async register(session: Session, registerDto: RegisterDto): Promise<void> {
     const user: UserEntity = await this.usersService.create(registerDto);
 
     session['passport'] = {
@@ -197,5 +197,13 @@ export class AuthService {
     };
 
     await user.save();
+  }
+
+  async isUsernameAvailable(username: string): Promise<boolean> {
+    const user = await this.usersService.findOne({
+      where: { username },
+      select: ['id'],
+    });
+    return !!user;
   }
 }

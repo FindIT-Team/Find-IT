@@ -6,6 +6,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
@@ -27,5 +28,5 @@ export class NoticeEntity extends BaseEntity {
   removedAt: Date;
 
   @ManyToOne(() => UserEntity, (e) => e.notices)
-  user: UserEntity;
+  user: Relation<UserEntity>;
 }

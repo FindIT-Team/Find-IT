@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigAsync } from '../configs/typeorm.config';
-import { DashboardModule } from './dashboard/dashboard.module';
 import { NoticesModule } from './notices/notices.module';
 import { ProjectsToUsersModule } from './projects-to-users/projects-to-users.module';
 import { ProjectsModule } from './projects/projects.module';
@@ -25,10 +24,7 @@ import { StoreConfigAsync } from '../configs/store.config';
     NoticesModule,
     ProjectsModule,
     ProjectsToUsersModule,
-    DashboardModule,
-  ],
-  providers: [
-    // AppGateway
+    // DashboardModule,
   ],
 })
 export class AppModule {}

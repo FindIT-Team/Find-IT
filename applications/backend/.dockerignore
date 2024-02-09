@@ -1,1 +1,4 @@
 .env.*
+postman
+dist
+node_modules

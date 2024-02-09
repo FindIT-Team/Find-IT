@@ -5,6 +5,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation,
 } from 'typeorm';
 import { ProjectEntity } from './project.entity';
 import { UserEntity } from './user.entity';
@@ -29,10 +30,10 @@ export class ProjectsToUsersEntity extends BaseEntity {
   permissions: string[];
 
   @ManyToOne(() => UserEntity, (e) => e.userToProjects)
-  user: UserEntity;
+  user: Relation<UserEntity>;
 
   @ManyToOne(() => ProjectEntity, (e) => e.projectToUsers)
-  project: ProjectEntity;
+  project: Relation<ProjectEntity>;
 
   @AfterRemove()
   async checkOwner(): Promise<void> {

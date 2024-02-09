@@ -13,9 +13,9 @@ ENV DB_PASSWD=123456
 
 WORKDIR /project/apps/backend
 ENV PORT=3000
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 COPY package*.json ./
-RUN [ "sh", "-c", "npm i" ]
-RUN [ "sh", "-c", "npm i -D" ]
+RUN [ "sh", "-c", "npm install" ]
 COPY . .
 COPY ../../.eslintrc.js ../../
 EXPOSE ${PORT}

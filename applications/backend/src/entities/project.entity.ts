@@ -5,6 +5,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProjectsToUsersEntity } from './projects-to-users.entity';
@@ -47,7 +48,7 @@ export class ProjectEntity extends BaseEntity {
     (e: ProjectsToUsersEntity) => e.project,
     { cascade: true },
   )
-  projectToUsers: ProjectsToUsersEntity[];
+  projectToUsers: Relation<ProjectsToUsersEntity[]>;
 
   @UpdateDateColumn()
   updatedAt: Date;
