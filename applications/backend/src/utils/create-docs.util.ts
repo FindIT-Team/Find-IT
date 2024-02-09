@@ -31,7 +31,9 @@ const createAsyncDocs = async (app: INestApplication) => {
     .setDefaultContentType('application/json')
     .build();
 
-  const document = AsyncApiModule.createDocument(app, options);
+  const document = AsyncApiModule.createDocument(app, options, {
+    ignoreGlobalPrefix: true,
+  });
 
   await AsyncApiModule.setup('/api/async-docs', app, document);
 

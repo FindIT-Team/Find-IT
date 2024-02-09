@@ -20,6 +20,15 @@ export class StoreService {
     this._connection.connect().then();
   }
 
+  private _websocketSessions: Record<string, string[]>;
+
+  get websocketSessions(): Record<string, string[]> {
+    if (!this._websocketSessions) {
+      this._websocketSessions = {};
+    }
+    return this._websocketSessions;
+  }
+
   private _session: RedisStore;
 
   get session(): RedisStore {

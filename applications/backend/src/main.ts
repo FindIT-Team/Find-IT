@@ -16,8 +16,8 @@ async function bootstrap() {
     abortOnError: false,
   });
 
-  const configService = app.get(ConfigService);
-  const storeService = app.get(StoreService);
+  const configService: ConfigService = app.get(ConfigService);
+  const storeService: StoreService = app.get(StoreService);
 
   app.enableCors(CorsConfig);
   app.useGlobalPipes(

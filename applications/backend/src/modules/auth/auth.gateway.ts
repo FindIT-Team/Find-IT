@@ -18,15 +18,17 @@ import { websocketConfig } from '../../configs/websocket.config';
 export class AuthGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
+  static path = 'auth';
   @WebSocketServer() server: Server;
-
-  sessions: Record<string, string[]> = {};
+  sessions: Record<string, string[]>;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly storeService: StoreService,
     private readonly authService: AuthService,
-  ) {}
+  ) {
+    this.sessions = this.storeService.websocketSessions;
+  }
 
   afterInit(server: Server) {
     gatewayInit(
@@ -41,7 +43,6 @@ export class AuthGateway
     const ip: string = (client.request.headers['ip'] as string) ?? undefined;
     await this.authService.login(user.id, sessionID, this.sessions, ip);
     client.join(`user:${user.id}`);
-    console.log(new Date(), client.request.session.cookie);
   }
 
   async handleDisconnect(@ConnectedSocket() client: Socket): Promise<void> {
