@@ -9,8 +9,8 @@
     "applications/*"
   ],
   "dependencies": {
-    "frontend": "^1.0.0",
-    "backend": "^1.0.0"
+    "backend": "^1.0.0",
+    "frontend": "^1.0.0"
   },
   "repository": {
     "type": "git",
