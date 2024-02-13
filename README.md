@@ -2,7 +2,7 @@
 
 ## Description
 
-FindIT is a web application that allows you to search for a startups. The application is based on the NestJS and NextJS frameworks.
+FindIT is a web application that allows you to search for a startups. The application is based on the NestJS and Next.js frameworks.
 
 ## Installation
 
