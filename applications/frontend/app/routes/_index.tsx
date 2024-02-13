@@ -1,19 +1,19 @@
 import type { MetaFunction } from '@remix-run/node';
 import { Footer } from '~/components/footer';
-import { Box, Center } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { LogoSvg } from '~/components/svg/logo.svg';
+import { RadialBackground } from '~/components/radial-background';
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
-  ];
+  return [{ title: 'FindIT' }];
 };
 
 export default function Page() {
   return (
     <>
-      <Center
+      <RadialBackground />
+      <Flex
+        // pos={['initial', 'fixed', 'fixed', 'fixed']}
         as={'header'}
         pos={'fixed'}
         width={'100%'}
@@ -23,7 +23,7 @@ export default function Page() {
         <Box width={['90%', '60%', '60%', '40%']}>
           <LogoSvg />
         </Box>
-      </Center>
+      </Flex>
       <main></main>
       <Footer />
     </>
