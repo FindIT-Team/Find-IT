@@ -1,5 +1,7 @@
-import { Badge, Box, Center, Flex, Image, Text } from '@chakra-ui/react';
 import type { MetaFunction } from '@remix-run/node';
+import { Footer } from '~/components/footer';
+import { Box, Center } from '@chakra-ui/react';
+import { LogoSvg } from '~/components/svg/logo.svg';
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,34 +10,22 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export default function Index() {
+export default function Page() {
   return (
-    <Center h="100vh">
-      <Box p="5" maxW="320px" borderWidth="1px">
-        <Image borderRadius="md" src="https://bit.ly/2k1H1t6" />
-        <Flex align="baseline" mt={2}>
-          <Badge colorScheme="pink">Plus</Badge>
-          <Text
-            ml={2}
-            textTransform="uppercase"
-            fontSize="sm"
-            fontWeight="bold"
-            color="pink.800"
-          >
-            Verified &bull; Cape Town
-          </Text>
-        </Flex>
-        <Text mt={2} fontSize="xl" fontWeight="semibold" lineHeight="short">
-          Modern, Chic Penthouse with Mountain, City & Sea Views
-        </Text>
-        <Text mt={2}>$119/night</Text>
-        <Flex mt={2} align="center">
-          <Box color="orange.400" />
-          <Text ml={1} fontSize="sm">
-            <b>4.84</b> (190)
-          </Text>
-        </Flex>
-      </Box>
-    </Center>
+    <>
+      <Center
+        as={'header'}
+        pos={'fixed'}
+        width={'100%'}
+        justifyContent={['center', 'flex-end', 'flex-end']}
+        padding={5}
+      >
+        <Box width={['90%', '60%', '60%', '40%']}>
+          <LogoSvg />
+        </Box>
+      </Center>
+      <main></main>
+      <Footer />
+    </>
   );
 }
