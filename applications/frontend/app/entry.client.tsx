@@ -12,6 +12,7 @@ import createEmotionCache, {
 } from '~/emotion/create-emotion-cache';
 import { ClientStyleContext } from './emotion/context';
 import { CacheProvider } from '@emotion/react';
+import { clearBrowserExtensionInjectionsBeforeHydration } from '~/clear-browser-extension-injection.util';
 
 function ClientCacheProvider({ children }: { children: React.ReactNode }) {
   const [cache, setCache] = useState(defaultCache);
@@ -28,43 +29,6 @@ function ClientCacheProvider({ children }: { children: React.ReactNode }) {
 }
 
 // TODO: Must be removed, when React fix hydration issue
-function clearBrowserExtensionInjectionsBeforeHydration() {
-  document
-    .querySelectorAll(
-      [
-        'html > *:not(body, head)',
-        'script[src*="extension://"]',
-        'link[href*="extension://"]',
-      ].join(', '),
-    )
-    .forEach((s) => {
-      s.parentNode?.removeChild(s);
-    });
-
-  const $targets = {
-    html: {
-      $elm: document.querySelector('html')!,
-      allowedAttributes: ['lang', 'dir', 'class'],
-    },
-    head: {
-      $elm: document.querySelector('head')!,
-      allowedAttributes: [''],
-    },
-    body: {
-      $elm: document.querySelector('body')!,
-      allowedAttributes: ['class'],
-    },
-  };
-
-  Object.entries($targets).forEach(([targetName, target]) => {
-    target.$elm.getAttributeNames().forEach((attr) => {
-      if (!target.allowedAttributes.includes(attr)) {
-        target.$elm.removeAttribute(attr);
-      }
-    });
-  });
-}
-
 clearBrowserExtensionInjectionsBeforeHydration();
 
 startTransition(() => {
