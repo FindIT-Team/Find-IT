@@ -1,4 +1,4 @@
-export function LogoSvg() {
+export function Logo() {
   return (
     <svg
       width={'100%'}
