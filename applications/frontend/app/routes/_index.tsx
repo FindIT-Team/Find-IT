@@ -3,6 +3,8 @@ import { Footer } from '~/components/footer';
 import { Box, Flex } from '@chakra-ui/react';
 import { LogoSvg } from '~/components/svg/logo.svg';
 import { RadialBackground } from '~/components/radial-background';
+import { HomeHeader } from '~/components/home-header';
+import { HomeDescription } from '~/components/home-description';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'FindIT' }];
@@ -24,7 +26,10 @@ export default function Page() {
           <LogoSvg />
         </Box>
       </Flex>
-      <main></main>
+      <main>
+        <HomeHeader />
+        <HomeDescription />
+      </main>
       <Footer />
     </>
   );
