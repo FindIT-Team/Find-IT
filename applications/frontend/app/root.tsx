@@ -3,6 +3,7 @@ import {
   Center,
   ChakraProvider,
   Code,
+  CSSReset,
   Flex,
   Heading,
   Text,
@@ -22,6 +23,7 @@ import {
 } from '@remix-run/react';
 import React, { useContext, useEffect } from 'react';
 import { ClientStyleContext, ServerStyleContext } from '~/emotion/context';
+import { theme } from '~/theme';
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
@@ -77,7 +79,10 @@ const Document = withEmotionCache(
           ))}
         </head>
         <body>
-          <ChakraProvider>{children}</ChakraProvider>
+          <ChakraProvider theme={theme}>
+            <CSSReset />
+            {children}
+          </ChakraProvider>
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
