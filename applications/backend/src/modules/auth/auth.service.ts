@@ -6,6 +6,7 @@ import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { FindOneOptions } from 'typeorm';
 import { Session } from 'express-session';
+import { UsernameAvailableDto } from './dto/username-available.dto';
 
 @Injectable()
 export class AuthService {
@@ -199,11 +200,11 @@ export class AuthService {
     await user.save();
   }
 
-  async isUsernameAvailable(username: string): Promise<boolean> {
+  async isUsernameAvailable(username: string): Promise<UsernameAvailableDto> {
     const user = await this.usersService.findOne({
       where: { username },
       select: ['id'],
     });
-    return !!user;
+    return { isAvailable: !!user };
   }
 }

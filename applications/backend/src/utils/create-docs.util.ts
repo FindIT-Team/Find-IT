@@ -18,7 +18,7 @@ const createHttpDocs = async (app: INestApplication) => {
     ignoreGlobalPrefix: true,
   });
 
-  SwaggerModule.setup('/api/docs', app, document);
+  SwaggerModule.setup(`/docs`, app, document);
 
   fs.writeFileSync(path.join('postman', 'http.json'), JSON.stringify(document));
 };

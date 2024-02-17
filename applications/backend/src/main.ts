@@ -26,7 +26,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.setGlobalPrefix('api');
 
   if (configService.get('NODE_ENV') === 'development') await createDocs(app);
 

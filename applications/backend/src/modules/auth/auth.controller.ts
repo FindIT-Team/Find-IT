@@ -25,10 +25,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthDto } from './dto/auth.dto';
-import { UserEntity } from '../../entities/user.entity';
 import { UsernameAvailableDto } from './dto/username-available.dto';
+import { ApiConfig } from '../../configs/api.config';
 
-@Controller('auth')
+@Controller(ApiConfig({ path: 'auth' }))
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -44,7 +44,7 @@ export class AuthController {
   @Post('registration')
   @ApiOperation({ summary: 'User registration' })
   @ApiBody({ type: RegisterDto })
-  @ApiOkResponse({ description: 'User registered', type: UserEntity })
+  @ApiOkResponse({ description: 'User registered' })
   async registration(
     @Session() session: Sess,
     @Body() registerDto: RegisterDto,
@@ -55,12 +55,12 @@ export class AuthController {
   @Get('available-username/:username')
   @ApiOperation({ summary: 'Check username availability' })
   @ApiOkResponse({
-    description: 'Username available',
+    description: 'Username available status',
     type: UsernameAvailableDto,
   })
   async isUsernameAvailable(
     @Param('username') username: string,
-  ): Promise<boolean> {
+  ): Promise<UsernameAvailableDto> {
     return await this.authService.isUsernameAvailable(username);
   }
 
