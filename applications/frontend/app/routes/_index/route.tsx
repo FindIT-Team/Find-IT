@@ -1,14 +1,20 @@
 import type { MetaFunction } from '@remix-run/node';
 import { Footer } from '~/components/footer';
-import { Box, Flex } from '@chakra-ui/react';
-import { LogoSvg } from '~/components/svg/logo.svg';
+import { Box, Flex, Center } from '@chakra-ui/react';
+import { Logo } from '~/components/svg/logo';
 import { RadialBackground } from '~/components/radial-background';
-import { HomeHeader } from '~/components/home-header';
-import { HomeDescription } from '~/components/home-description';
+import { Header } from '~/routes/_index/header';
+import { Description } from '~/routes/_index/description';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'FindIT' }];
 };
+
+/**
+ * 320px <
+ * < 768px
+ * @constructor
+ */
 
 export default function Page() {
   return (
@@ -23,13 +29,13 @@ export default function Page() {
         padding={5}
       >
         <Box width={['90%', '60%', '60%', '40%']}>
-          <LogoSvg />
+          <Logo />
         </Box>
       </Flex>
-      <main>
-        <HomeHeader />
-        <HomeDescription />
-      </main>
+      <Center as={'main'} width={'35%'} justifyContent={'flex-start'} px={'10%'} py={'5%'} >
+        <Header />
+        <Description />
+      </Center>
       <Footer />
     </>
   );
