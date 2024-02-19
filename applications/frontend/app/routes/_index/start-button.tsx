@@ -1,48 +1,41 @@
 import { Link } from '~/components/link';
 import { Button, chakra, HStack } from '@chakra-ui/react';
+import { useNavigate } from '@remix-run/react';
 
 export function StartButton() {
+  const navigate = useNavigate();
+
   return (
-    <HStack
-      justifyContent={['center', 'center', 'flex-start', 'flex-start']}
-      flexDirection={['column', 'column', 'row', 'row']}
-      gap={1}
-      width={'100%'}
-    >
-      <Button colorScheme={'purple'} borderRadius={'lg'}>
-        <Link
-          _hover={{ textDecoration: 'none' }}
-          to={'/auth/login'}
-          prefetch={'render'}
+    <>
+      <chakra.div display={'none'}>
+        <Link prefetch={'render'} to={'/auth/login'} />
+      </chakra.div>
+      <HStack
+        justifyContent={['center', 'center', 'flex-start', 'flex-start']}
+        flexDirection={['column', 'column', 'row', 'row']}
+        gap={1}
+        width={'100%'}
+      >
+        <Button
+          colorScheme={'purple'}
+          borderRadius={'lg'}
+          width={['100%', '100%', 'auto', 'auto']}
+          onClick={() => navigate('/auth/login')}
         >
           Начать
-        </Link>
-      </Button>
-      <HStack opacity={'70%'} flexWrap={'wrap'} gap={1}>
-        <chakra.div>Нужна помощь?</chakra.div>
-        <Link
-          fontWeight={'bold'}
-          color={'green.500'}
-          _hover={{ color: 'green.600' }}
-          to={'/help/faq'}
-        >
-          Посмотрите FAQ
-        </Link>
+        </Button>
+        <HStack opacity={'70%'} gap={1} flexWrap={'wrap'}>
+          <chakra.div>Нужна помощь?</chakra.div>
+          <Link
+            fontWeight={'bold'}
+            color={'green.500'}
+            _hover={{ color: 'green.600' }}
+            to={'/help/faq'}
+          >
+            Посмотрите FAQ
+          </Link>
+        </HStack>
       </HStack>
-      {/*<Button*/}
-      {/*  variant={'link'}*/}
-      {/*  colorScheme={'white'}*/}
-      {/*  opacity={'70%'}*/}
-      {/*  _hover={{ textDecoration: 'none' }}*/}
-      {/*>*/}
-      {/*  <Link*/}
-      {/*    to={'/help/faq'}*/}
-      {/*    _hover={{ textDecoration: 'none' }}*/}
-      {/*    display={'flex'}*/}
-      {/*    flexWrap={'wrap'}*/}
-      {/*    gap={1}*/}
-      {/*  ></Link>*/}
-      {/*</Button>*/}
-    </HStack>
+    </>
   );
 }
