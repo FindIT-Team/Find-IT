@@ -24,6 +24,7 @@ import {
 import React, { useContext, useEffect } from 'react';
 import { ClientStyleContext, ServerStyleContext } from '~/emotion/context';
 import { theme } from '~/theme';
+import { Footer } from '~/components/footer';
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
@@ -82,6 +83,7 @@ const Document = withEmotionCache(
           <ChakraProvider theme={theme}>
             <CSSReset />
             {children}
+            <Footer />
           </ChakraProvider>
           <ScrollRestoration />
           <Scripts />
