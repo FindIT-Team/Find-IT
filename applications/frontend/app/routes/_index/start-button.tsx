@@ -1,9 +1,9 @@
 import { Link } from '~/components/link';
-import { Button, chakra, Flex } from '@chakra-ui/react';
+import { Button, chakra, HStack } from '@chakra-ui/react';
 
 export function StartButton() {
   return (
-    <Flex
+    <HStack
       justifyContent={['center', 'center', 'flex-start', 'flex-start']}
       flexDirection={['column', 'column', 'row', 'row']}
       gap={1}
@@ -18,25 +18,31 @@ export function StartButton() {
           Начать
         </Link>
       </Button>
-      <Button
-        variant={'link'}
-        colorScheme={'white'}
-        opacity={'70%'}
-        _hover={{ textDecoration: 'none' }}
-      >
+      <HStack opacity={'70%'} flexWrap={'wrap'} gap={1}>
+        <chakra.div>Нужна помощь?</chakra.div>
         <Link
+          fontWeight={'bold'}
+          color={'green.500'}
+          _hover={{ color: 'green.600' }}
           to={'/help/faq'}
-          _hover={{ textDecoration: 'none' }}
-          display={'flex'}
-          flexWrap={'wrap'}
-          gap={1}
         >
-          Нужна помощь?{' '}
-          <chakra.span color={'green.500'} _hover={{ color: 'green.600' }}>
-            Посмотрите FAQ
-          </chakra.span>
+          Посмотрите FAQ
         </Link>
-      </Button>
-    </Flex>
+      </HStack>
+      {/*<Button*/}
+      {/*  variant={'link'}*/}
+      {/*  colorScheme={'white'}*/}
+      {/*  opacity={'70%'}*/}
+      {/*  _hover={{ textDecoration: 'none' }}*/}
+      {/*>*/}
+      {/*  <Link*/}
+      {/*    to={'/help/faq'}*/}
+      {/*    _hover={{ textDecoration: 'none' }}*/}
+      {/*    display={'flex'}*/}
+      {/*    flexWrap={'wrap'}*/}
+      {/*    gap={1}*/}
+      {/*  ></Link>*/}
+      {/*</Button>*/}
+    </HStack>
   );
 }

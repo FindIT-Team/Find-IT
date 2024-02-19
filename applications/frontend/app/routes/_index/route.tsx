@@ -1,5 +1,4 @@
 import type { MetaFunction } from '@remix-run/node';
-import { Footer } from '~/components/footer';
 import { Box, Center, Flex } from '@chakra-ui/react';
 import { Logo } from '~/components/svg/logo';
 import { RadialBackground } from '~/components/radial-background';
@@ -10,12 +9,6 @@ import { StartButton } from '~/routes/_index/start-button';
 export const meta: MetaFunction = () => {
   return [{ title: 'FindIT' }];
 };
-
-/**
- * 320px <
- * < 768px
- * @constructor
- */
 
 export default function Page() {
   return (
@@ -42,13 +35,13 @@ export default function Page() {
         px={'10%'}
         py={'10%'}
         flexDirection={'column'}
-        pt={['20%', '20%', '0', '0']}
+        pt={['20%', '20%', '10%', '10%']}
+        userSelect={'none'}
       >
         <Header />
         <Description />
         <StartButton />
       </Center>
-      <Footer />
     </>
   );
 }
