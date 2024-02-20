@@ -29,28 +29,31 @@ export default function App() {
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="flex-start">
                 <FormControl>
-                  <FormLabel htmlFor="email">Email Address</FormLabel>
+                  <FormLabel htmlFor="email">Почта</FormLabel>
                   <Field
                     as={Input}
                     id="email"
                     name="email"
                     type="email"
                     variant="filled"
+                    background={'gray.200'}
                   />
                 </FormControl>
                 <FormControl isInvalid={!!errors.password && touched.password}>
-                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <FormLabel htmlFor="password">Пароль</FormLabel>
                   <Field
                     as={Input}
                     id="password"
                     name="password"
                     type="password"
+                    background={'gray.200'}
                     variant="filled"
                     validate={(value: string) => {
                       let error;
 
                       if (value.length < 6) {
-                        error = 'Password must contain at least 6 characters';
+                        error =
+                          'Пароль должен содержать как минимум 6 символов';
                       }
 
                       return error;
@@ -62,12 +65,18 @@ export default function App() {
                   as={Checkbox}
                   id="rememberMe"
                   name="rememberMe"
-                  colorScheme="purple"
+                  color={'black'}
                 >
-                  Remember me?
+                  Запомнить меня?
                 </Field>
-                <Button type="submit" colorScheme="purple" width="full">
-                  Login
+                <Button
+                  type="submit"
+                  background={'indigo.600'}
+                  color={'white'}
+                  _hover={{ background: 'indigo.700' }}
+                  width="full"
+                >
+                  Войти
                 </Button>
               </VStack>
             </form>

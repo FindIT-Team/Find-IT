@@ -1,5 +1,5 @@
 import { Link } from '~/components/link';
-import LoginWith from '~/routes/auth/login/login-with';
+// import LoginWith from '~/routes/auth/login/login-with';
 import LoginForm from '~/routes/auth/login/login-form';
 import { loginUrls } from '~/routes/auth/login/login-urls';
 
@@ -13,10 +13,9 @@ const LoginScreen = () => {
       </div>
       <div>
         <div>
-          <LoginWith />
+          {/*<LoginWith />*/}
           <div>
             <hr />
-            <span>или</span>
           </div>
           <LoginForm />
         </div>
