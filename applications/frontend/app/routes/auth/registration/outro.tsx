@@ -24,8 +24,6 @@ export function Outro() {
     ?.message as string;
   const isTouched = useRemixFormContext().formState.touchedFields.consent;
 
-  console.log(useRemixFormContext().formState.errors);
-
   return (
     <AnimateLayout position={position}>
       <Heading>Поставь галочку ниже и можешь начинать</Heading>

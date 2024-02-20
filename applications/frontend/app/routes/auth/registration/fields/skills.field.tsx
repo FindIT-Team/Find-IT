@@ -46,7 +46,7 @@ export function SkillsField() {
             <FormLabel htmlFor={field} mb={0}>
               {fields[field as keyof typeof fields]}
             </FormLabel>
-            <NumberInput min={0} max={10} defaultValue={0}>
+            <NumberInput min={0} max={10}>
               <NumberInputField {...register(`skills.${field}`)} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
