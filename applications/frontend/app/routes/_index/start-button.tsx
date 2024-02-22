@@ -22,7 +22,7 @@ export function StartButton() {
       <Button
         as={Link}
         variant={'link'}
-        opacity={'70%'}
+        opacity={0.7}
         flexWrap={'wrap'}
         gap={1}
         justifyContent={'flex-start'}

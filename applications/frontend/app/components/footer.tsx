@@ -12,7 +12,7 @@ export function Footer() {
       fontSize={'md'}
       userSelect={'none'}
     >
-      <Text as={'h6'} opacity={'40%'}>
+      <Text as={'h6'} opacity={0.4}>
         © Powered by{' '}
         <Link
           to={'https://github.com/FindIT-Team'}

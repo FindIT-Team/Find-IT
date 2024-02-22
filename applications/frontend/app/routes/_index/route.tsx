@@ -6,9 +6,7 @@ import { Header } from '~/routes/_index/header';
 import { Description } from '~/routes/_index/description';
 import { StartButton } from '~/routes/_index/start-button';
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'FindIT' }];
-};
+export const meta: MetaFunction = () => [{ title: 'FindIT' }];
 
 export default function Page() {
   return (

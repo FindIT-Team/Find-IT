@@ -13,6 +13,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useRemixFormContext } from 'remix-hook-form';
+import { Schema } from '~/routes/auth/registration/schema';
 
 enum Sex {
   Male = 'Мужской',
@@ -21,17 +22,16 @@ enum Sex {
 }
 
 export function GenderField() {
+  const { onOpen, onClose, isOpen } = useDisclosure();
+
   const { screenSearch, next, previous } = useContext(Context);
-  const { setValue } = useRemixFormContext();
-  const position = screenSearch('gender');
-
+  const { setValue } = useRemixFormContext<Schema>();
   const [selected, setSelected] = useState<keyof typeof Sex>('Unselected');
-
-  if (selected !== 'Unselected') setValue('gender', selected);
-
   const isTouched = selected !== 'Unselected';
 
-  const { onOpen, onClose, isOpen } = useDisclosure();
+  const position = screenSearch('gender');
+
+  if (selected !== 'Unselected') setValue('gender', selected);
 
   return (
     <AnimateLayout position={position}>

@@ -12,17 +12,15 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useRemixFormContext } from 'remix-hook-form';
+import { Schema } from '~/routes/auth/registration/schema';
 
 export function Outro() {
   const { screenSearch, next, previous } = useContext(Context);
-
-  const { register } = useRemixFormContext();
+  const { register, formState } = useRemixFormContext<Schema>();
+  const error: string = formState.errors.consent?.message as string;
+  const isTouched = formState.touchedFields.consent;
 
   const position = screenSearch('outro');
-
-  const error: string = useRemixFormContext().formState.errors.consent
-    ?.message as string;
-  const isTouched = useRemixFormContext().formState.touchedFields.consent;
 
   return (
     <AnimateLayout position={position}>

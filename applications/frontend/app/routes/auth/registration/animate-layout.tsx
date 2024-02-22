@@ -20,15 +20,17 @@ const ChakraBox = chakra(motion.div, {
 export function AnimateLayout({
   children,
   position,
+  animateProps,
   vStackProps,
 }: {
   children: React.ReactNode;
   position: number;
+  animateProps?: Record<string, () => void>;
   vStackProps?: ChakraProps & Record<string, unknown>;
 }) {
   const { screenVariants, rightDirection, step } = useContext(Context);
   return (
-    <AnimatePresence>
+    <AnimatePresence {...animateProps}>
       {step === position && (
         <ChakraBox
           variants={screenVariants}

@@ -13,6 +13,7 @@ import {
 import { useContext } from 'react';
 import { Context } from '~/routes/auth/registration/context';
 import { useRemixFormContext } from 'remix-hook-form';
+import { Schema } from '~/routes/auth/registration/schema';
 
 export function Field({
   position,
@@ -20,16 +21,15 @@ export function Field({
   type,
 }: {
   position: number;
-  name: string;
+  name: keyof Schema;
   type?: string;
 }) {
   const { next, previous } = useContext(Context);
-  const { register } = useRemixFormContext();
-
-  const error: string = useRemixFormContext().formState.errors[name]
-    ?.message as string;
-  const isTouched: boolean | undefined =
-    useRemixFormContext().formState.touchedFields[name];
+  const { register, formState } = useRemixFormContext<Schema>();
+  const error: string = formState.errors[name]?.message as string;
+  const isTouched: boolean | undefined = formState.touchedFields[name] as
+    | boolean
+    | undefined;
 
   return (
     <VStack width={'100%'}>

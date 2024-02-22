@@ -1,4 +1,6 @@
 import {
+  AbsoluteCenter,
+  Box,
   Button,
   Center,
   chakra,
@@ -7,19 +9,25 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { PasswordField } from '~/routes/auth/login/fields/password-field';
-import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@remix-run/node';
 import {
   getValidatedFormData,
   RemixFormProvider,
   useRemixForm,
 } from 'remix-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Schema, schema } from '~/routes/auth/login/shema';
+import { Schema, schema } from '~/routes/auth/login/schema';
 import { getSession } from '~/session.server';
 import { Form, Link, redirect } from '@remix-run/react';
 import { UniqField } from '~/routes/auth/login/fields/uniq-field';
 import { fetch } from '~/fetch.util';
 import { ExternalAuth } from '~/routes/auth/login/external-auth';
+
+export const meta: MetaFunction = () => [{ title: 'Войти | FindIT' }];
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
@@ -55,35 +63,40 @@ export default function Page() {
   });
 
   return (
-    <Center as={'main'} h={'100vh'} background={'gray.200'} userSelect={'none'}>
+    <Center as={'main'} h={'100vh'} userSelect={'none'}>
       <RemixFormProvider {...remixForm}>
         <Form onSubmit={remixForm.handleSubmit}>
           <HStack
-            border={'1px solid gray.100'}
+            border={'1px solid'}
+            borderColor={'gray.200'}
+            shadow={'md'}
             background={'white'}
             borderRadius={'lg'}
             spacing={0}
             wrap={'nowrap'}
           >
-            <VStack padding={12} spacing={12} flexShrink={0}>
+            <VStack padding={12} spacing={6} flexShrink={0}>
               <ExternalAuth />
-              <Center width={'full'} opacity={'60%'}>
+              <Box width={'full'} position={'relative'}>
                 <Divider />
-                <chakra.span
-                  position={'absolute'}
+                <AbsoluteCenter
                   px={2}
                   background={'white'}
                   fontSize={'md'}
                   fontWeight={'semibold'}
                 >
-                  или
-                </chakra.span>
-              </Center>
+                  <chakra.span opacity={0.6}>или</chakra.span>
+                </AbsoluteCenter>
+              </Box>
               <VStack>
                 <UniqField />
                 <PasswordField />
-                <HStack>
-                  <Button colorScheme={'blue'} type={'submit'}>
+                <HStack
+                  width={'full'}
+                  justifyContent={'space-between'}
+                  flexDirection={'row-reverse'}
+                >
+                  <Button colorScheme={'blue'} type={'submit'} flexGrow={1}>
                     Войти
                   </Button>
                   <Button as={Link} to={'/auth/registration'}>

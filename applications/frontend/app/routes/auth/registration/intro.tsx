@@ -2,13 +2,23 @@ import { Button, Heading, HStack } from '@chakra-ui/react';
 import { AnimateLayout } from '~/routes/auth/registration/animate-layout';
 import { useContext } from 'react';
 import { Context } from '~/routes/auth/registration/context';
+import { useNavigate } from '@remix-run/react';
 
 export function Intro() {
-  const { screenSearch, next, previous } = useContext(Context);
+  const navigate = useNavigate();
+
+  const { screenSearch, next, previous, step } = useContext(Context);
+
   const position = screenSearch('intro');
 
   return (
-    <AnimateLayout position={position} vStackProps={{ spacing: 3 }}>
+    <AnimateLayout
+      position={position}
+      vStackProps={{ spacing: 3 }}
+      animateProps={{
+        onExitComplete: () => step === -1 && navigate('/auth/login'),
+      }}
+    >
       <Heading>Давай познакомимся</Heading>
       <HStack
         width={'100%'}

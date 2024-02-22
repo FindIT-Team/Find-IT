@@ -14,11 +14,17 @@ import {
 } from 'remix-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, Schema } from '~/routes/auth/registration/schema';
-import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@remix-run/node';
 import { Form, redirect } from '@remix-run/react';
 import { Box } from '@chakra-ui/react';
 import { fetch } from '~/fetch.util';
 import { getSession } from '~/session.server';
+
+export const meta: MetaFunction = () => [{ title: 'Регистрация | FindIT' }];
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));

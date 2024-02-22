@@ -128,7 +128,7 @@ export function ErrorBoundary() {
   let title: string;
 
   if (isRouteErrorResponse(error)) {
-    title = `${error.status}: ${error.statusText}`;
+    title = `${error.status}: ${error.statusText} | Find IT`;
     errorView = (
       <>
         <Heading fontSize={'x-large'}>
@@ -148,7 +148,7 @@ export function ErrorBoundary() {
       </>
     );
   } else if (error instanceof Error) {
-    title = error.message;
+    title = `${error.message} | Find IT`;
     errorView = (
       <>
         <Heading fontSize={'x-large'}>
@@ -169,7 +169,7 @@ export function ErrorBoundary() {
       </>
     );
   } else {
-    title = 'Unknown error';
+    title = 'Unknown error | Find IT';
     errorView = (
       <>
         <Heading fontSize={'x-large'}>Something bad happened</Heading>
