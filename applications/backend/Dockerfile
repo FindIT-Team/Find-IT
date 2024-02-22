@@ -20,7 +20,7 @@ COPY . .
 COPY ../../.eslintrc.js ../../
 EXPOSE ${PORT}
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT}/api/health || exit 1" ]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT}/health || exit 1" ]
 
 
 FROM base AS production

@@ -1,5 +1,4 @@
 import type { MetaFunction } from '@remix-run/node';
-import { Footer } from '~/components/footer';
 import { Box, Center, Flex } from '@chakra-ui/react';
 import { Logo } from '~/components/svg/logo';
 import { RadialBackground } from '~/components/radial-background';
@@ -11,20 +10,13 @@ export const meta: MetaFunction = () => {
   return [{ title: 'FindIT' }];
 };
 
-/**
- * 320px <
- * < 768px
- * @constructor
- */
-
 export default function Page() {
   return (
     <>
       <RadialBackground />
       <Flex
-        // pos={['initial', 'fixed', 'fixed', 'fixed']}
+        pos={['initial', 'initial', 'fixed', 'fixed']}
         as={'header'}
-        pos={'fixed'}
         width={'100%'}
         justifyContent={['center', 'flex-end', 'flex-end']}
         padding={5}
@@ -36,19 +28,24 @@ export default function Page() {
       <Center
         as={'main'}
         width={['100%', '100%', '60%', '50%', '40%', '30%']}
-        height={['100vh']}
-        justifyContent={'space-around'}
+        height={['auto', 'auto', '100vh', '100vh']}
+        justifyContent={[
+          'space-between',
+          'space-between',
+          'space-around',
+          'space-around',
+        ]}
         alignItems={['center', 'center', 'flex-start', 'flex-start']}
-        px={'10%'}
+        px={['10%', '15%', '10%', '10%', '10%']}
         py={'10%'}
         flexDirection={'column'}
-        pt={['20%', '20%', '0', '0']}
+        gap={[16, 16, 16, 20]}
+        userSelect={'none'}
       >
         <Header />
         <Description />
         <StartButton />
       </Center>
-      <Footer />
     </>
   );
 }

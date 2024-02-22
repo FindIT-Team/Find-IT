@@ -7,6 +7,9 @@ export default {
   // serverBuildPath: "build/index.js",
   routes(defineRoutes) {
     return defineRoutes((route) => {
+      route('/auth/registration', 'routes/auth/registration/route.tsx', {
+        index: true,
+      });
       route('/auth/login', 'routes/auth/login/route.tsx', {
         index: true,
       });
