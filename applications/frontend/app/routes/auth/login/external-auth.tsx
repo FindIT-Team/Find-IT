@@ -1,39 +1,46 @@
-import { Button, Heading, HStack, Image, VStack } from '@chakra-ui/react';
-import { Link } from '~/components/link';
+import { Box, Button, Heading, HStack, Image, VStack } from '@chakra-ui/react';
+import { Link } from '@remix-run/react';
 
-const externalAuth = [
-  {
-    id: 'Apple',
-    url: `api.${process.env.DOMAIN}/auth/oauth/apple-auth`,
-    img: '/icons/auth/apple.svg',
-  },
-  {
-    id: 'Google',
-    url: `api.${process.env.DOMAIN}/auth/oauth/google-auth`,
-    img: '/icons/auth/google.svg',
-  },
-  {
-    id: 'Yandex',
-    url: `api.${process.env.DOMAIN}/auth/oauth/yandex-auth`,
-    img: '/icons/auth/yandex.svg',
-  },
-  {
-    id: 'Github',
-    url: `api.${process.env.DOMAIN}/auth/oauth/github-auth`,
-    img: '/icons/auth/github.svg',
-  },
-];
+const getLinks = (domain: string) => {
+  return [
+    {
+      id: 'Apple',
+      url: `api.${domain}/auth/oauth/apple-auth`,
+      img: '/icons/auth/apple.svg',
+    },
+    {
+      id: 'Google',
+      url: `api.${domain}/auth/oauth/google-auth`,
+      img: '/icons/auth/google.svg',
+    },
+    {
+      id: 'Yandex',
+      url: `api.${domain}/auth/oauth/yandex-auth`,
+      img: '/icons/auth/yandex.svg',
+    },
+    {
+      id: 'Github',
+      url: `api.${domain}/auth/oauth/github-auth`,
+      img: '/icons/auth/github.svg',
+    },
+  ];
+};
 
 export function ExternalAuth() {
+  let externalAuth = getLinks('');
+  if (typeof window !== 'undefined' && 'ENV' in window) {
+    externalAuth = getLinks((window.ENV as Record<string, string>).DOMAIN);
+  }
+
   return (
     <VStack>
       <Heading fontSize={'2xl'}>Войти с помощью</Heading>
       <HStack>
         {externalAuth.map(({ id, url, img }) => (
-          <Button key={id} p={3} height={'full'}>
-            <Link to={url} w={7} h={7}>
+          <Button as={Link} key={id} to={url} p={3} w={'full'} h={'full'}>
+            <Box w={7} h={7}>
               <Image src={img} alt={id} w={'full'} h={'full'} />
-            </Link>
+            </Box>
           </Button>
         ))}
       </HStack>

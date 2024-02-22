@@ -1,23 +1,21 @@
-import { Button, chakra, Flex } from '@chakra-ui/react';
+import { Button, chakra, Stack } from '@chakra-ui/react';
 import { Link } from '@remix-run/react';
 
 export function StartButton() {
-  const navigate = useNavigate();
-
   return (
-    <Flex
+    <Stack
       justifyContent={['center', 'center', 'flex-start', 'flex-start']}
+      alignItems={'center'}
       flexDirection={['column', 'column', 'row', 'row']}
-      gap={1}
+      gap={2}
       width={'100%'}
     >
       <Button
         as={Link}
-        to={'/auth/login'}
         colorScheme={'purple'}
         borderRadius={'lg'}
-        onClick={() => navigate('/auth/login')}
         width={['100%', '100%', 'auto', 'auto']}
+        to={'/auth/login'}
       >
         Начать
       </Button>
@@ -28,14 +26,15 @@ export function StartButton() {
         flexWrap={'wrap'}
         gap={1}
         justifyContent={'flex-start'}
+        role={'group'}
         _hover={{ textDecoration: 'none' }}
         to={'/help/faq'}
       >
         Нужна помощь?{' '}
-        <chakra.span color={'green.500'} _hover={{ color: 'green.600' }}>
+        <chakra.span color={'green.500'} _groupHover={{ color: 'green.600' }}>
           Посмотрите FAQ
         </chakra.span>
       </Button>
-    </Flex>
+    </Stack>
   );
 }

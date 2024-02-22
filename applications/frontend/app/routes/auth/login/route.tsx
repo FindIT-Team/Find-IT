@@ -1,15 +1,3 @@
-import { Link } from '~/components/link';
-import { ActionFunctionArgs } from '@remix-run/node';
-import {
-  getValidatedFormData,
-  RemixFormProvider,
-  useRemixForm,
-} from 'remix-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Schema, schema } from '~/routes/auth/login/shema';
-import { Form, redirect } from '@remix-run/react';
-import { fetch } from '~/fetch.util';
-import { getSession } from '~/session.server';
 import {
   Button,
   Center,
@@ -18,13 +6,33 @@ import {
   HStack,
   VStack,
 } from '@chakra-ui/react';
-import { UniqField } from '~/routes/auth/login/fields/uniq-field';
 import { PasswordField } from '~/routes/auth/login/fields/password-field';
+import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import {
+  getValidatedFormData,
+  RemixFormProvider,
+  useRemixForm,
+} from 'remix-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Schema, schema } from '~/routes/auth/login/shema';
+import { getSession } from '~/session.server';
+import { Form, Link, redirect } from '@remix-run/react';
+import { UniqField } from '~/routes/auth/login/fields/uniq-field';
+import { fetch } from '~/fetch.util';
 import { ExternalAuth } from '~/routes/auth/login/external-auth';
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get('Cookie'));
+
+  if (session?.get('sid')) return redirect('/dashboard');
+
+  return null;
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const data = (await getValidatedFormData(request, zodResolver(schema))).data;
   const session = await getSession(request.headers.get('Cookie'));
+
   const { headers } = await fetch(
     session,
     `http://api.${process.env.DOMAIN}/auth/login`,
@@ -78,13 +86,8 @@ export default function Page() {
                   <Button colorScheme={'blue'} type={'submit'}>
                     Войти
                   </Button>
-                  <Button>
-                    <Link
-                      _hover={{ textDecorator: 'none' }}
-                      to={'/auth/registration'}
-                    >
-                      Регистрация
-                    </Link>
+                  <Button as={Link} to={'/auth/registration'}>
+                    Регистрация
                   </Button>
                 </HStack>
               </VStack>

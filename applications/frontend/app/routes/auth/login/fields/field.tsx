@@ -1,12 +1,11 @@
-import { useRemixFormContext } from 'remix-hook-form';
 import {
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
-  InputGroup,
 } from '@chakra-ui/react';
+import { useRemixFormContext } from 'remix-hook-form';
 import { Schema } from '~/routes/auth/login/shema';
 
 export function Field({
@@ -25,9 +24,7 @@ export function Field({
   return (
     <FormControl>
       <FormLabel htmlFor={name}>{label}</FormLabel>
-      <InputGroup>
-        <Input type={type} {...register(name)} />
-      </InputGroup>
+      <Input type={type} {...register(name)} />
       {error ? (
         <FormErrorMessage>{error}</FormErrorMessage>
       ) : (

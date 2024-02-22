@@ -13,12 +13,14 @@ import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction } from '@remix-run/node';
 import {
   isRouteErrorResponse,
+  json,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useRouteError,
 } from '@remix-run/react';
 import React, { useContext, useEffect } from 'react';
@@ -36,6 +38,14 @@ export const links: LinksFunction = () => [
   //   href: 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap',
   // },
 ];
+
+export async function loader() {
+  return json({
+    ENV: {
+      DOMAIN: process.env.DOMAIN,
+    },
+  });
+}
 
 const Document = withEmotionCache(
   (
@@ -63,6 +73,8 @@ const Document = withEmotionCache(
       clientStyleData?.reset();
     }, []);
 
+    const data = useLoaderData<typeof loader>();
+
     return (
       <html lang="en">
         <head>
@@ -88,6 +100,11 @@ const Document = withEmotionCache(
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
+            }}
+          />
         </body>
       </html>
     );

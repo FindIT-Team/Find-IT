@@ -23,9 +23,7 @@ async function fetchSession(
   const parsedResponseCookies = setCookie.parse(
     setCookie.splitCookiesString(setCookieHeader as string),
   );
-  const authCookie = parsedResponseCookies.find(
-    (cookie) => cookie.name === 'sid',
-  );
+  const authCookie = parsedResponseCookies.find(({ name }) => name === 'sid');
 
   if (!authCookie) throw new Error(`No cookie was found`);
 

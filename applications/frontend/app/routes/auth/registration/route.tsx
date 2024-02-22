@@ -14,14 +14,26 @@ import {
 } from 'remix-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, Schema } from '~/routes/auth/registration/schema';
-import { ActionFunctionArgs } from '@remix-run/node';
+import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { Form, redirect } from '@remix-run/react';
 import { Box } from '@chakra-ui/react';
-import * as process from 'process';
+import { fetch } from '~/fetch.util';
+import { getSession } from '~/session.server';
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get('Cookie'));
+
+  if (session?.get('sid')) return redirect('/dashboard');
+
+  return null;
+}
 
 export async function action({ request }: ActionFunctionArgs) {
+  const session = await getSession(request.headers.get('Cookie'));
+
   const data = (await getValidatedFormData(request, zodResolver(schema))).data;
-  const res = await fetch(
+  const { headers } = await fetch(
+    session,
     `http://api.${process.env.DOMAIN}/auth/registration`,
     {
       method: 'POST',
@@ -32,7 +44,7 @@ export async function action({ request }: ActionFunctionArgs) {
     },
   );
 
-  return redirect('/auth/login');
+  return redirect('/auth/login', { headers });
 }
 
 export default function Page() {
