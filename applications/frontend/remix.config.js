@@ -5,4 +5,11 @@ export default {
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
   // serverBuildPath: "build/index.js",
+  routes(defineRoutes) {
+    return defineRoutes((route) => {
+      route('/auth/login', 'routes/auth/login/route.tsx', {
+        index: true,
+      });
+    });
+  },
 };

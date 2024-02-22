@@ -2,6 +2,6 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 import * as process from 'process';
 
 export const CorsConfig: CorsOptions = {
-  origin: process.env.CLIENT_URL,
+  origin: process.env.DOMAIN,
   credentials: true,
 };
