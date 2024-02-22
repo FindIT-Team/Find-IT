@@ -27,18 +27,11 @@ import {
 import { AuthDto } from './dto/auth.dto';
 import { UsernameAvailableDto } from './dto/username-available.dto';
 import { ApiConfig } from '../../configs/api.config';
-import { User } from '../../decorators/http/user.decorator';
-import { UserEntity } from '../../entities/user.entity';
 
 @Controller(ApiConfig({ path: 'auth' }))
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @Get()
-  async whoAmI(@User() user: UserEntity) {
-    return user;
-  }
 
   @Post('login')
   @HttpCode(HttpStatus.OK)

@@ -1,10 +1,11 @@
 import { createCookieSessionStorage } from '@remix-run/node';
+import * as process from 'process';
 
 export const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({
     cookie: {
       name: 'sid',
       path: '/',
-      secrets: ['some-secret-for-remix-cookie-session-please-change-me'],
+      secrets: [process.env.SECRET as string],
     },
   });
