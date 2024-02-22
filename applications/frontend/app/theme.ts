@@ -3,6 +3,7 @@ import { extendTheme } from '@chakra-ui/react';
 export const theme = extendTheme({
   colors: {
     indigo: {
+      600: 'rgb(79 70 229)',
       700: 'rgb(67 56 202)',
       950: 'rgb(30 27 75)',
     },

@@ -10,6 +10,9 @@ export default {
       route('/auth/registration', 'routes/auth/registration/route.tsx', {
         index: true,
       });
+      route('/auth/login', 'routes/auth/login/route.tsx', {
+        index: true,
+      });
     });
   },
 };
