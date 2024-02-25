@@ -5,6 +5,7 @@ export default {
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
   // serverBuildPath: "build/index.js",
+
   routes(defineRoutes) {
     return defineRoutes((route) => {
       route('/auth/registration', 'routes/auth/registration/route.tsx', {
@@ -12,6 +13,11 @@ export default {
       });
       route('/auth/login', 'routes/auth/login/route.tsx', {
         index: true,
+      });
+
+      route('', 'routes/_nav/layout.tsx', () => {
+        route('/dashboard', 'routes/_nav/dashboard/route.tsx');
+        route('/settings', 'routes/_nav/settings/route.tsx');
       });
     });
   },
