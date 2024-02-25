@@ -70,7 +70,13 @@ export default function Page() {
   });
 
   return (
-    <Box as={'main'} userSelect={'none'}>
+    <Box
+      as={'main'}
+      userSelect={'none'}
+      width={'100vw'}
+      height={'100vh'}
+      overflow={'hidden'}
+    >
       <RemixFormProvider {...remixForm}>
         <Form onSubmit={remixForm.handleSubmit}>
           <ContextProvider>
