@@ -15,7 +15,7 @@ export default function Page() {
       <Flex
         pos={['initial', 'initial', 'fixed', 'fixed']}
         as={'header'}
-        width={'100%'}
+        width={'full'}
         justifyContent={['center', 'flex-end', 'flex-end']}
         padding={5}
       >
@@ -25,7 +25,7 @@ export default function Page() {
       </Flex>
       <Center
         as={'main'}
-        width={['100%', '100%', '60%', '50%', '40%', '30%']}
+        width={['full', 'full', '60%', '50%', '40%', '30%']}
         height={['auto', 'auto', '100vh', '100vh']}
         justifyContent={[
           'space-between',

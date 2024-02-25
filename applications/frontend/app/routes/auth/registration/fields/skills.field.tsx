@@ -38,7 +38,7 @@ export function SkillsField() {
   return (
     <AnimateLayout position={position}>
       <Heading>Что насчет твоих навыков?</Heading>
-      <VStack width={'100%'}>
+      <VStack width={'full'}>
         {(Object.keys(fields) as (keyof typeof schema._type.skills)[]).map(
           (field) => (
             <FormControl
@@ -69,7 +69,7 @@ export function SkillsField() {
           ),
         )}
         <HStack
-          width={'100%'}
+          width={'full'}
           flexDirection={['column', 'column', 'row-reverse', 'row-reverse']}
           justifyContent={'space-between'}
           alignItems={'stretch'}

@@ -45,13 +45,12 @@ export function ExternalAuth() {
             as={Link}
             key={id}
             to={url}
-            p={3}
-            w={'full'}
-            h={'full'}
+            padding={3}
+            boxSize={'full'}
             variant={'outline'}
           >
-            <Box w={7} h={7}>
-              <Image src={img} alt={id} w={'full'} h={'full'} />
+            <Box boxSize={7}>
+              <Image src={img} alt={id} boxSize={'full'} />
             </Box>
           </Button>
         ))}

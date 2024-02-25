@@ -21,7 +21,7 @@ export function Intro() {
     >
       <Heading>Давай познакомимся</Heading>
       <HStack
-        width={'100%'}
+        width={'full'}
         flexDirection={['column', 'column', 'row-reverse', 'row-reverse']}
         justifyContent={'space-between'}
         alignItems={'stretch'}

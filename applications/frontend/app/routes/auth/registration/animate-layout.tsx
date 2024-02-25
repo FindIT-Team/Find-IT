@@ -38,7 +38,7 @@ export function AnimateLayout({
           animate={'show'}
           exit={rightDirection ? 'leftHidden' : 'rightHidden'}
         >
-          <Center w={'100vw'} h={'100vh'} position={'absolute'}>
+          <Center width={'100vw'} height={'100vh'} position={'absolute'}>
             <VStack
               width={['90%', '60%', '35%', '35%']}
               spacing={2}

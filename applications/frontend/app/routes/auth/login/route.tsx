@@ -1,7 +1,6 @@
 import {
   AbsoluteCenter,
   Box,
-  Button,
   Center,
   chakra,
   Divider,
@@ -22,10 +21,11 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Schema, schema } from '~/routes/auth/login/schema';
 import { getSession } from '~/session.server';
-import { Form, Link, redirect } from '@remix-run/react';
+import { Form, redirect } from '@remix-run/react';
 import { UniqField } from '~/routes/auth/login/fields/uniq-field';
 import { fetch } from '~/fetch.util';
 import { ExternalAuth } from '~/routes/auth/login/external-auth';
+import { Links } from './links';
 
 export const meta: MetaFunction = () => [{ title: 'Войти | FindIT' }];
 
@@ -63,7 +63,7 @@ export default function Page() {
   });
 
   return (
-    <Center as={'main'} h={'100vh'} userSelect={'none'}>
+    <Center as={'main'} height={'100vh'} userSelect={'none'}>
       <RemixFormProvider {...remixForm}>
         <Form onSubmit={remixForm.handleSubmit}>
           <HStack
@@ -91,18 +91,7 @@ export default function Page() {
               <VStack>
                 <UniqField />
                 <PasswordField />
-                <HStack
-                  width={'full'}
-                  justifyContent={'space-between'}
-                  flexDirection={'row-reverse'}
-                >
-                  <Button colorScheme={'blue'} type={'submit'} flexGrow={1}>
-                    Войти
-                  </Button>
-                  <Button as={Link} to={'/auth/registration'}>
-                    Регистрация
-                  </Button>
-                </HStack>
+                <Links />
               </VStack>
             </VStack>
           </HStack>

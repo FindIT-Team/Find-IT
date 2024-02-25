@@ -1,4 +1,3 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 import {
   Button,
   FormControl,
@@ -14,6 +13,7 @@ import { useContext } from 'react';
 import { Context } from '~/routes/auth/registration/context';
 import { useRemixFormContext } from 'remix-hook-form';
 import { Schema } from '~/routes/auth/registration/schema';
+import { RiArrowRightLine } from 'react-icons/ri';
 
 export function Field({
   position,
@@ -32,14 +32,14 @@ export function Field({
     | undefined;
 
   return (
-    <VStack width={'100%'}>
+    <VStack width={'full'}>
       <FormControl isInvalid={!!error}>
         <InputGroup>
           <Input type={type} {...register(name)} />
           <InputRightElement>
             <IconButton
               isDisabled={!!error || !isTouched}
-              icon={<ArrowForwardIcon />}
+              icon={<RiArrowRightLine />}
               borderLeftRadius={0}
               colorScheme={'blue'}
               type={'button'}
@@ -60,7 +60,7 @@ export function Field({
         )}
       </FormControl>
       <Button
-        width={'100%'}
+        width={'full'}
         type={'button'}
         onClick={() => previous(position - 1)}
       >

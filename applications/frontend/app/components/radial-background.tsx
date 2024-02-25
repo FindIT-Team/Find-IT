@@ -14,8 +14,7 @@ export function RadialBackground() {
     <Box as={motion.div} animation={animation}>
       <Box
         pos={'fixed'}
-        width={'100%'}
-        height={'100%'}
+        boxSize={'full'}
         opacity={0.6}
         bgGradient={
           'radial-gradient(71.57% 96.06% at 63.75% 43.36%, rgba(132, 23, 249, 1) 0%, rgba(0, 0, 0, 0.00) 100%), #FFF;'

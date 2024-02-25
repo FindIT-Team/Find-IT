@@ -42,7 +42,7 @@ export function Outro() {
       </FormControl>
       <VStack>
         <HStack
-          width={'100%'}
+          width={'full'}
           flexDirection={['column', 'column', 'row-reverse', 'row-reverse']}
           justifyContent={'space-between'}
           alignItems={'stretch'}

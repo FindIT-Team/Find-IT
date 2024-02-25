@@ -8,13 +8,13 @@ export function StartButton() {
       alignItems={'center'}
       flexDirection={['column', 'column', 'row', 'row']}
       gap={2}
-      width={'100%'}
+      width={'full'}
     >
       <Button
         as={Link}
         colorScheme={'purple'}
         borderRadius={'lg'}
-        width={['100%', '100%', 'auto', 'auto']}
+        width={['full', 'full', 'auto', 'auto']}
         to={'/auth/login'}
       >
         Начать

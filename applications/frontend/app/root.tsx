@@ -137,7 +137,7 @@ export function ErrorBoundary() {
         <Flex
           flexDirection={'column'}
           alignItems={'start'}
-          width={'70vw'}
+          width={'70%'}
           gap={'1vh'}
         >
           <Code color={'red'}>
@@ -180,7 +180,7 @@ export function ErrorBoundary() {
 
   return (
     <Document title={title}>
-      <Center h={'100vh'}>
+      <Center height={'100vh'}>
         <Flex flexDirection={'column'} alignItems={'center'} gap={'2vh'}>
           {errorView}
         </Flex>

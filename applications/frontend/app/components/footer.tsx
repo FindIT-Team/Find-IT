@@ -7,7 +7,7 @@ export function Footer() {
       as={'footer'}
       pos={'fixed'}
       bottom={'1vh'}
-      w={'100vw'}
+      w={'full'}
       fontFamily={['IBM Plex Mono, monospace']}
       fontSize={'md'}
       userSelect={'none'}

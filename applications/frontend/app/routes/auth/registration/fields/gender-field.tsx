@@ -43,7 +43,7 @@ export function GenderField() {
         placement={'bottom'}
       >
         <PopoverTrigger>
-          <Button width={'100%'} variant={'outline'}>
+          <Button width={'full'} variant={'outline'}>
             {Sex[selected]}
           </Button>
         </PopoverTrigger>
@@ -61,7 +61,7 @@ export function GenderField() {
                     borderColor={'gray.200'}
                     borderRadius={0}
                     variant={'outline'}
-                    width={'100%'}
+                    width={'full'}
                     onClick={() => {
                       setSelected(key as keyof typeof Sex);
                       onClose();
@@ -76,7 +76,7 @@ export function GenderField() {
         </PopoverContent>
       </Popover>
       <HStack
-        width={'100%'}
+        width={'full'}
         flexDirection={['column', 'column', 'row-reverse', 'row-reverse']}
         justifyContent={'space-between'}
         alignItems={'stretch'}
