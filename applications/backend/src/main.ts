@@ -16,9 +16,7 @@ async function bootstrap() {
     abortOnError: false,
   });
 
-  const configService: ConfigService = app.get(ConfigService);
-  const storeService: StoreService = app.get(StoreService);
-
+  // app.use(helmet());
   app.enableCors(CorsConfig);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -26,6 +24,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  const configService: ConfigService = app.get(ConfigService);
+  const storeService: StoreService = app.get(StoreService);
 
   if (configService.get('NODE_ENV') === 'development') await createDocs(app);
 

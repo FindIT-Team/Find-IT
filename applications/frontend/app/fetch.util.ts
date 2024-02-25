@@ -3,11 +3,11 @@ import setCookie from 'set-cookie-parser';
 import { commitSession } from '~/session.server';
 
 async function fetchSession(
-  session: Session<SessionData, SessionData>,
   url: string,
+  session: Session<SessionData, SessionData>,
   init?: RequestInit,
 ) {
-  const response = await fetch(url, {
+  const response = await fetch(new URL(url, process.env.API_URL), {
     headers: {
       Cookie: Object.entries(session.data)
         .map(([key, value]) => `${key}=${value}`)

@@ -41,17 +41,13 @@ export async function action({ request }: ActionFunctionArgs) {
   const data = (await getValidatedFormData(request, zodResolver(schema))).data;
   const session = await getSession(request.headers.get('Cookie'));
 
-  const { headers } = await fetch(
-    session,
-    `http://api.${process.env.DOMAIN}/auth/login`,
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  const { headers } = await fetch('/auth/login', session, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+  });
 
   return redirect('/dashboard', { headers });
 }

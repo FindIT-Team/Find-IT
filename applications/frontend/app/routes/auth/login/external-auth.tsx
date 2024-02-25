@@ -2,39 +2,36 @@ import { Box, Button, Heading, HStack, Image, VStack } from '@chakra-ui/react';
 import { Link } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 
-const getLinks = (domain: string) => {
-  return [
+export function ExternalAuth() {
+  const [url, setUrl] = useState('localhost');
+
+  useEffect(() => {
+    if (!('ENV' in window)) return;
+    setUrl((window.ENV as Record<string, string>).API_URL);
+  }, []);
+
+  const links = [
     {
       id: 'Apple',
-      url: `http://api.${domain}/auth/oauth/apple-auth`,
+      url: `${url}/auth/oauth/apple-auth`,
       img: '/icons/auth/apple.svg',
     },
     {
       id: 'Google',
-      url: `http://api.${domain}/auth/oauth/google-auth`,
+      url: `${url}/auth/oauth/google-auth`,
       img: '/icons/auth/google.svg',
     },
     {
       id: 'Yandex',
-      url: `http://api.${domain}/auth/oauth/yandex-auth`,
+      url: `${url}/auth/oauth/yandex-auth`,
       img: '/icons/auth/yandex.svg',
     },
     {
       id: 'Github',
-      url: `http://api.${domain}/auth/oauth/github-auth`,
+      url: `${url}/auth/oauth/github-auth`,
       img: '/icons/auth/github.svg',
     },
   ];
-};
-
-export function ExternalAuth() {
-  const linksType = getLinks('');
-  const [links, setLinks] = useState<typeof linksType>([]);
-
-  useEffect(() => {
-    if (!('ENV' in window)) return;
-    setLinks(getLinks((window.ENV as Record<string, string>).DOMAIN));
-  }, []);
 
   return (
     <VStack>

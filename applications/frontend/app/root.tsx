@@ -42,7 +42,8 @@ export const links: LinksFunction = () => [
 export async function loader() {
   return json({
     ENV: {
-      DOMAIN: process.env.DOMAIN,
+      FRONT_URL: process.env.FRONT_URL,
+      API_URL: process.env.API_URL,
     },
   });
 }
