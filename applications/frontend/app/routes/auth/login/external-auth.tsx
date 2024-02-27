@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 
 export function ExternalAuth() {
-  const [url, setUrl] = useState('localhost');
+  const [url, setUrl] = useState('');
 
   useEffect(() => {
     if (!('ENV' in window)) return;

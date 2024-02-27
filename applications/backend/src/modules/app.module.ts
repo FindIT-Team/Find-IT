@@ -10,6 +10,7 @@ import { HealthModule } from './health/health.module';
 import { AuthModule } from './auth/auth.module';
 import { StoreModule } from './store/store.module';
 import { StoreConfigAsync } from '../configs/store.config';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { StoreConfigAsync } from '../configs/store.config';
     NoticesModule,
     ProjectsModule,
     ProjectsToUsersModule,
-    // DashboardModule,
+    DashboardModule,
   ],
 })
 export class AppModule {}

@@ -16,6 +16,11 @@ async function fetchSession(
     ...init,
   });
 
+  if (!response.status.toString().startsWith('2'))
+    throw new Error(
+      `Something went wrong during fetch: ${response.status}, ${response.statusText}`,
+    );
+
   const setCookieHeader = response.headers.get('Set-Cookie');
 
   if (!setCookieHeader) throw new Error(`Set-Cookie header wasn't found`);

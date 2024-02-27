@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm run dev --workspaces"
+    "dev": "make start-dev"
   },
   "workspaces": [
     "applications/*"
   ],
   "dependencies": {
-    "backend": "^1.0.0",
-    "frontend": "^1.0.0"
+    "backend": "workspace:*",
+    "frontend": "workspace:*"
   },
   "repository": {
     "type": "git",
