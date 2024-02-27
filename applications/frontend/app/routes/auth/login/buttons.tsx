@@ -1,7 +1,7 @@
 import { Button, HStack } from '@chakra-ui/react';
 import { Link } from '@remix-run/react';
 
-export function Links() {
+export function Buttons() {
   return (
     <HStack
       width={'full'}

@@ -25,7 +25,7 @@ import { Form, redirect } from '@remix-run/react';
 import { UniqField } from '~/routes/auth/login/fields/uniq-field';
 import { fetch } from '~/fetch.util';
 import { ExternalAuth } from '~/routes/auth/login/external-auth';
-import { Links } from './links';
+import { Buttons } from './buttons';
 
 export const meta: MetaFunction = () => [{ title: 'Войти | FindIT' }];
 
@@ -60,39 +60,39 @@ export default function Page() {
 
   return (
     <Center as={'main'} height={'100vh'} userSelect={'none'}>
-      <RemixFormProvider {...remixForm}>
-        <Form onSubmit={remixForm.handleSubmit}>
-          <HStack
-            border={'1px solid'}
-            borderColor={'gray.200'}
-            shadow={'md'}
-            background={'white'}
-            borderRadius={'lg'}
-            spacing={0}
-            wrap={'nowrap'}
-          >
-            <VStack padding={12} spacing={6} flexShrink={0}>
-              <ExternalAuth />
-              <Box width={'full'} position={'relative'}>
-                <Divider />
-                <AbsoluteCenter
-                  px={2}
-                  background={'white'}
-                  fontSize={'md'}
-                  fontWeight={'semibold'}
-                >
-                  <chakra.span opacity={0.6}>или</chakra.span>
-                </AbsoluteCenter>
-              </Box>
-              <VStack>
+      <HStack
+        border={'1px solid'}
+        borderColor={'gray.200'}
+        shadow={'md'}
+        background={'white'}
+        borderRadius={'lg'}
+        spacing={0}
+        wrap={'nowrap'}
+      >
+        <VStack padding={12} spacing={6} flexShrink={0}>
+          <ExternalAuth />
+          <Box width={'full'} position={'relative'}>
+            <Divider />
+            <AbsoluteCenter
+              px={2}
+              background={'white'}
+              fontSize={'md'}
+              fontWeight={'semibold'}
+            >
+              <chakra.span opacity={0.6}>или</chakra.span>
+            </AbsoluteCenter>
+          </Box>
+          <VStack>
+            <RemixFormProvider {...remixForm}>
+              <Form onSubmit={remixForm.handleSubmit}>
                 <UniqField />
                 <PasswordField />
-                <Links />
-              </VStack>
-            </VStack>
-          </HStack>
-        </Form>
-      </RemixFormProvider>
+                <Buttons />
+              </Form>
+            </RemixFormProvider>
+          </VStack>
+        </VStack>
+      </HStack>
     </Center>
   );
 }

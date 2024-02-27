@@ -3,7 +3,6 @@ import { getSession } from '~/session.server';
 import { fetch } from '~/fetch.util';
 import { Await, defer, useLoaderData } from '@remix-run/react';
 import { Suspense } from 'react';
-import { ProjectEntity } from 'backend/src/entities/project.entity';
 import { Box } from '@chakra-ui/react';
 
 export const meta: MetaFunction = () => [
@@ -34,21 +33,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const projects = getData('projects', projectsCounter);
 
-  return defer({ projects });
+  return defer({ project: projects[0], example: Promise.resolve('sawewa') });
 }
 
 export default function Page() {
-  const { projects } = useLoaderData<typeof loader>();
+  const { project, example } = useLoaderData<typeof loader>();
 
   return (
     <Box>
-      {projects.map((project, i) => (
-        <Suspense key={i}>
-          <Await resolve={project as ProjectEntity}>
-            {(project: ProjectEntity) => <>{JSON.stringify(project)}</>}
-          </Await>
-        </Suspense>
-      ))}
+      <Suspense>
+        <Await resolve={project}>
+          {(project) => <>{JSON.stringify(project)}</>}
+        </Await>
+      </Suspense>
+
+      <Suspense>
+        <Await resolve={example}>{(example) => <>{example}</>}</Await>
+      </Suspense>
     </Box>
   );
 }
