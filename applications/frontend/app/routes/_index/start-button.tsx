@@ -15,6 +15,7 @@ export function StartButton() {
         colorScheme={'purple'}
         borderRadius={'lg'}
         width={['full', 'full', 'auto', 'auto']}
+        paddingX={7}
         to={'/auth/login'}
       >
         Начать

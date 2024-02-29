@@ -25,7 +25,7 @@ export default function Page() {
       </Flex>
       <Center
         as={'main'}
-        width={['full', 'full', '60%', '50%', '40%', '30%']}
+        width={['full', 'full', '60%', '50%', '40%', '40%']}
         height={['auto', 'auto', '100vh', '100vh']}
         justifyContent={[
           'space-between',
@@ -34,7 +34,7 @@ export default function Page() {
           'space-around',
         ]}
         alignItems={['center', 'center', 'flex-start', 'flex-start']}
-        px={['10%', '15%', '10%', '10%', '10%']}
+        px={['10%', '20%', '10%', '10%', '10%', '10%']}
         py={'10%'}
         flexDirection={'column'}
         gap={[16, 16, 16, 20]}

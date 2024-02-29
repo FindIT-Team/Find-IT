@@ -67,7 +67,7 @@ export default function Page() {
         background={'white'}
         borderRadius={'lg'}
         spacing={0}
-        wrap={'nowrap'}
+        alignItems={'stretch'}
       >
         <VStack padding={12} spacing={6} flexShrink={0}>
           <ExternalAuth />
@@ -92,6 +92,13 @@ export default function Page() {
             </RemixFormProvider>
           </VStack>
         </VStack>
+        <Box
+          width={[0, 0, 0, '30vw']}
+          backgroundImage={'url(/login-side-image.jpg)'}
+          backgroundSize={'cover'}
+          backgroundPosition={'center center'}
+          borderRightRadius={'lg'}
+        />
       </HStack>
     </Center>
   );
