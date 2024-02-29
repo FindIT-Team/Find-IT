@@ -93,7 +93,7 @@ export default function Page() {
           </VStack>
         </VStack>
         <Box
-          width={[0, '30vw']}
+          width={[0, 0, 0, '30vw']}
           backgroundImage={'url(/login-side-image.jpg)'}
           backgroundSize={'cover'}
           backgroundPosition={'center center'}
