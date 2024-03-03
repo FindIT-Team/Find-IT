@@ -1,5 +1,8 @@
 import { LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
-import { Box } from '@chakra-ui/react';
+import { HStack, VStack } from '@chakra-ui/react';
+import { Notices } from '~/routes/_nav/dashboard/notice/notices';
+import { Projects } from '~/routes/_nav/dashboard/projects/projects';
+import { Subscription } from '~/routes/_nav/dashboard/subscription/subscription';
 
 export const meta: MetaFunction = () => [
   { title: 'Панель управления | FindIT' },
@@ -10,5 +13,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Page() {
-  return <Box></Box>;
+  return (
+    <HStack justifyContent={'space-around'}>
+      <VStack>
+        <Notices />
+        <Projects />
+      </VStack>
+      <VStack>
+        <Subscription />
+      </VStack>
+    </HStack>
+  );
 }
