@@ -17,12 +17,9 @@ export function Project() {
         </Heading>
         <Heading as={'h6'} fontSize={'xs'}>
           <Heading as={'h6'}>{project.budget}</Heading>
-          {/*<Heading as={'h6'}>*/}
-          {/*  {*/}
-          {/*    project.projectToUsers.find((value) => value.isOwner === true)*/}
-          {/*      .user.username*/}
-          {/*  }*/}
-          {/*</Heading>*/}
+          <Heading as={'h6'} fontSize={'xs'}>
+            Owner
+          </Heading>
         </Heading>
       </VStack>
       <VStack alignItems={'flex-end'}>
