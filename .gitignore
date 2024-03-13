@@ -4,5 +4,6 @@ dist
 .next
 node_modules
 volumes
+migrations
 
 .env.production

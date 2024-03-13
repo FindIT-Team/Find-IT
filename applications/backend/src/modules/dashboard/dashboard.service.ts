@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { ProjectsService } from '../projects/projects.service';
-import { NoticesService } from '../notices/notices.service';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class DashboardService {
-  constructor(
-    private readonly projectsService: ProjectsService,
-    private readonly noticesService: NoticesService,
-  ) {}
-  //
+  constructor(private readonly databaseService: DatabaseService) {}
+
   // async getNotices(
   //   id: string,
   //   query: Record<string, any>,

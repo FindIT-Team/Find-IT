@@ -1,10 +1,4 @@
-import { UserEntity } from '../entities/user.entity';
-
-declare global {
-  namespace Express {
-    interface User extends UserEntity {}
-  }
-}
+import { Express } from 'express';
 
 declare module 'express-session' {
   interface SessionData {

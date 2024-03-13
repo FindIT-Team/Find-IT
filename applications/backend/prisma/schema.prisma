@@ -1,0 +1,160 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+
+enum SubscriptionType {
+  PERSONAL
+  ENTERPRISE
+}
+
+enum NoticeType {
+  SECURITY
+}
+
+enum UsersToProjectsStatus {
+  JOINED
+  PENDING
+  DECLINED
+}
+
+enum UserRole {
+  DEFAULT
+  ADMIN
+}
+
+// Models
+
+model User {
+  id String @unique @default(uuid())
+
+  username String @unique
+  email    String @unique
+
+  password String
+
+  role UserRole @default(DEFAULT)
+
+  updatedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  profile      Profile?
+  oAuth        OAuth?
+  subscription Subscription?
+  authHistory  AuthHistory[]
+
+  notices  Notice[]
+  projects UsersToProjects[]
+
+  @@id([id, username, email])
+  @@index([id, username, email])
+}
+
+model OAuth {
+  apple  String? @unique
+  google String? @unique
+  yandex String? @unique
+  github String? @unique
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @id
+
+  @@index([apple, google, yandex, github])
+}
+
+model Subscription {
+  type      SubscriptionType
+  expiresIn DateTime
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @id
+
+  @@index([userId])
+}
+
+model AuthHistory {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([id, userId])
+}
+
+model Profile {
+  firstName String
+  lastName  String
+
+  skills Skills?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @id
+
+  @@index([userId])
+}
+
+model Skills {
+  frontend          Int @default(0)
+  backend           Int @default(0)
+  machineLearning   Int @default(0)
+  devOps            Int @default(0)
+  projectManagement Int @default(0)
+
+  profile   Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
+  profileId String  @id
+
+  @@index([profileId])
+}
+
+model Notice {
+  id String @id @default(uuid())
+
+  type    NoticeType
+  message String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([id, userId])
+}
+
+model UsersToProjects {
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+
+  status    UsersToProjectsStatus @default(PENDING)
+  invitedBy String?
+
+  @@id([userId, projectId])
+}
+
+model Project {
+  id String @id @default(uuid())
+
+  name        String
+  description String
+  url         String
+  image       String
+
+  users UsersToProjects[]
+
+  @@index([id, name, url])
+}
+
+// Views

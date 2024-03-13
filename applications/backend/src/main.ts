@@ -34,14 +34,14 @@ async function bootstrap() {
     session({
       ...SessionConfig,
       store: storeService.session,
-      secret: configService.get('SECRET'),
+      secret: configService.get('SECRET') ?? '',
     }),
   );
   app.use(passport.session());
 
   app.useGlobalGuards(new AuthGuard());
 
-  await app.listen(configService.get('PORT'));
+  await app.listen(configService.get('PORT') ?? 3000);
 }
 
 bootstrap().then();

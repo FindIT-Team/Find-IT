@@ -11,10 +11,12 @@ ENV DB_PORT=5432
 ENV DB_USERNAME=webserver
 ENV DB_PASSWD=123456
 
+ENV DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+
 WORKDIR /project/apps/backend
 ENV PORT=3000
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 COPY package*.json ./
+COPY prisma ./prisma
 RUN [ "sh", "-c", "npm install" ]
 COPY . .
 COPY ../../.eslintrc.js ../../
@@ -32,7 +34,7 @@ ENTRYPOINT [ "npm", "run", "start:prod" ]
 
 FROM base AS development
 
-ENTRYPOINT [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "dev" ]
 
 
 FROM base AS test
