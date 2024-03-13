@@ -36,6 +36,12 @@ enum UserRole {
   ADMIN
 }
 
+enum ProfileGender {
+  UNKNOWN
+  MALE
+  FEMALE
+}
+
 // Models
 
 model User {
@@ -96,7 +102,9 @@ model AuthHistory {
 
 model Profile {
   firstName String
-  lastName  String
+  lastName  String?
+
+  gender ProfileGender @default(UNKNOWN)
 
   skills Skills?
 
@@ -112,6 +120,7 @@ model Skills {
   machineLearning   Int @default(0)
   devOps            Int @default(0)
   projectManagement Int @default(0)
+  qa                Int @default(0)
 
   profile   Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
   profileId String  @id

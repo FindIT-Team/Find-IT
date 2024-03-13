@@ -23,7 +23,7 @@ import { Schema, schema } from '~/routes/auth/login/schema';
 import { getSession } from '~/session.server';
 import { Form, redirect } from '@remix-run/react';
 import { UniqField } from '~/routes/auth/login/fields/uniq-field';
-import { fetch } from '~/fetch.util';
+import { fetch } from '~/utils/fetch.util';
 import { ExternalAuth } from '~/routes/auth/login/external-auth';
 import { Buttons } from './buttons';
 

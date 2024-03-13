@@ -149,18 +149,23 @@ export class AuthService {
         password: await hash(registerDto.user.password, 10),
       },
     };
+    const parsedDto = {
+      ...registerDto.user,
+      profile: {
+        create: {
+          ...registerDto.profile,
+          firstName: registerDto.profile.name.split(' ')[0].trim(),
+          lastName: registerDto.profile.name.split(' ')[1].trim(),
+          skills: { create: registerDto.skills },
+        },
+      },
+      oAuth: { create: registerDto.oAuth },
+    };
+
+    delete (parsedDto.profile.create as { name?: string }).name;
 
     const user = await this.databaseService.user.create({
-      data: {
-        ...registerDto.user,
-        profile: {
-          create: {
-            ...registerDto.profile,
-            skills: { create: registerDto.skills },
-          },
-        },
-        oAuth: { create: registerDto.oAuth },
-      },
+      data: parsedDto,
     });
 
     Object.assign(session, {

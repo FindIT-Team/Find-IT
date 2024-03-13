@@ -12,8 +12,17 @@ import {
 import { useContext } from 'react';
 import { Context } from '~/routes/auth/registration/context';
 import { useRemixFormContext } from 'remix-hook-form';
-import { Schema } from '~/routes/auth/registration/schema';
+import { schema, Schema } from '~/routes/auth/registration/schema';
 import { RiArrowRightLine } from 'react-icons/ri';
+import { schemaViewer } from '~/utils/schema-viewer';
+
+type fieldsNames =
+  | 'user.username'
+  | 'user.email'
+  | 'user.password'
+  | 'profile.name';
+
+type DownerUserFields = keyof typeof schema.shape.user.shape;
 
 export function Field({
   position,
@@ -21,15 +30,18 @@ export function Field({
   type,
 }: {
   position: number;
-  name: keyof Schema;
+  name: fieldsNames;
   type?: string;
 }) {
   const { next, previous } = useContext(Context);
   const { register, formState } = useRemixFormContext<Schema>();
-  const error: string = formState.errors[name]?.message as string;
-  const isTouched: boolean | undefined = formState.touchedFields[name] as
+  const [g, n] = name.split('.') as ['user', DownerUserFields];
+  const error: string = formState.errors[g]?.[n]?.message as string;
+  const isTouched: boolean | undefined = formState.touchedFields[g]?.[n] as
     | boolean
     | undefined;
+
+  console.log(schemaViewer(schema));
 
   return (
     <VStack width={'full'}>

@@ -21,7 +21,7 @@ import {
 } from '@remix-run/node';
 import { Form, redirect } from '@remix-run/react';
 import { Box } from '@chakra-ui/react';
-import { fetch } from '~/fetch.util';
+import { fetch } from '~/utils/fetch.util';
 import { getSession } from '~/session.server';
 
 export const meta: MetaFunction = () => [{ title: 'Регистрация | FindIT' }];
@@ -55,12 +55,12 @@ export default function Page() {
     resolver: zodResolver(schema),
     defaultValues: {
       skills: {
-        ProjectManagement: 0,
-        Frontend: 0,
-        Backend: 0,
-        MachineLearning: 0,
-        DevOps: 0,
-        QA: 0,
+        projectManagement: 0,
+        frontend: 0,
+        backend: 0,
+        machineLearning: 0,
+        devOps: 0,
+        qa: 0,
       },
     },
   });

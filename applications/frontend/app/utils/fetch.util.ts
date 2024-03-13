@@ -47,4 +47,5 @@ async function fetchSession(
 
   return { headers, response };
 }
+
 export { fetchSession as fetch };
