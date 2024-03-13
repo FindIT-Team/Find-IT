@@ -7,10 +7,16 @@ import { UsernameAvailableDto } from './dto/username-available.dto';
 import { OAuth, Prisma } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
 import { IDeserializedUser } from './user.interface';
+import { Request } from 'express';
+import { UserAuthenticatedDto } from './dto/user-authenticated.dto';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly databaseService: DatabaseService) {}
+
+  async isAuthenticated(req: Request): Promise<UserAuthenticatedDto> {
+    return { isAuthenticated: req.user && req.isAuthenticated() };
+  }
 
   async validate({
     uniq,
@@ -142,15 +148,9 @@ export class AuthService {
   }
 
   async register(session: Session, registerDto: RegisterDto): Promise<void> {
-    registerDto = {
-      ...registerDto,
-      user: {
-        ...registerDto.user,
-        password: await hash(registerDto.user.password, 10),
-      },
-    };
     const parsedDto = {
       ...registerDto.user,
+      password: await hash(registerDto.user.password, 10),
       profile: {
         create: {
           ...registerDto.profile,
@@ -159,7 +159,7 @@ export class AuthService {
           skills: { create: registerDto.skills },
         },
       },
-      oAuth: { create: registerDto.oAuth },
+      oAuth: { create: registerDto.oAuth ?? {} },
     };
 
     delete (parsedDto.profile.create as { name?: string }).name;

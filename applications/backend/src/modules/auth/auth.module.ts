@@ -9,6 +9,9 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { DatabaseModule } from '../database/database.module';
 import { AuthGateway } from './auth.gateway';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth.guard';
+import { RolesGuard } from './roles.guard';
 
 @Module({
   imports: [DatabaseModule, PassportModule.register({ session: true })],
@@ -22,6 +25,15 @@ import { AuthGateway } from './auth.gateway';
     GoogleStrategy,
     YandexStrategy,
     GithubStrategy,
+
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
   controllers: [AuthController],
 })

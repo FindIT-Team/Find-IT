@@ -29,9 +29,12 @@ export const meta: MetaFunction = () => [{ title: 'Регистрация | Find
 export async function loader({ request }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
 
-  if (session?.get('sid')) return redirect('/dashboard');
+  if (!session?.get('sid')) return null;
 
-  return null;
+  const { headers, response } = await fetch('/auth', session);
+  const { isAuthenticated } = await response.json();
+
+  return isAuthenticated ? redirect('/dashboard', { headers }) : null;
 }
 
 export async function action({ request }: ActionFunctionArgs) {

@@ -6,7 +6,6 @@ import { createDocs } from './utils/create-docs.util';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { CorsConfig } from './configs/cors.config';
 import { ValidationPipe } from '@nestjs/common';
-import { AuthGuard } from './modules/auth/auth.guard';
 import session from 'express-session';
 import { SessionConfig } from './configs/session.config';
 import passport from 'passport';
@@ -38,8 +37,6 @@ async function bootstrap() {
     }),
   );
   app.use(passport.session());
-
-  app.useGlobalGuards(new AuthGuard());
 
   await app.listen(configService.get('PORT') ?? 3000);
 }
