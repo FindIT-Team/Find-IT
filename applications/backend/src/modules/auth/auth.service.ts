@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { compare, hash } from 'bcrypt';
 import { AuthDto } from './dto/auth.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -148,33 +148,35 @@ export class AuthService {
   }
 
   async register(session: Session, registerDto: RegisterDto): Promise<void> {
-    const parsedDto = {
-      ...registerDto.user,
-      password: await hash(registerDto.user.password, 10),
-      profile: {
-        create: {
-          ...registerDto.profile,
-          firstName: registerDto.profile.name.split(' ')[0].trim(),
-          lastName: registerDto.profile.name.split(' ')[1].trim(),
-          skills: { create: registerDto.skills },
+    try {
+      const parsedDto = {
+        ...registerDto.user,
+        password: await hash(registerDto.user.password, 10),
+        profile: {
+          create: {
+            ...registerDto.profile,
+            skills: { create: registerDto.skills },
+          },
         },
-      },
-      oAuth: { create: registerDto.oAuth ?? {} },
-    };
+        oAuth: { create: registerDto.oAuth ?? {} },
+      };
 
-    delete (parsedDto.profile.create as { name?: string }).name;
+      delete (parsedDto.profile.create as { name?: string }).name;
 
-    const user = await this.databaseService.user.create({
-      data: parsedDto,
-    });
+      const user = await this.databaseService.user.create({
+        data: parsedDto,
+      });
 
-    Object.assign(session, {
-      passport: {
-        user: {
-          id: user.id,
+      Object.assign(session, {
+        passport: {
+          user: {
+            id: user.id,
+          },
         },
-      },
-    });
+      });
+    } catch (e) {
+      throw new UnprocessableEntityException((e as Error).message);
+    }
   }
 
   async login(

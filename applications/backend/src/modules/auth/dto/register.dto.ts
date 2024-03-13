@@ -14,12 +14,18 @@ class UserDto {
 }
 
 class ProfileDto {
-  name: string;
+  firstName: string;
+  lastName: string;
 
   gender: 'UNKNOWN' | 'MALE' | 'FEMALE';
 
-  constructor(name: string, gender: 'UNKNOWN' | 'MALE' | 'FEMALE') {
-    this.name = name;
+  constructor(
+    firstName: string,
+    lastName: string,
+    gender: 'UNKNOWN' | 'MALE' | 'FEMALE',
+  ) {
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.gender = gender;
   }
 }

@@ -41,6 +41,12 @@ export async function action({ request }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
 
   const data = (await getValidatedFormData(request, zodResolver(schema))).data;
+  Object.assign(data?.profile, {
+    firstName: data?.profile.name.split(' ')[0],
+    lastName: data?.profile.name.split(' ')[1],
+  });
+  delete data?.profile.name;
+
   const { headers } = await fetch('/auth/registration', session, {
     method: 'POST',
     body: JSON.stringify(data),

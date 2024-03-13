@@ -14,7 +14,6 @@ import { Context } from '~/routes/auth/registration/context';
 import { useRemixFormContext } from 'remix-hook-form';
 import { schema, Schema } from '~/routes/auth/registration/schema';
 import { RiArrowRightLine } from 'react-icons/ri';
-import { schemaViewer } from '~/utils/schema-viewer';
 
 type fieldsNames =
   | 'user.username'
@@ -37,11 +36,11 @@ export function Field({
   const { register, formState } = useRemixFormContext<Schema>();
   const [g, n] = name.split('.') as ['user', DownerUserFields];
   const error: string = formState.errors[g]?.[n]?.message as string;
-  const isTouched: boolean | undefined = formState.touchedFields[g]?.[n] as
-    | boolean
-    | undefined;
+  const isTouched: boolean | undefined = formState.dirtyFields[g]?.[n];
 
-  console.log(schemaViewer(schema));
+  // TODO: Wait for bugfix on React-Hook-Form dependency to use async validations
+  // const isValidating: boolean | undefined = formState.validatingFields[g]?.[n];
+  // console.log(isValidating, formState.isValidating);
 
   return (
     <VStack width={'full'}>
@@ -60,16 +59,21 @@ export function Field({
             />
           </InputRightElement>
         </InputGroup>
-        {error ? (
-          <FormErrorMessage>{error}</FormErrorMessage>
-        ) : (
-          <FormHelperText
-            fontFamily={['IBM Plex Mono, monospace']}
-            color={'transparent'}
-          >
-            Null
-          </FormHelperText>
-        )}
+        {
+          //   isValidating === true ? (
+          //   <FormHelperText>Проверка...</FormHelperText>
+          // ) :
+          error ? (
+            <FormErrorMessage>{error}</FormErrorMessage>
+          ) : (
+            <FormHelperText
+              fontFamily={['IBM Plex Mono, monospace']}
+              color={'transparent'}
+            >
+              Null
+            </FormHelperText>
+          )
+        }
       </FormControl>
       <Button
         width={'full'}

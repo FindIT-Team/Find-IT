@@ -4,11 +4,24 @@ export const schema = z.object({
   user: z.object({
     username: z
       .string()
+      .trim()
       .min(3, 'Слишком короткое имя')
-      .max(15, 'Слишком длинное имя')
-      .trim(),
+      .max(15, 'Слишком длинное имя'),
+    // TODO: Wait for bugfix on React-Hook-Form dependency to use async validations
+    // .refine(
+    //   (field) =>
+    //     fetch(
+    //       new URL(
+    //         `/auth/available-username/${field}`,
+    //         'http://api.findit.test',
+    //       ),
+    //     )
+    //       .then((res) => res.json())
+    //       .then(({ isAvailable }) => !isAvailable),
+    //   'Занято',
+    // ),
 
-    email: z.string().email('Это не похоже на адрес электронной почты').trim(),
+    email: z.string().trim().email('Это не похоже на адрес электронной почты'),
 
     password: z
       .string()
