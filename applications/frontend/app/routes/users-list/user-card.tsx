@@ -1,8 +1,21 @@
-import { Button, Heading, HStack, Image, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  Heading,
+  HStack,
+  Image,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react';
 
 export function UserCard() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Button
+      onClick={onOpen}
       border={'1px solid'}
       borderColor={'gray.300'}
       borderRadius={'lg'}
@@ -12,9 +25,15 @@ export function UserCard() {
       width={475}
       height={260}
     >
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalContent>
+          <ModalHeader>NikName</ModalHeader>
+          <ModalCloseButton />
+        </ModalContent>
+      </Modal>
       <HStack>
         <VStack alignItems={'flex-start'}>
-          <Heading fontSize={'xl'}>Chushpan</Heading>
+          <Heading fontSize={'xl'}>{/*Здесь UserName*/}</Heading>
           <Image src={'thanks.jpeg'} boxSize={40} borderRadius={'lg'} />
           <Heading fontSize={'xl  '}>Кирил Иванович</Heading>
         </VStack>
@@ -22,7 +41,7 @@ export function UserCard() {
           <VStack alignItems={'flex-start'} justifyContent={'flex-start'}>
             <Heading fontSize={'xl'}>Проекты</Heading>
             <Heading fontSize={'md'}>Участник:</Heading>
-            <Heading fontSize={'md'}>Основанные:</Heading>
+            <Heading fontSize={'md'}>Основал:</Heading>
           </VStack>
         </HStack>
       </HStack>

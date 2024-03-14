@@ -1,5 +1,5 @@
 import { Button, Heading, VStack } from '@chakra-ui/react';
-import { FilterField } from '~/routes/usersList/filterField';
+import { FilterField } from '~/routes/users-list/filterField';
 
 export function FiltersBar() {
   return (

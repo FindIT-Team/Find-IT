@@ -1,5 +1,5 @@
 import { Heading, HStack, VStack } from '@chakra-ui/react';
-import { UserCard } from '~/routes/usersList/userCard';
+import { UserCard } from '~/routes/users-list/user-card';
 
 export function List() {
   return (
