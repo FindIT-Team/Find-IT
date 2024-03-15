@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { List } from '~/routes/users-list/list';
+import { List } from '~/routes/_nav/users/list';
 import { HStack, VStack } from '@chakra-ui/react';
 
 export const meta: MetaFunction = () => [
@@ -12,9 +12,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Page() {
   return (
-    <VStack alignItems={'flex-end'}>
-      <HStack justifyContent={'flex-end'}>
-        {/*<FiltersBar />*/}
+    <VStack height={940}>
+      <HStack>
         <List />
       </HStack>
     </VStack>

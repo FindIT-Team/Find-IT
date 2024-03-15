@@ -12,7 +12,6 @@ import {
 import { RiCheckLine, RiCloseLine, RiEditLine } from 'react-icons/ri';
 
 export function ChangeUsername() {
-  /* Here's a custom control */
   function EditableControls() {
     const {
       isEditing,

@@ -1,5 +1,5 @@
 import { Heading, HStack, VStack } from '@chakra-ui/react';
-import { UserCard } from '~/routes/users-list/user-card';
+import { UserCard } from '~/routes/_nav/users/user-card';
 
 export function List() {
   return (
@@ -7,13 +7,15 @@ export function List() {
       border={'1px solid'}
       borderColor={'gray.300'}
       borderRadius={'lg'}
-      padding={4}
+      padding={1}
       alignItems={'flex-start'}
-      width={'80%'}
     >
-      <Heading fontSize={'md'}>Пользователи</Heading>
-      <HStack flexWrap={'wrap'} justifyContent={'space-between'}>
-        {Array(12)
+      <Heading fontSize={'md'} padding={2}>
+        Пользователи
+      </Heading>
+
+      <HStack flexWrap={'wrap'} justifyContent={'space-between'} padding={'1%'}>
+        {Array(52)
           .fill(null)
           .map((v, i) => (
             <UserCard key={i} />

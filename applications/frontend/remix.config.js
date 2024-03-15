@@ -18,6 +18,8 @@ export default {
       route('', 'routes/_nav/layout.tsx', () => {
         route('/dashboard', 'routes/_nav/dashboard/route.tsx');
         route('/settings', 'routes/_nav/settings/route.tsx');
+        route('/users', 'routes/_nav/users/route.tsx');
+        route('/user', 'routes/_nav/user/route.tsx');
       });
     });
   },

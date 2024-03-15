@@ -3,10 +3,6 @@ import {
   Heading,
   HStack,
   Image,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
@@ -22,18 +18,20 @@ export function UserCard() {
       padding={4}
       alignItems={'flex-start'}
       justifyContent={'flex-start'}
-      width={475}
+      flexGrow={1}
+      width={400}
       height={260}
     >
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalContent>
-          <ModalHeader>NikName</ModalHeader>
-          <ModalCloseButton />
-        </ModalContent>
-      </Modal>
+      {/*<Modal isOpen={isOpen} onClose={onClose}>*/}
+      {/*  <ModalOverlay />*/}
+      {/*  <ModalContent>*/}
+      {/*    <ModalHeader>NikName</ModalHeader>*/}
+      {/*    <ModalCloseButton />*/}
+      {/*  </ModalContent>*/}
+      {/*</Modal>*/}
       <HStack>
         <VStack alignItems={'flex-start'}>
-          <Heading fontSize={'xl'}>{/*Здесь UserName*/}</Heading>
+          <Heading fontSize={'xl'}>Chainik21</Heading>
           <Image src={'thanks.jpeg'} boxSize={40} borderRadius={'lg'} />
           <Heading fontSize={'xl  '}>Кирил Иванович</Heading>
         </VStack>

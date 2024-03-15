@@ -23,7 +23,7 @@ export default function Page() {
           Сменить имя профиля
           <ChangeUsername />
         </Heading>
-        <Divider />
+        <Divider borderColor={'gray.300'} />
       </VStack>
     </HStack>
   );
