@@ -19,7 +19,8 @@ export default {
         route('/dashboard', 'routes/_nav/dashboard/route.tsx');
         route('/settings', 'routes/_nav/settings/route.tsx');
         route('/users', 'routes/_nav/users/route.tsx');
-        route('/user', 'routes/_nav/user/route.tsx');
+        route('/profile', 'routes/_nav/profile/route.tsx');
+        route('/project', 'routes/_nav/project/route.tsx');
       });
     });
   },

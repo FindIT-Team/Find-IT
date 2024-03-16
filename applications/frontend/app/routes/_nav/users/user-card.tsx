@@ -32,7 +32,7 @@ export function UserCard() {
       <HStack>
         <VStack alignItems={'flex-start'}>
           <Heading fontSize={'xl'}>Chainik21</Heading>
-          <Image src={'thanks.jpeg'} boxSize={40} borderRadius={'lg'} />
+          <Image src={'pudge.jpeg'} boxSize={40} borderRadius={'lg'} />
           <Heading fontSize={'xl  '}>Кирил Иванович</Heading>
         </VStack>
         <HStack alignItems={'flex-start'} justifyContent={'flex-start'}>

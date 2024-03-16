@@ -30,7 +30,7 @@ export function NavLinks() {
       activeIcon: RiTeamFill,
     },
     {
-      to: '/user',
+      to: '/profile',
       icon: RiUserLine,
       activeIcon: RiUserFill,
     },

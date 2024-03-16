@@ -24,14 +24,14 @@ export class DashboardService {
   //   return this.noticesService.find({
   //     take: query.take,
   //     skip: query.skip,
-  //     where: { user: { id } },
+  //     where: { profile: { id } },
   //     order: { createdAt: 'DESC' },
   //   });
   // }
   //
   // async removeNotice(userId: string, noticeId: string): Promise<string> {
   //   const notice: NoticeEntity = await this.noticesService.findOne({
-  //     where: { id: noticeId, user: { id: userId } },
+  //     where: { id: noticeId, profile: { id: userId } },
   //     select: ['id', 'removedAt'],
   //     withDeleted: true,
   //   });
@@ -59,8 +59,8 @@ export class DashboardService {
   //     where: [
   //       {
   //         projectToUsers: [
-  //           { user: { id }, isOwner: true },
-  //           { user: { id }, status: 'userJoined' },
+  //           { profile: { id }, isOwner: true },
+  //           { profile: { id }, status: 'userJoined' },
   //         ],
   //       },
   //     ],
@@ -72,7 +72,7 @@ export class DashboardService {
   //       'updatedAt',
   //       'projectToUsers',
   //     ],
-  //     relations: ['projectToUsers', 'projectToUsers.user'],
+  //     relations: ['projectToUsers', 'projectToUsers.profile'],
   //     order: { updatedAt: 'DESC' },
   //   });
   // }
@@ -94,8 +94,8 @@ export class DashboardService {
   //     skip: query.skip,
   //     where: {
   //       projectToUsers: [
-  //         { user: { id }, status: 'userRequested' },
-  //         { user: { id }, status: 'userInvited' },
+  //         { profile: { id }, status: 'userRequested' },
+  //         { profile: { id }, status: 'userInvited' },
   //       ],
   //     },
   //     select: [
@@ -106,12 +106,12 @@ export class DashboardService {
   //       'updatedAt',
   //       'projectToUsers',
   //     ],
-  //     relations: ['projectToUsers', 'projectToUsers.user'],
+  //     relations: ['projectToUsers', 'projectToUsers.profile'],
   //     order: { updatedAt: 'DESC' },
   //   });
   // }
   //
-  // async getUser(user: UserEntity): Promise<UserEntity> {
-  //   return user;
+  // async getUser(profile: UserEntity): Promise<UserEntity> {
+  //   return profile;
   // }
 }

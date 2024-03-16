@@ -34,7 +34,7 @@ describe('DashboardController', () => {
     service = module.get<DashboardService>(DashboardService);
   });
 
-  it('should return user details', async () => {
+  it('should return profile details', async () => {
     const user: UserEntity = new UserEntity();
     user.id = '1';
     user.username = 'test';
