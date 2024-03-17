@@ -1,14 +1,16 @@
 import { NoticeType } from '~/types/notice.type';
 import { Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { CloseButton } from '~/routes/_nav/dashboard/close-button';
+import { useEffect, useState } from 'react';
 
-export function Notice() {
-  const notice: NoticeType = {
-    id: 'adfjksajfaw',
-    type: 'Security',
-    message: 'Неизвестная точка входа',
-    createdAt: new Date(2023),
-  };
+export function Notice({ notice }: { notice: NoticeType }) {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+  if (!hydrated) {
+    return null;
+  }
 
   return (
     <HStack
@@ -45,9 +47,11 @@ export function Notice() {
         padding={0}
       >
         <CloseButton />
-        <Text fontSize={'xs'}>
-          {new Date(notice.createdAt).toLocaleString()}
-        </Text>
+        {notice.createdAt && (
+          <Text fontSize={'xs'}>
+            {new Date(notice.createdAt).toLocaleTimeString()}
+          </Text>
+        )}
       </VStack>
     </HStack>
   );

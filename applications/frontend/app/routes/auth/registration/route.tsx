@@ -21,7 +21,7 @@ import {
 } from '@remix-run/node';
 import { Form, redirect } from '@remix-run/react';
 import { Box } from '@chakra-ui/react';
-import { fetch } from '~/utils/fetch.util';
+import { fetch } from '~/utils/.server/fetch-session.util';
 import { getSession } from '~/session.server';
 
 export const meta: MetaFunction = () => [{ title: 'Регистрация | FindIT' }];

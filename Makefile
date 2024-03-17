@@ -6,11 +6,6 @@ start-dev:
 start:
 	@docker compose -f docker-compose.prod.yml up -d --build
 
-migrate-reset:
-	@docker compose -f docker-compose.dev.yml run --rm -d --service-ports database || true
-	@sleep 3
-	@cd applications/backend; DATABASE_URL=postgresql://webserver:123456@localhost:5432/findit-development npx prisma migrate reset
-
 migrate-dev:
 	@docker compose -f docker-compose.dev.yml run --rm -d --service-ports database || true
 	@sleep 3

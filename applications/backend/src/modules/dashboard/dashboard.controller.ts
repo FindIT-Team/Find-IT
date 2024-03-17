@@ -3,55 +3,36 @@
 // import { NoticeEntity } from '../../entities/notice.entity';
 // import { ProjectEntity } from '../../entities/project.entity';
 // import { UserEntity } from '../../entities/user.entity';
+import { Notice, Project } from '@prisma/client';
 import { DashboardService } from './dashboard.service';
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
+import { User } from 'src/decorators/http/user.decorator';
 
 @Controller('dashboard')
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
-  //   @Get('user')
-  //   async getUser(@User() user: UserEntity): Promise<{
-  //     id: string;
-  //     username: string;
-  //     subscription: { type: string; expiresIn: Date };
-  //   }> {
-  //     return await this.dashboardService.getUser(user);
-  //   }
-  //
-  //   @Get('notices')
-  //   async getNotices(
-  //     @Query() query: Record<string, any>,
-  //     @User() user: UserEntity,
-  //   ): Promise<[NoticeEntity[], number]> {
-  //     return await this.dashboardService.getNotices(user.id, query);
-  //   }
-  //
-  //   @Post('notices/:id')
-  //   async noticesActions(
-  //     @Param('id') noticeId: string,
-  //     @Query('action') action: string,
-  //     @User() user: UserEntity,
-  //   ): Promise<string> {
-  //     switch (action) {
-  //       case 'remove':
-  //         return await this.dashboardService.removeNotice(user.id, noticeId);
-  //     }
-  //   }
-  //
-  //   @Get('projects')
-  //   async getProjects(
-  //     @Query() query: Record<string, any>,
-  //     @User() user: UserEntity,
-  //   ): Promise<[ProjectEntity[], number]> {
-  //     return await this.dashboardService.getProjects(user.id, query);
-  //   }
-  //
-  //   @Get('responses-offers')
-  //   async getResponsesOffers(
-  //     @Query() query: Record<string, any>,
-  //     @User() user: UserEntity,
-  //   ): Promise<[ProjectEntity[], number]> {
-  //     return await this.dashboardService.getResponsesOffers(user.id, query);
-  //   }
+  @Get('notices')
+  async getNotices(
+    @User() user: Express.User,
+    @Query('offset') offset?: string,
+  ): Promise<Notice[]> {
+    return await this.dashboardService.getNotices(user.id, offset);
+  }
+
+  @Get('projects')
+  async getProjects(
+    @User() user: Express.User,
+    @Query('offset') offset?: string,
+  ): Promise<Project[]> {
+    return await this.dashboardService.getProjects(user.id, offset);
+  }
+
+  @Get('responses-offers')
+  async getResponsesOffers(
+    @User() user: Express.User,
+    @Query('offset') offset?: string,
+  ): Promise<Project[]> {
+    return await this.dashboardService.getResponsesOffers(user.id, offset);
+  }
 }

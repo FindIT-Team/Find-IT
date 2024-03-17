@@ -54,7 +54,7 @@ services:
       - ./applications/backend/prisma:/project/apps/backend/prisma
 
     ports:
-      - '80:3000'
+      - '3000:3000'
       - '5555:5555'
 
 #  frontend:
