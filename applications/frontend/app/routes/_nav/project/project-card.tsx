@@ -21,19 +21,18 @@ import {
 import { IconBase } from 'react-icons';
 import { PiNumberCircleEight } from 'react-icons/pi';
 import { VscTable } from 'react-icons/vsc';
+import { Link } from '@remix-run/react';
 
 export function ProjectCard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Card maxW="sm">
+    <Card maxW="sm" width={400}>
       <CardBody>
         <VStack mt="2" alignItems={'flex-start'}>
           <Heading size="md">Колян</Heading>
           <HStack>
-            <Box backgroundColor={'gray.300'} height={200} width={160}>
-              <Text>
-                Вроде уже по кайфу, но вот обрезка текста хромает пока
-              </Text>
+            <Box backgroundColor={'gray.300'} height={200} width={250}>
+              <Text>Вроде уже по кайфу, но вот обрезка текста хромает</Text>
             </Box>
             <VStack alignItems={'flex-end'}>
               <Text>15</Text>
@@ -50,7 +49,12 @@ export function ProjectCard() {
       </CardBody>
       <CardFooter>
         <ButtonGroup>
-          <Button variant="solid" colorScheme="purple">
+          <Button
+            as={Link}
+            to={'/project'}
+            variant="solid"
+            colorScheme="purple"
+          >
             Посмотреть
           </Button>
           <Button variant="solid" colorScheme="green">
