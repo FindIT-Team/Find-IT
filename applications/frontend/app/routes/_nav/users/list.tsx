@@ -1,5 +1,5 @@
 import { Heading, HStack, VStack } from '@chakra-ui/react';
-import { UserCard } from '~/routes/_nav/users/user-card';
+import { ProfileCard } from '~/routes/_nav/profile/profile-card';
 
 export function List() {
   return (
@@ -18,7 +18,7 @@ export function List() {
         {Array(52)
           .fill(null)
           .map((v, i) => (
-            <UserCard key={i} />
+            <ProfileCard key={i} />
           ))}
       </HStack>
     </VStack>

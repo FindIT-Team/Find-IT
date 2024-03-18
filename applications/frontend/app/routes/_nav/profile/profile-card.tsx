@@ -1,17 +1,11 @@
-import {
-  Button,
-  Heading,
-  HStack,
-  Image,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react';
+import { Button, Heading, HStack, Image, VStack } from '@chakra-ui/react';
+import { Link } from '@remix-run/react';
 
-export function UserCard() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+export function ProfileCard() {
   return (
     <Button
-      onClick={onOpen}
+      as={Link}
+      to={'/profile'}
       border={'1px solid'}
       borderColor={'gray.300'}
       borderRadius={'lg'}
