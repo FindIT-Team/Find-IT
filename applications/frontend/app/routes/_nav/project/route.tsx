@@ -36,8 +36,8 @@ export default function Page() {
         </Heading>
       </HStack>
       <HStack width={1780} paddingX={3} alignItems={'flex-start'}>
-        <VStack justifyContent={'flex-start'}>
-          <Text width={1480} height={'full'}>
+        <VStack alignItems={'flex-start'}>
+          <Text width={1480} height={'full'} overflowY={'scroll'}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
             tincidunt egestas justo, quis eleifend purus lacinia id. Cras quis
             lorem eget arcu posuere volutpat. Vivamus feugiat mattis erat vitae

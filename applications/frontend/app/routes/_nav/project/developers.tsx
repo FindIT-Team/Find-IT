@@ -13,6 +13,7 @@ export function Developers() {
         width={'full'}
         height={'full'}
         paddingY={3}
+        overflowY={'scroll'}
       >
         {Array(10)
           .fill(null)
