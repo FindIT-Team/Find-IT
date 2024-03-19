@@ -1,8 +1,8 @@
 // import { Controller, Get, Param, Post, Query } from '@nestjs/common';
-// import { User } from '../../decorators/http/user.decorator';
+// import { User } from '../../decorators/http/profile.decorator';
 // import { NoticeEntity } from '../../entities/notice.entity';
 // import { ProjectEntity } from '../../entities/project.entity';
-// import { UserEntity } from '../../entities/user.entity';
+// import { UserEntity } from '../../entities/profile.entity';
 import { DashboardService } from './dashboard.service';
 import { Controller } from '@nestjs/common';
 
@@ -10,48 +10,48 @@ import { Controller } from '@nestjs/common';
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
-  //   @Get('user')
-  //   async getUser(@User() user: UserEntity): Promise<{
+  //   @Get('profile')
+  //   async getUser(@User() profile: UserEntity): Promise<{
   //     id: string;
   //     username: string;
   //     subscription: { type: string; expiresIn: Date };
   //   }> {
-  //     return await this.dashboardService.getUser(user);
+  //     return await this.dashboardService.getUser(profile);
   //   }
   //
   //   @Get('notices')
   //   async getNotices(
   //     @Query() query: Record<string, any>,
-  //     @User() user: UserEntity,
+  //     @User() profile: UserEntity,
   //   ): Promise<[NoticeEntity[], number]> {
-  //     return await this.dashboardService.getNotices(user.id, query);
+  //     return await this.dashboardService.getNotices(profile.id, query);
   //   }
   //
   //   @Post('notices/:id')
   //   async noticesActions(
   //     @Param('id') noticeId: string,
   //     @Query('action') action: string,
-  //     @User() user: UserEntity,
+  //     @User() profile: UserEntity,
   //   ): Promise<string> {
   //     switch (action) {
   //       case 'remove':
-  //         return await this.dashboardService.removeNotice(user.id, noticeId);
+  //         return await this.dashboardService.removeNotice(profile.id, noticeId);
   //     }
   //   }
   //
   //   @Get('projects')
   //   async getProjects(
   //     @Query() query: Record<string, any>,
-  //     @User() user: UserEntity,
+  //     @User() profile: UserEntity,
   //   ): Promise<[ProjectEntity[], number]> {
-  //     return await this.dashboardService.getProjects(user.id, query);
+  //     return await this.dashboardService.getProjects(profile.id, query);
   //   }
   //
   //   @Get('responses-offers')
   //   async getResponsesOffers(
   //     @Query() query: Record<string, any>,
-  //     @User() user: UserEntity,
+  //     @User() profile: UserEntity,
   //   ): Promise<[ProjectEntity[], number]> {
-  //     return await this.dashboardService.getResponsesOffers(user.id, query);
+  //     return await this.dashboardService.getResponsesOffers(profile.id, query);
   //   }
 }
