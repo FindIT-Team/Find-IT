@@ -8,8 +8,6 @@ import {
   RiSettings3Line,
   RiTeamFill,
   RiTeamLine,
-  RiUserFill,
-  RiUserLine,
 } from 'react-icons/ri';
 
 export function NavLinks() {
@@ -28,11 +26,6 @@ export function NavLinks() {
       to: '/users',
       icon: RiTeamLine,
       activeIcon: RiTeamFill,
-    },
-    {
-      to: '/profile',
-      icon: RiUserLine,
-      activeIcon: RiUserFill,
     },
   ];
 

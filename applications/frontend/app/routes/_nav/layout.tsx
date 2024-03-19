@@ -4,7 +4,7 @@ import { NavLinks } from '~/routes/_nav/nav-links';
 
 export default function Layout() {
   return (
-    <HStack height={'100vh'} userSelect={'none'} alignItems={'flex-start'}>
+    <HStack height={'100vh'} userSelect={'none'}>
       <VStack as={'nav'} height={'full'} justifyContent={'space-between'} p={3}>
         <NavLinks />
         <chakra.div boxSize={2}></chakra.div>
