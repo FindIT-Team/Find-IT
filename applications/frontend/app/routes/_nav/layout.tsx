@@ -9,7 +9,7 @@ export default function Layout() {
         <NavLinks />
         <chakra.div boxSize={2}></chakra.div>
       </VStack>
-      <chakra.main flexGrow={1}>
+      <chakra.main flexGrow={1} height={'full'}>
         <Outlet />
       </chakra.main>
     </HStack>
