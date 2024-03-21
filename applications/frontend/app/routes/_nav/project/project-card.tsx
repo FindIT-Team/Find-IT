@@ -1,30 +1,18 @@
 import {
-  Button,
-  Heading,
-  HStack,
-  Image,
   Box,
-  Text,
-  useDisclosure,
-  VStack,
-  Textarea,
-  Grid,
-  GridItem,
-  Stack,
+  Button,
+  ButtonGroup,
   Card,
   CardBody,
-  ButtonGroup,
-  Divider,
   CardFooter,
-  grid,
+  Heading,
+  HStack,
+  Text,
+  VStack,
 } from '@chakra-ui/react';
-import { IconBase } from 'react-icons';
-import { PiNumberCircleEight } from 'react-icons/pi';
-import { VscTable } from 'react-icons/vsc';
 import { Link } from '@remix-run/react';
 
 export function ProjectCard() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Card maxW="sm" width={400}>
       <CardBody>

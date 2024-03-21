@@ -17,9 +17,11 @@ export default {
 
       route('', 'routes/_nav/layout.tsx', () => {
         route('/dashboard', 'routes/_nav/dashboard/route.tsx');
-        route('/settings', 'routes/_nav/settings/route.tsx');
+        route('/settings', 'routes/_nav/settings/layout.tsx', () => {
+          route('profile', 'routes/_nav/settings/profile/route.tsx');
+        });
         route('/users', 'routes/_nav/users/route.tsx');
-        route('/profile', 'routes/_nav/profile/route.tsx');
+        route('/user', 'routes/_nav/user/route.tsx');
         route('/project', 'routes/_nav/project/route.tsx');
       });
     });

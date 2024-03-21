@@ -1,54 +1,41 @@
-import {
-  Button,
-  Heading,
-  HStack,
-  Image,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react';
+import { Card, CardBody, Heading, HStack, Image, VStack } from '@chakra-ui/react';
+import { Link } from '@remix-run/react';
 
 export function UserCard() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = {
+    username: 'kirill',
+    name: {
+      firstName: 'Кирид',
+      lastName: 'Хук'
+    },
+    contacts: {
+      email: 'fdskfj@dm.com',
+      telegram: '@askds'
+    }
+  }
+
   return (
-    <Button
-      onClick={onOpen}
-      border={'1px solid'}
-      borderColor={'gray.300'}
-      borderRadius={'lg'}
-      padding={4}
-      alignItems={'flex-start'}
-      justifyContent={'flex-start'}
-      flexGrow={1}
-      width={400}
-      height={260}
+    <Link
+      to={'/user'}
     >
-      {/*<Modal isOpen={isOpen} onClose={onClose}>*/}
-      {/*  <ModalOverlay />*/}
-      {/*  <ModalContent>*/}
-      {/*    <ModalHeader>NikName</ModalHeader>*/}
-      {/*    <ModalCloseButton />*/}
-      {/*  </ModalContent>*/}
-      {/*</Modal>*/}
-      <HStack>
-        <VStack alignItems={'flex-start'}>
-          <Heading fontSize={'xl'}>Chainik21</Heading>
-          <Image src={'pudge.jpeg'} boxSize={40} borderRadius={'lg'} />
-          <Heading fontSize={'xl  '}>Кирил Иванович</Heading>
-        </VStack>
-        <HStack alignItems={'flex-start'} justifyContent={'flex-start'}>
-          <VStack alignItems={'flex-start'} justifyContent={'flex-start'}>
-            <Heading fontSize={'xl'}>Проекты</Heading>
-            <Heading fontSize={'md'}>Участник:</Heading>
-            <Heading fontSize={'md'}>Основал:</Heading>
-          </VStack>
+      <Card>
+        <CardBody>
+          <HStack>
+            <VStack alignItems={'flex-start'}>
+              <Heading fontSize={'xl'}>{user.username}</Heading>
+              <Image src={'pudge.jpeg'} boxSize={40} borderRadius={'lg'} />
+              <Heading fontSize={'xl  '}>{Object.values(user.name).join(" ")}</Heading>
+            </VStack>
+            <HStack alignItems={'flex-start'} justifyContent={'flex-start'}>
+              <VStack alignItems={'flex-start'} justifyContent={'flex-start'}>
+                <Heading fontSize={'xl'}>Проекты</Heading>
+                <Heading fontSize={'md'}>Участник:</Heading>
+                <Heading fontSize={'md'}>Основал:</Heading>
+              </VStack>
+          </HStack>
         </HStack>
-      </HStack>
-    </Button>
+        </CardBody>
+      </Card>
+      </Link>
   );
 }
-
-// ник;
-// фио;
-// ава;
-// кол во проектов
-// колво созданных проектов

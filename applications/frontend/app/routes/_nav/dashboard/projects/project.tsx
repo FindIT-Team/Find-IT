@@ -15,18 +15,19 @@ export function Project() {
         <Heading as={'h1'} fontSize={'sm'}>
           {project.title}
         </Heading>
-        <Heading as={'h6'} fontSize={'xs'}>
-          <Heading as={'h6'}>{project.budget}</Heading>
-          <Heading as={'h6'} fontSize={'xs'}>
+        <HStack >
+          <Heading as={'h6'}>{project.budget} </Heading>
+
+          <Heading as={'h6'} fontSize={'xs'} >
             Owner
           </Heading>
-        </Heading>
+          <Heading fontSize={'xs'}> {new Date(project.updatedAt).toLocaleString()}</Heading>
+        </HStack>
       </VStack>
       <VStack alignItems={'flex-end'}>
         <Button>Перейти</Button>
         <Heading>
           <Heading as={'h6'} fontSize={'xs'}>
-            {new Date(project.updatedAt).toLocaleString()}
           </Heading>
         </Heading>
       </VStack>
