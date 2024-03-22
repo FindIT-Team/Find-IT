@@ -12,4 +12,9 @@ export class AuthDto {
     description: 'The password of the profile',
   })
   password: string;
+
+  constructor(uniq: string, password: string) {
+    this.uniq = uniq;
+    this.password = password;
+  }
 }

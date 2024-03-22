@@ -11,7 +11,7 @@ export function NameField() {
   return (
     <AnimateLayout position={position}>
       <Heading>А что насчет настоящего имени?</Heading>
-      <Field position={position} name={'name'} />
+      <Field position={position} name={'profile.name'} />
     </AnimateLayout>
   );
 }

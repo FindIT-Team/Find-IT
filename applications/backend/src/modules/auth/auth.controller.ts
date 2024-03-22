@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Req,
   Session,
   UseGuards,
 } from '@nestjs/common';
@@ -27,8 +28,12 @@ import {
 import { AuthDto } from './dto/auth.dto';
 import { UsernameAvailableDto } from './dto/username-available.dto';
 import { ApiConfig } from '../../configs/api.config';
+import { Request } from 'express';
+import { AuthenticatedRequest } from '../../decorators/authenticated-request.decorator';
+import { UserAuthenticatedDto } from './dto/user-authenticated.dto';
 
 @Controller(ApiConfig({ path: 'auth' }))
+@AuthenticatedRequest(false)
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -50,6 +55,18 @@ export class AuthController {
     @Body() registerDto: RegisterDto,
   ): Promise<void> {
     return await this.authService.register(session, registerDto);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Check user authenticated' })
+  @ApiOkResponse({
+    description: 'User authenticated status',
+    type: UserAuthenticatedDto,
+  })
+  async isAuthenticated(
+    @Req() request: Request,
+  ): Promise<UserAuthenticatedDto> {
+    return await this.authService.isAuthenticated(request);
   }
 
   @Get('available-username/:username')

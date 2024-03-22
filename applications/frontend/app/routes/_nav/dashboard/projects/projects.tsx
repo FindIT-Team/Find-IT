@@ -1,34 +1,35 @@
-import { Heading, StackDivider, VStack } from '@chakra-ui/react';
+import { Container } from '~/routes/_nav/dashboard/container';
+import { Await, useLoaderData } from '@remix-run/react';
+import { loader } from '~/routes/_nav/dashboard/route';
+import { Suspense, useState } from 'react';
+import { Heading } from '@chakra-ui/react';
 import { Project } from '~/routes/_nav/dashboard/projects/project';
+import { ProjectProvider } from '~/routes/_nav/dashboard/projects/project.context';
 
 export function Projects() {
+  const { projects: initPack } = useLoaderData<typeof loader>();
+  const [projects, setProjects] = useState([initPack]);
+
   return (
-    <VStack
-      border={'1px solid'}
-      borderColor={'gray.300'}
-      borderRadius={'lg'}
-      padding={4}
-      alignItems={'flex-start'}
-      width={500}
-      height={400}
+    <Container
+      areaName={'projects'}
+      label={'Проекты'}
+      setFunction={setProjects}
+      array={projects}
     >
-      <Heading fontSize={'md'}>Мои проекты</Heading>
-      <VStack
-        justifyContent={'space-between'}
-        border={'1px solid'}
-        borderColor={'gray.300'}
-        borderRadius={'lg'}
-        width={'full'}
-        height={'full'}
-        divider={<StackDivider />}
-        overflowY={'scroll'}
-      >
-        {Array(10)
-          .fill(null)
-          .map((v, i) => (
-            <Project key={i} />
-          ))}
-      </VStack>
-    </VStack>
+      {projects.map((pack, index) => (
+        <Suspense key={index} fallback={<Heading>Skeleton need</Heading>}>
+          <Await resolve={pack}>
+            {(pack) =>
+              pack.map((project) => (
+                <ProjectProvider key={project.id} value={project}>
+                  <Project />
+                </ProjectProvider>
+              ))
+            }
+          </Await>
+        </Suspense>
+      ))}
+    </Container>
   );
 }

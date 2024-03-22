@@ -4,5 +4,8 @@ dist
 .next
 node_modules
 volumes
+migrations
+
+/applications/*/package-lock.json
 
 .env.production

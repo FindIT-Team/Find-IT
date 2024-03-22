@@ -23,7 +23,7 @@ import { Schema, schema } from '~/routes/auth/login/schema';
 import { getSession } from '~/session.server';
 import { Form, redirect } from '@remix-run/react';
 import { UniqField } from '~/routes/auth/login/fields/uniq-field';
-import { fetch } from '~/fetch.util';
+import { fetch } from '~/utils/.server/fetch-session.util';
 import { ExternalAuth } from '~/routes/auth/login/external-auth';
 import { Buttons } from './buttons';
 
@@ -32,9 +32,12 @@ export const meta: MetaFunction = () => [{ title: 'Войти | FindIT' }];
 export async function loader({ request }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
 
-  if (session?.get('sid')) return redirect('/dashboard');
+  if (!session?.get('sid')) return null;
 
-  return null;
+  const { headers, response } = await fetch('/auth', session);
+  const { isAuthenticated } = await response.json();
+
+  return isAuthenticated ? redirect('/dashboard', { headers }) : null;
 }
 
 export async function action({ request }: ActionFunctionArgs) {

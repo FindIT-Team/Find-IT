@@ -1,117 +1,99 @@
 import { Injectable } from '@nestjs/common';
-import { ProjectsService } from '../projects/projects.service';
-import { NoticesService } from '../notices/notices.service';
+import { DatabaseService } from '../database/database.service';
+import {
+  Notice,
+  NoticeType,
+  Prisma,
+  Project,
+  UsersToProjects,
+  UsersToProjectsStatus,
+} from '@prisma/client';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class DashboardService {
-  constructor(
-    private readonly projectsService: ProjectsService,
-    private readonly noticesService: NoticesService,
-  ) {}
-  //
-  // async getNotices(
-  //   id: string,
-  //   query: Record<string, any>,
-  // ): Promise<[NoticeEntity[], number]> {
-  //   try {
-  //     query = query as Record<string, number>;
-  //   } catch (err) {
-  //     query.take = 10;
-  //     query.skip = 0;
-  //     console.log(err);
-  //   }
-  //
-  //   return this.noticesService.find({
-  //     take: query.take,
-  //     skip: query.skip,
-  //     where: { profile: { id } },
-  //     order: { createdAt: 'DESC' },
-  //   });
-  // }
-  //
-  // async removeNotice(userId: string, noticeId: string): Promise<string> {
-  //   const notice: NoticeEntity = await this.noticesService.findOne({
-  //     where: { id: noticeId, profile: { id: userId } },
-  //     select: ['id', 'removedAt'],
-  //     withDeleted: true,
-  //   });
-  //
-  //   if (!notice) throw new NotFoundException();
-  //
-  //   return await this.noticesService.remove(notice);
-  // }
-  //
-  // async getProjects(
-  //   id: string,
-  //   query: Record<string, any>,
-  // ): Promise<ProjectEntity[]> {
-  //   try {
-  //     query = query as Record<string, number>;
-  //   } catch (err) {
-  //     query.take = 10;
-  //     query.skip = 0;
-  //     console.log(err);
-  //   }
-  //
-  //   return await this.projectsService.find({
-  //     take: query.take,
-  //     skip: query.skip,
-  //     where: [
-  //       {
-  //         projectToUsers: [
-  //           { profile: { id }, isOwner: true },
-  //           { profile: { id }, status: 'userJoined' },
-  //         ],
-  //       },
-  //     ],
-  //     select: [
-  //       'id',
-  //       'title',
-  //       'budget',
-  //       'createdAt',
-  //       'updatedAt',
-  //       'projectToUsers',
-  //     ],
-  //     relations: ['projectToUsers', 'projectToUsers.profile'],
-  //     order: { updatedAt: 'DESC' },
-  //   });
-  // }
-  //
-  // async getResponsesOffers(
-  //   id: string,
-  //   query: Record<string, any>,
-  // ): Promise<ProjectEntity[]> {
-  //   try {
-  //     query = query as Record<string, number>;
-  //   } catch (err) {
-  //     query.take = 10;
-  //     query.skip = 0;
-  //     console.log(err);
-  //   }
-  //
-  //   return await this.projectsService.find({
-  //     take: query.take,
-  //     skip: query.skip,
-  //     where: {
-  //       projectToUsers: [
-  //         { profile: { id }, status: 'userRequested' },
-  //         { profile: { id }, status: 'userInvited' },
-  //       ],
-  //     },
-  //     select: [
-  //       'id',
-  //       'title',
-  //       'budget',
-  //       'createdAt',
-  //       'updatedAt',
-  //       'projectToUsers',
-  //     ],
-  //     relations: ['projectToUsers', 'projectToUsers.profile'],
-  //     order: { updatedAt: 'DESC' },
-  //   });
-  // }
-  //
-  // async getUser(profile: UserEntity): Promise<UserEntity> {
-  //   return profile;
-  // }
+  constructor(private readonly databaseService: DatabaseService) {}
+
+  async getNotices(userId: string, offset?: string): Promise<Notice[]> {
+    return await this.databaseService.notice.findMany({
+      where: { userId },
+      orderBy: { createdAt: Prisma.SortOrder.desc },
+      cursor: offset ? { id: offset } : undefined,
+      skip: offset ? 1 : 0,
+      take: offset ? 10 : 20,
+    });
+  }
+
+  async getProjects(userId: string, offset?: string): Promise<Project[]> {
+    return await this.databaseService.project.findMany({
+      where: {
+        users: {
+          some: { userId, status: UsersToProjectsStatus.JOINED },
+        },
+      },
+      include: {
+        users: {
+          where: { isOwner: true },
+          select: { user: { select: { username: true } } },
+        },
+        rating: {
+          select: { mark: true },
+        },
+        _count: {
+          select: { users: true },
+        },
+      },
+      orderBy: {
+        updatedAt: Prisma.SortOrder.desc,
+      },
+      cursor: offset ? { id: offset } : undefined,
+      skip: offset ? 1 : 0,
+      take: 10,
+    });
+  }
+
+  async getResponsesOffers(
+    userId: string,
+    offset?: string,
+  ): Promise<UsersToProjects[]> {
+    return await this.databaseService.usersToProjects.findMany({
+      where: {
+        userId,
+        status: {
+          notIn: [UsersToProjectsStatus.JOINED, UsersToProjectsStatus.DECLINED],
+        },
+      },
+      orderBy: {},
+      cursor: offset ? { id: offset } : undefined,
+      skip: offset ? 1 : 0,
+      take: 10,
+      include: {
+        project: {
+          include: {
+            users: {
+              where: { isOwner: true },
+              select: { user: { select: { username: true } } },
+            },
+            rating: {
+              select: { mark: true },
+            },
+            _count: {
+              select: { users: true },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async create(userId: string): Promise<void> {
+    for (let i = 0; i < 10; i++)
+      await this.databaseService.notice.create({
+        data: {
+          message: faker.lorem.sentence(),
+          type: NoticeType.SECURITY,
+          userId,
+        },
+      });
+  }
 }
