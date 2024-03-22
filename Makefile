@@ -1,7 +1,5 @@
 start-dev:
-	@cp package-lock.json applications/backend/package-lock.json
 	@docker compose -f docker-compose.dev.yml watch
-	@rm applications/backend/package-lock.json
 
 start:
 	@docker compose -f docker-compose.prod.yml up -d --build
