@@ -1,5 +1,5 @@
 import { Outlet, redirect } from '@remix-run/react';
-import { Center, HStack } from '@chakra-ui/react';
+import { Button, Center, HStack, Input, Text, VStack } from '@chakra-ui/react';
 import { NavLinks } from '~/routes/_nav/settings/nav-links';
 import { LoaderFunctionArgs } from '@remix-run/node';
 
@@ -22,6 +22,25 @@ export default function Layout() {
       >
         <NavLinks />
         <Outlet />
+        <VStack paddingTop={3} alignItems={'flex-start'} height={'full'}>
+          <HStack justifyContent={'flex-start'}>
+            <Text>Имя:</Text>
+            <Input defaultValue={'Nikola'} htmlSize={8} width="auto" />
+          </HStack>
+          <HStack justifyContent={'flex-start'}>
+            <Text>Фамилия:</Text>
+            <Input defaultValue={'Kreslo'} htmlSize={8} width="auto" />
+          </HStack>
+          <Button
+            backgroundColor={'#451ceb'}
+            color={'white'}
+            size={'xs'}
+            justifyContent={'flex-end'}
+            borderRadius={'md'}
+          >
+            <Text>Сохранить</Text>
+          </Button>
+        </VStack>
       </HStack>
     </Center>
   );
