@@ -3,8 +3,8 @@ import { Await, useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/_nav/dashboard/route';
 import { Suspense, useState } from 'react';
 import { Notice } from '~/routes/_nav/dashboard/notices/notice';
-import { NoticeType } from '~/types/notice.type';
 import { Heading } from '@chakra-ui/react';
+import { NoticeProvider } from '~/routes/_nav/dashboard/notices/notice.context';
 
 export function Notices() {
   const { notices: initPack } = useLoaderData<typeof loader>();
@@ -24,8 +24,10 @@ export function Notices() {
         >
           <Await resolve={pack}>
             {(pack) =>
-              pack.map((notice: NoticeType, index: number) => (
-                <Notice key={notice.id} notice={notice} />
+              pack.map((notice) => (
+                <NoticeProvider key={notice.id} value={notice}>
+                  <Notice />
+                </NoticeProvider>
               ))
             }
           </Await>

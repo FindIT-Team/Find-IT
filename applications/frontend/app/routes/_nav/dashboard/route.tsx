@@ -1,16 +1,15 @@
-import { Grid } from '@chakra-ui/react';
-import {
-  LoaderFunctionArgs,
-  type MetaFunction,
-  redirect,
-} from '@remix-run/node';
+import { defer, LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
 import { getSession } from '~/session.server';
-import { fetch as fetchServer } from '~/utils/.server/fetch-session.util';
-import { defer } from '@remix-run/react';
-import { Notices } from './notices/notices';
+import { redirect } from '@remix-run/react';
+import { fetch } from '~/utils/.server/fetch-session.util';
+import { Grid } from '@chakra-ui/react';
+import { Notices } from '~/routes/_nav/dashboard/notices/notices';
 import { Projects } from './projects/projects';
-import { ResponsesOffers } from './responses-offers/responses-offers';
-import { Subscription } from './subscription/subscription';
+import { ResponsesOffers } from '~/routes/_nav/dashboard/responses-offers/responses-offers';
+import { Subscription } from '~/routes/_nav/dashboard/subscription/subscription';
+import { ProjectDto } from '~/routes/_nav/dashboard/projects/project.dto';
+import { NoticeDto } from '~/routes/_nav/dashboard/notices/notice.dto';
+import { ResponseOfferDto } from '~/routes/_nav/dashboard/responses-offers/response-offer.dto';
 
 export const meta: MetaFunction = () => [
   { title: 'Панель управления | FindIT' },
@@ -22,26 +21,39 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   if (!sid) return redirect('/auth/login');
 
-  const projects = fetchServer('/dashboard/projects', session).then(
-    ({ response }) => response.json(),
+  const { headers, isAuthenticated } = await fetch('/auth', session).then(
+    async ({ headers, response }) => ({
+      headers,
+      isAuthenticated: (await response.json()).isAuthenticated,
+    }),
   );
-  const notices = fetchServer('/dashboard/notices', session).then(
-    ({ response }) => response.json(),
-  );
-  const responsesOffers = fetchServer(
+
+  if (!isAuthenticated) return redirect('/auth/login');
+
+  const projects: Promise<ProjectDto[]> = fetch(
+    '/dashboard/projects',
+    session,
+  ).then(({ response }) => response.json());
+
+  const responsesOffers: Promise<ResponseOfferDto[]> = fetch(
     '/dashboard/responses-offers',
+    session,
+  ).then(({ response }) => response.json());
+
+  const notices: Promise<NoticeDto[]> = fetch(
+    '/dashboard/notices',
     session,
   ).then(({ response }) => response.json());
 
   return defer(
     {
       projects,
-      notices,
       responsesOffers,
+      notices,
     },
     {
       headers: {
-        'Set-Cookie': `sid=${encodeURIComponent(sid)}; Max-Age=${60}; Domain=${process.env.DOMAIN}; SameSite=Lax; Path=/; HttpOnly`,
+        'Set-Cookie': `sid=${encodeURIComponent(sid)}; Max-Age=${60}; Domain=${process.env.DOMAIN}; SameSite=Lax; Path=/; HttpOnly;`,
       },
     },
   );

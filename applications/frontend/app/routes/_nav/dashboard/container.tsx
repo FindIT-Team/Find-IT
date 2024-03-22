@@ -32,9 +32,9 @@ export function Container({
         borderRadius={'md'}
         boxSize={'full'}
         background={'gray.50'}
-        gap={0}
         overflowY={'scroll'}
         ref={ref}
+        spacing={0}
       >
         {children}
       </VStack>

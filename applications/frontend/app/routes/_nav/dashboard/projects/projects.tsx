@@ -3,6 +3,8 @@ import { Await, useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/_nav/dashboard/route';
 import { Suspense, useState } from 'react';
 import { Heading } from '@chakra-ui/react';
+import { Project } from '~/routes/_nav/dashboard/projects/project';
+import { ProjectProvider } from '~/routes/_nav/dashboard/projects/project.context';
 
 export function Projects() {
   const { projects: initPack } = useLoaderData<typeof loader>();
@@ -19,8 +21,10 @@ export function Projects() {
         <Suspense key={index} fallback={<Heading>Skeleton need</Heading>}>
           <Await resolve={pack}>
             {(pack) =>
-              pack.map((project: ProjectType, index: number) => (
-                <Project key={project.id} project={project} />
+              pack.map((project) => (
+                <ProjectProvider key={project.id} value={project}>
+                  <Project />
+                </ProjectProvider>
               ))
             }
           </Await>

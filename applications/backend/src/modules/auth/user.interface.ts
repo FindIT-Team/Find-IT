@@ -6,6 +6,6 @@ export interface ISerializedUser {
 
 export interface IDeserializedUser {
   id: string;
-  subscription: Subscription | null;
+  subscriptions: Subscription[] | null;
   role: $Enums.UserRole;
 }

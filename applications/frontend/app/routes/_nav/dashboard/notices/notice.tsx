@@ -1,16 +1,18 @@
-import { NoticeType } from '~/types/notice.type';
 import { Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { CloseButton } from '~/routes/_nav/dashboard/close-button';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { NoticeContext } from '~/routes/_nav/dashboard/notices/notice.context';
 
-export function Notice({ notice }: { notice: NoticeType }) {
-  const [hydrated, setHydrated] = useState(false);
-  useEffect(() => {
-    setHydrated(true);
-  }, []);
-  if (!hydrated) {
-    return null;
-  }
+export function Notice() {
+  const { message, type, createdAt } = useContext(NoticeContext);
+  //
+  // const [hydrated, setHydrated] = useState(false);
+  // useEffect(() => {
+  //   setHydrated(true);
+  // }, []);
+  // if (!hydrated) {
+  //   return null;
+  // }
 
   return (
     <HStack
@@ -31,11 +33,11 @@ export function Notice({ notice }: { notice: NoticeType }) {
         flexGrow={1}
       >
         <Heading as={'h1'} fontSize={'sm'}>
-          {notice.message}
+          {message}
         </Heading>
         <HStack>
           <Heading as={'h6'} fontSize={'xs'} fontWeight={550}>
-            {notice.type}
+            {type}
           </Heading>
         </HStack>
       </VStack>
@@ -47,11 +49,8 @@ export function Notice({ notice }: { notice: NoticeType }) {
         padding={0}
       >
         <CloseButton />
-        {notice.createdAt && (
-          <Text fontSize={'xs'}>
-            {new Date(notice.createdAt).toLocaleTimeString()}
-          </Text>
-        )}
+
+        <Text fontSize={'xs'}>{new Date(createdAt).toLocaleTimeString()}</Text>
       </VStack>
     </HStack>
   );

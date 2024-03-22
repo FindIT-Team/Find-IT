@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { fetch } from '~/utils/fetch-sid.util';
 
 export function useDashboardScroll({
@@ -10,7 +10,7 @@ export function useDashboardScroll({
   areaName: string;
   ref: React.RefObject<HTMLDivElement>;
   array: Promise<{ id: string }[]>[];
-  setFunction: React.Dispatch<React.SetStateAction<any>>;
+  setFunction: React.Dispatch<React.SetStateAction<Promise<unknown>[]>>;
 }) {
   useEffect(() => {
     const check = async () => {
@@ -27,7 +27,7 @@ export function useDashboardScroll({
       const awaitedArray = await array[array.length - 1];
       const offset = awaitedArray[awaitedArray.length - 1]?.id;
       if (offset)
-        setFunction((prevState: any[]) => [
+        setFunction((prevState: Promise<unknown>[]) => [
           ...prevState,
           fetch(`/dashboard/${areaName}?offset=${offset}`),
         ]);
@@ -46,7 +46,7 @@ export function useDashboardScroll({
           listElement.scrollHeight * 0.2 >=
           listElement.scrollHeight
       )
-        update();
+        update().then();
     };
 
     check();

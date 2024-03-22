@@ -3,6 +3,8 @@ import { Await, useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/_nav/dashboard/route';
 import { Suspense, useState } from 'react';
 import { Heading } from '@chakra-ui/react';
+import { ResponseOffer } from '~/routes/_nav/dashboard/responses-offers/response-offer';
+import { ResponseOfferProvider } from '~/routes/_nav/dashboard/responses-offers/response-offer.context';
 
 export function ResponsesOffers() {
   const { responsesOffers: initPack } = useLoaderData<typeof loader>();
@@ -19,11 +21,13 @@ export function ResponsesOffers() {
         <Suspense key={index} fallback={<Heading>Skeleton need</Heading>}>
           <Await resolve={pack}>
             {(pack) =>
-              pack.map((responseOffer: ResponseOfferType, index: number) => (
-                <ResponseOffer
+              pack.map((responseOffer) => (
+                <ResponseOfferProvider
                   key={responseOffer.id}
-                  responseOffer={responseOffer}
-                />
+                  value={responseOffer}
+                >
+                  <ResponseOffer />
+                </ResponseOfferProvider>
               ))
             }
           </Await>

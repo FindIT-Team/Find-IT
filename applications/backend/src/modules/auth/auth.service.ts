@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async isAuthenticated(req: Request): Promise<UserAuthenticatedDto> {
-    return { isAuthenticated: req.user && req.isAuthenticated() };
+    return { isAuthenticated: !!req.user && req.isAuthenticated() };
   }
 
   async validate({
@@ -28,7 +28,7 @@ export class AuthService {
       },
       select: {
         id: true,
-        subscription: true,
+        subscriptions: true,
         password: true,
         role: true,
         // authLogs: true,
@@ -68,7 +68,7 @@ export class AuthService {
         where: { OR: [{ email: profile.emails[0].value }, { oAuth: uniq }] },
         select: {
           id: true,
-          subscription: true,
+          subscriptions: true,
           oAuth: true,
           role: true,
           // authLogs: true,

@@ -23,7 +23,7 @@ export class AuthSerializer extends PassportSerializer {
     const user: IDeserializedUser | null =
       await this.databaseService.user.findUnique({
         where: { id },
-        select: { id: true, subscription: true, role: true },
+        select: { id: true, subscriptions: true, role: true },
       });
     done(null, user);
   }

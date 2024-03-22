@@ -25,6 +25,7 @@
     "@nestjs/swagger": "latest",
     "@nestjs/websockets": "latest",
     "@prisma/client": "latest",
+    "@types/slug": "^5.0.8",
     "bcrypt": "latest",
     "class-transformer": "latest",
     "class-validator": "latest",
@@ -38,7 +39,8 @@
     "pg": "latest",
     "redis": "latest",
     "reflect-metadata": "latest",
-    "rxjs": "latest"
+    "rxjs": "latest",
+    "slug": "^9.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "latest",

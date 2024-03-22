@@ -1,14 +1,10 @@
-// import { Controller, Get, Param, Post, Query } from '@nestjs/common';
-// import { User } from '../../decorators/http/user.decorator';
-// import { NoticeEntity } from '../../entities/notice.entity';
-// import { ProjectEntity } from '../../entities/project.entity';
-// import { UserEntity } from '../../entities/user.entity';
-import { Notice, Project } from '@prisma/client';
-import { DashboardService } from './dashboard.service';
 import { Controller, Get, Query } from '@nestjs/common';
 import { User } from 'src/decorators/http/user.decorator';
+import { Notice, Project, UsersToProjects } from '@prisma/client';
+import { DashboardService } from './dashboard.service';
+import { ApiConfig } from '../../configs/api.config';
 
-@Controller('dashboard')
+@Controller(ApiConfig({ path: 'dashboard' }))
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
@@ -32,7 +28,7 @@ export class DashboardController {
   async getResponsesOffers(
     @User() user: Express.User,
     @Query('offset') offset?: string,
-  ): Promise<Project[]> {
+  ): Promise<UsersToProjects[]> {
     return await this.dashboardService.getResponsesOffers(user.id, offset);
   }
 }
