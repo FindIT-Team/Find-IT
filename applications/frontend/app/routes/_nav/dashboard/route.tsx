@@ -19,17 +19,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
   const sid = session?.get('sid');
 
-  if (!sid) return redirect('/auth/login');
-
-  const { headers, isAuthenticated } = await fetch('/auth', session).then(
-    async ({ headers, response }) => ({
-      headers,
-      isAuthenticated: (await response.json()).isAuthenticated,
-    }),
-  );
-
-  if (!isAuthenticated) return redirect('/auth/login');
-
   const projects: Promise<ProjectDto[]> = fetch(
     '/dashboard/projects',
     session,
