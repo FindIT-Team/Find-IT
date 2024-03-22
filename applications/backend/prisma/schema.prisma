@@ -1,0 +1,243 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+
+enum SubscriptionType {
+  PERSONAL
+}
+
+enum NoticeType {
+  SECURITY
+}
+
+enum UsersToProjectsStatus {
+  JOINED
+  INVITED
+  REQUESTED
+  DECLINED
+}
+
+enum UserRole {
+  DEFAULT
+  ADMIN
+}
+
+enum ProfileGender {
+  UNKNOWN
+  MALE
+  FEMALE
+}
+
+// Models
+
+model User {
+  id String @unique @default(uuid())
+
+  username String @unique
+  email    String @unique
+
+  password String
+
+  role UserRole @default(DEFAULT)
+
+  profile       Profile?
+  oAuth         OAuth?
+  subscriptions Subscription[]
+  authHistory   AuthHistory[]
+
+  notices  Notice[]
+  projects UsersToProjects[]
+
+  updatedAt DateTime? @updatedAt
+  createdAt DateTime  @default(now())
+
+  @@id([id, username, email])
+  @@index([id, username, email])
+}
+
+model OAuth {
+  apple  String? @unique
+  google String? @unique
+  yandex String? @unique
+  github String? @unique
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @id
+
+  @@index([apple, google, yandex, github])
+}
+
+model Subscription {
+  type      SubscriptionType
+  expiresIn DateTime
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @id
+
+  @@index([userId, expiresIn])
+}
+
+model AuthHistory {
+  id String @id @default(uuid())
+
+  ip        String?
+  strategy  String
+  success   Boolean
+  createdAt DateTime
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([id, userId])
+}
+
+model Profile {
+  firstName String
+  lastName  String?
+
+  gender ProfileGender @default(UNKNOWN)
+
+  contacts Contacts?
+  skills   Skills?
+
+  extraContacts ExtraContact[]
+  extraSkills   ExtraSkill[]
+
+  updatedAt DateTime? @updatedAt
+
+  ratingToProjects RatingToProjects[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @id
+
+  @@index([userId])
+}
+
+model Contacts {
+  telegram String?
+  email    String?
+  phone    String?
+
+  profile   Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
+  profileId String  @id
+
+  updatedAt DateTime? @updatedAt
+
+  @@index([profileId])
+}
+
+model ExtraContact {
+  name  String
+  value String
+  link  String
+
+  profile   Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
+  profileId String  @id
+
+  @@index([profileId])
+}
+
+model Skills {
+  frontend          Int @default(0)
+  backend           Int @default(0)
+  machineLearning   Int @default(0)
+  devOps            Int @default(0)
+  projectManagement Int @default(0)
+  qa                Int @default(0)
+
+  profile   Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
+  profileId String  @id
+
+  updatedAt DateTime? @updatedAt
+
+  @@index([profileId])
+}
+
+model ExtraSkill {
+  name  String
+  value String
+
+  profile   Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
+  profileId String  @id
+
+  updatedAt DateTime? @updatedAt
+
+  @@index([profileId])
+}
+
+model Notice {
+  id String @id @default(uuid())
+
+  type    NoticeType
+  message String
+
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([id, userId])
+}
+
+model UsersToProjects {
+  id String @unique @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projectId String
+
+  status      UsersToProjectsStatus
+  isOwner     Boolean               @default(false)
+  permissions String[]              @default([])
+
+  updatedAt DateTime? @updatedAt
+
+  @@id([id, userId, projectId])
+  @@index([id, userId, projectId, isOwner, permissions])
+}
+
+model RatingToProjects {
+  profile   Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
+  profileId String
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+
+  mark Float
+
+  @@id([profileId, projectId])
+  @@index([profileId, projectId])
+}
+
+model Project {
+  id String @id @default(uuid())
+
+  title       String
+  description String
+  slug        String             @unique
+  budget      Json?
+  rating      RatingToProjects[]
+  users       UsersToProjects[]
+
+  updatedAt DateTime? @updatedAt
+
+  @@index([id, title, slug])
+}
+
+// Views

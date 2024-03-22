@@ -12,8 +12,16 @@ import {
 import { useContext } from 'react';
 import { Context } from '~/routes/auth/registration/context';
 import { useRemixFormContext } from 'remix-hook-form';
-import { Schema } from '~/routes/auth/registration/schema';
+import { schema, Schema } from '~/routes/auth/registration/schema';
 import { RiArrowRightLine } from 'react-icons/ri';
+
+type fieldsNames =
+  | 'user.username'
+  | 'user.email'
+  | 'user.password'
+  | 'profile.name';
+
+type DownerUserFields = keyof typeof schema.shape.user.shape;
 
 export function Field({
   position,
@@ -21,15 +29,18 @@ export function Field({
   type,
 }: {
   position: number;
-  name: keyof Schema;
+  name: fieldsNames;
   type?: string;
 }) {
   const { next, previous } = useContext(Context);
   const { register, formState } = useRemixFormContext<Schema>();
-  const error: string = formState.errors[name]?.message as string;
-  const isTouched: boolean | undefined = formState.touchedFields[name] as
-    | boolean
-    | undefined;
+  const [g, n] = name.split('.') as ['user', DownerUserFields];
+  const error: string = formState.errors[g]?.[n]?.message as string;
+  const isTouched: boolean | undefined = formState.dirtyFields[g]?.[n];
+
+  // TODO: Wait for bugfix on React-Hook-Form dependency to use async validations
+  // const isValidating: boolean | undefined = formState.validatingFields[g]?.[n];
+  // console.log(isValidating, formState.isValidating);
 
   return (
     <VStack width={'full'}>
@@ -48,16 +59,21 @@ export function Field({
             />
           </InputRightElement>
         </InputGroup>
-        {error ? (
-          <FormErrorMessage>{error}</FormErrorMessage>
-        ) : (
-          <FormHelperText
-            fontFamily={['IBM Plex Mono, monospace']}
-            color={'transparent'}
-          >
-            Null
-          </FormHelperText>
-        )}
+        {
+          //   isValidating === true ? (
+          //   <FormHelperText>Проверка...</FormHelperText>
+          // ) :
+          error ? (
+            <FormErrorMessage>{error}</FormErrorMessage>
+          ) : (
+            <FormHelperText
+              fontFamily={['IBM Plex Mono, monospace']}
+              color={'transparent'}
+            >
+              Null
+            </FormHelperText>
+          )
+        }
       </FormControl>
       <Button
         width={'full'}

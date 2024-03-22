@@ -1,33 +1,43 @@
 import * as z from 'zod';
 
 export const schema = z.object({
-  username: z
-    .string()
-    .min(3, 'Слишком короткое имя')
-    .max(15, 'Слишком длинное имя')
-    .transform((field) => field.trim())
-    .refine((field) => !/\s/.test(field), 'Пробелы недопускаются')
-    .refine(
-      (field) => !/[^a-zA-Z0-9_\-\s]/.test(field),
-      'Специальные символы недопускаются',
-    ),
+  user: z.object({
+    username: z
+      .string()
+      .trim()
+      .min(3, 'Слишком короткое имя')
+      .max(15, 'Слишком длинное имя'),
+    // TODO: Wait for bugfix on React-Hook-Form dependency to use async validations
+    // .refine(
+    //   (field) =>
+    //     fetch(
+    //       new URL(
+    //         `/auth/available-username/${field}`,
+    //         'http://api.findit.test',
+    //       ),
+    //     )
+    //       .then((res) => res.json())
+    //       .then(({ isAvailable }) => !isAvailable),
+    //   'Занято',
+    // ),
 
-  email: z.string().email('Это не похоже на адрес электронной почты'),
+    email: z.string().trim().email('Это не похоже на адрес электронной почты'),
 
-  password: z
-    .string()
-    .min(8, 'Слишком короткий пароль')
-    .max(32, 'Слишком длинный пароль')
-    .refine(
-      (field) => /[a-zA-Z0-9_\-\s]/.test(field),
-      'Используй только латинские буквы',
-    )
-    .refine(
-      (field) => /[!@#$%^&*()\-+=]/.test(field),
-      'Используй хотя бы один специальный символ',
-    ),
+    password: z
+      .string()
+      .min(8, 'Слишком короткий пароль')
+      .max(32, 'Слишком длинный пароль')
+      .refine(
+        (field) => /[a-zA-Z0-9_\-\s]/.test(field),
+        'Используй только латинские буквы',
+      )
+      .refine(
+        (field) => /[!@#$%^&*()\-+=]/.test(field),
+        'Используй хотя бы один специальный символ',
+      ),
+  }),
 
-  linkedAccounts: z
+  oAuth: z
     .object({
       apple: z.string().optional(),
       google: z.string().optional(),
@@ -36,24 +46,25 @@ export const schema = z.object({
     })
     .optional(),
 
-  name: z
-    .string()
-    .refine(
-      (field) => !/[^a-zA-ZА-Яа-я0-9_\-\s]/.test(field),
-      'Специальные символы не допускаются',
-    )
-    .refine((field) => field.split(' ').length === 2, 'Укажи имя и фамилию'),
+  profile: z.object({
+    name: z
+      .string()
+      .refine(
+        (field) => !/[^a-zA-ZА-Яа-я0-9_\-\s]/.test(field),
+        'Специальные символы не допускаются',
+      ),
 
-  skills: z.object({
-    ProjectManagement: z.coerce.number(),
-    Backend: z.coerce.number(),
-    Frontend: z.coerce.number(),
-    MachineLearning: z.coerce.number(),
-    DevOps: z.coerce.number(),
-    QA: z.coerce.number(),
+    gender: z.enum(['UNKNOWN', 'MALE', 'FEMALE']),
   }),
 
-  gender: z.enum(['Male', 'Female']),
+  skills: z.object({
+    projectManagement: z.coerce.number(),
+    backend: z.coerce.number(),
+    frontend: z.coerce.number(),
+    machineLearning: z.coerce.number(),
+    devOps: z.coerce.number(),
+    qa: z.coerce.number(),
+  }),
 
   consent: z
     .boolean()

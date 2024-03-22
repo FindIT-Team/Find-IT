@@ -5,9 +5,17 @@ import { NavLinks } from '~/routes/_nav/nav-links';
 export default function Layout() {
   return (
     <HStack height={'100vh'} userSelect={'none'}>
-      <VStack as={'nav'} height={'full'} justifyContent={'space-between'} p={3}>
+      <VStack
+        as={'nav'}
+        height={'full'}
+        justifyContent={'space-between'}
+        padding={3}
+        borderRight={'1px solid'}
+        borderColor={'gray.200'}
+        shadow={'md'}
+      >
         <NavLinks />
-        <chakra.div boxSize={2}></chakra.div>
+        <chakra.div></chakra.div>
       </VStack>
       <chakra.main flexGrow={1} height={'full'}>
         <Outlet />

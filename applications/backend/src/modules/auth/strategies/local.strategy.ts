@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';
-import { UserEntity } from '../../../entities/user.entity';
+import { IDeserializedUser } from '../user.interface';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
@@ -10,7 +10,10 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     super({ usernameField: 'uniq' });
   }
 
-  async validate(uniq: string, password: string): Promise<UserEntity> {
+  async validate(
+    uniq: string,
+    password: string,
+  ): Promise<IDeserializedUser | null> {
     return await this.authService.validate({ uniq, password });
   }
 }

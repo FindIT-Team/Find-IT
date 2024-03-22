@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Socket } from '../../types/socket.type';
+import { Socket } from '../../utils/socket.type';
 import { Session as S } from 'express-session';
 
 export const Session = createParamDecorator(

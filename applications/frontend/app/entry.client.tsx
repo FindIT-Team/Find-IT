@@ -12,7 +12,7 @@ import createEmotionCache, {
 } from '~/emotion/create-emotion-cache';
 import { ClientStyleContext } from './emotion/context';
 import { CacheProvider } from '@emotion/react';
-import { clearBrowserExtensionInjectionsBeforeHydration } from '~/clear-browser-extension-injection.util';
+import { clearBrowserExtensionInjectionsBeforeHydration } from '~/utils/clear-browser-extension-injection.util';
 
 function ClientCacheProvider({ children }: { children: React.ReactNode }) {
   const [cache, setCache] = useState(defaultCache);

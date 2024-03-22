@@ -11,7 +11,7 @@ export function UsernameField() {
   return (
     <AnimateLayout position={position}>
       <Heading>Давай определимся с публичным именем</Heading>
-      <Field position={position} name={'username'} />
+      <Field position={position} name={'user.username'} />
     </AnimateLayout>
   );
 }

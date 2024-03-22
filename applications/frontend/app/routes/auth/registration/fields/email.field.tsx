@@ -11,7 +11,7 @@ export function EmailField() {
   return (
     <AnimateLayout position={position}>
       <Heading>Укажи свою почту, чтобы мы смогли связаться с тобой</Heading>
-      <Field position={position} name={'email'} type={'email'} />
+      <Field position={position} name={'user.email'} type={'email'} />
     </AnimateLayout>
   );
 }

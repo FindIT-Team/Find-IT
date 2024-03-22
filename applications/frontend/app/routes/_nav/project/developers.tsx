@@ -1,5 +1,5 @@
 import { Heading, VStack } from '@chakra-ui/react';
-import { Developer } from '~/routes/_nav/project/delovoper';
+import { Developer } from '~/routes/_nav/project/developer';
 
 export function Developers() {
   return (
