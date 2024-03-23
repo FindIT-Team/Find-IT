@@ -3,8 +3,12 @@ import { User } from 'src/decorators/http/user.decorator';
 import { Notice, Project, UsersToProjects } from '@prisma/client';
 import { DashboardService } from './dashboard.service';
 import { ApiConfig } from '../../configs/api.config';
+import { AuthenticatedRequest } from '../../decorators/authenticated-request.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller(ApiConfig({ path: 'dashboard' }))
+@AuthenticatedRequest()
+@ApiTags('Dashboard')
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 

@@ -29,11 +29,9 @@ import { AuthDto } from './dto/auth.dto';
 import { UsernameAvailableDto } from './dto/username-available.dto';
 import { ApiConfig } from '../../configs/api.config';
 import { Request } from 'express';
-import { AuthenticatedRequest } from '../../decorators/authenticated-request.decorator';
 import { UserAuthenticatedDto } from './dto/user-authenticated.dto';
 
 @Controller(ApiConfig({ path: 'auth' }))
-@AuthenticatedRequest(false)
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

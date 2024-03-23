@@ -17,16 +17,20 @@ export class AuthGuard implements CanActivate {
 
     if (!isAuthenticated) return true;
 
-    let userCheck: () => boolean;
+    let userAuthenticated: boolean;
 
-    if (context.getType() === 'http')
-      userCheck = (context.switchToHttp().getRequest() as Request)
-        .isAuthenticated;
-    else if (context.getType() === 'ws')
-      userCheck = (context.switchToWs().getClient() as Socket).request
-        .isAuthenticated;
+    const type = context.getType();
+
+    if (type === 'http')
+      userAuthenticated = (
+        context.switchToHttp().getRequest() as Request
+      ).isAuthenticated();
+    else if (type === 'ws')
+      userAuthenticated = (
+        context.switchToWs().getClient() as Socket
+      ).request.isAuthenticated();
     else return false;
 
-    return userCheck();
+    return userAuthenticated;
   }
 }
