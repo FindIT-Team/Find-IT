@@ -5,6 +5,7 @@ import {
   chakra,
   Divider,
   HStack,
+  Image,
   VStack,
 } from '@chakra-ui/react';
 import { PasswordField } from '~/routes/auth/login/fields/password-field';
@@ -71,6 +72,7 @@ export default function Page() {
         borderRadius={'lg'}
         spacing={0}
         alignItems={'stretch'}
+        overflow={'hidden'}
       >
         <VStack padding={12} spacing={6} flexShrink={0}>
           <ExternalAuth />
@@ -95,12 +97,11 @@ export default function Page() {
             </RemixFormProvider>
           </VStack>
         </VStack>
-        <Box
-          width={[0, 0, 0, '30vw']}
-          backgroundImage={'url(/login-side-image.jpg)'}
-          backgroundSize={'cover'}
-          backgroundPosition={'center center'}
-          borderRightRadius={'lg'}
+        <Image
+          objectFit={'cover'}
+          objectPosition={'center'}
+          maxWidth={[0, 0, 0, '30vw']}
+          src={'/login-side-image.jpg'}
         />
       </HStack>
     </Center>

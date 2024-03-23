@@ -1,7 +1,7 @@
 import { Heading, VStack } from '@chakra-ui/react';
 import { Area } from '~/routes/_nav/dashboard/area';
 import { useRef } from 'react';
-import { useDashboardScroll } from '~/components/hooks/useDashboardScroll';
+import { useScroll } from '~/components/hooks/useScroll';
 
 export function Container({
   children,
@@ -18,7 +18,7 @@ export function Container({
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  useDashboardScroll({ areaName, ref, array, setFunction });
+  useScroll({ url: `dashboard/${areaName}`, ref, array, setFunction });
 
   return (
     <Area

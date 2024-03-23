@@ -92,7 +92,7 @@ export default function Page() {
       `}
       gridTemplateRows={'repeat(23, 1fr)'}
       gridTemplateColumns={'repeat(11, 1fr)'}
-      gap={1}
+      gap={2}
       padding={3}
       paddingBottom={10}
     >

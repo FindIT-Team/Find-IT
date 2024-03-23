@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 import { User } from 'src/decorators/http/user.decorator';
 import { Notice, Project, UsersToProjects } from '@prisma/client';
 import { DashboardService } from './dashboard.service';
@@ -30,5 +30,10 @@ export class DashboardController {
     @Query('offset') offset?: string,
   ): Promise<UsersToProjects[]> {
     return await this.dashboardService.getResponsesOffers(user.id, offset);
+  }
+
+  @Post()
+  async create(@User() user: Express.User) {
+    await this.dashboardService.create(user.id);
   }
 }

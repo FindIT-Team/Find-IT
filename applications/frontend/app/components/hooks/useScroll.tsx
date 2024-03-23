@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { fetch } from '~/utils/fetch-sid.util';
 
-export function useDashboardScroll({
-  areaName,
+export function useScroll({
+  url,
   ref,
   array,
   setFunction,
 }: {
-  areaName: string;
+  url: string;
   ref: React.RefObject<HTMLDivElement>;
   array: Promise<{ id: string }[]>[];
   setFunction: React.Dispatch<React.SetStateAction<Promise<unknown>[]>>;
@@ -29,7 +29,7 @@ export function useDashboardScroll({
       if (offset)
         setFunction((prevState: Promise<unknown>[]) => [
           ...prevState,
-          fetch(`/dashboard/${areaName}?offset=${offset}`),
+          fetch(`${url}?offset=${offset}`),
         ]);
       else {
         ref.current?.removeEventListener('scroll', handleScroll);
