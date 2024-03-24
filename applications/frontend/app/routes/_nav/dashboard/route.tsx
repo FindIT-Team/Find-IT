@@ -1,6 +1,4 @@
 import { defer, LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
-import { getSession } from '~/session.server';
-import { redirect } from '@remix-run/react';
 import { fetch } from '~/utils/.server/fetch-session.util';
 import { Grid } from '@chakra-ui/react';
 import { Notices } from '~/routes/_nav/dashboard/notices/notices';
@@ -16,47 +14,28 @@ export const meta: MetaFunction = () => [
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const session = await getSession(request.headers.get('Cookie'));
-  const sid = session?.get('sid');
-
-  if (!sid) return redirect('/auth/login');
-
-  const { headers, isAuthenticated } = await fetch('/auth', session).then(
-    async ({ headers, response }) => ({
-      headers,
-      isAuthenticated: (await response.json()).isAuthenticated,
-    }),
-  );
-
-  if (!isAuthenticated) return redirect('/auth/login');
+  const cookie = request.headers.get('Cookie');
 
   const projects: Promise<ProjectDto[]> = fetch(
     '/dashboard/projects',
-    session,
+    cookie,
   ).then(({ response }) => response.json());
 
   const responsesOffers: Promise<ResponseOfferDto[]> = fetch(
     '/dashboard/responses-offers',
-    session,
+    cookie,
   ).then(({ response }) => response.json());
 
   const notices: Promise<NoticeDto[]> = fetch(
     '/dashboard/notices',
-    session,
+    cookie,
   ).then(({ response }) => response.json());
 
-  return defer(
-    {
-      projects,
-      responsesOffers,
-      notices,
-    },
-    {
-      headers: {
-        'Set-Cookie': `sid=${encodeURIComponent(sid)}; Max-Age=${60}; Domain=${process.env.DOMAIN}; SameSite=Lax; Path=/; HttpOnly;`,
-      },
-    },
-  );
+  return defer({
+    projects,
+    responsesOffers,
+    notices,
+  });
 }
 
 export default function Page() {

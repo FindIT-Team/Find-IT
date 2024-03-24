@@ -9,11 +9,9 @@ export default {
   routes(defineRoutes) {
     return defineRoutes((route) => {
       // Auth
-      route('/auth/registration', 'routes/auth/registration/route.tsx', {
-        index: true,
-      });
-      route('/auth/login', 'routes/auth/login/route.tsx', {
-        index: true,
+      route('/auth', 'routes/auth/layout.tsx', () => {
+        route('registration', 'routes/auth/registration/route.tsx');
+        route('login', 'routes/auth/login/route.tsx');
       });
 
       // Dashboard
