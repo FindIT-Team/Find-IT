@@ -58,7 +58,12 @@ export default function Page() {
         alignItems={'stretch'}
         overflow={'hidden'}
       >
-        <VStack padding={12} spacing={6} flexShrink={0}>
+        <VStack
+          padding={12}
+          spacing={6}
+          flexShrink={0}
+          justifyContent={'center'}
+        >
           <ExternalAuth />
           <Box width={'full'} position={'relative'}>
             <Divider />
