@@ -1,4 +1,4 @@
-import { fetch } from '~/utils/.server/fetch-session.util';
+import { fetch } from '~/.server/fetch';
 import { redirect } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/node';
 

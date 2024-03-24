@@ -1,5 +1,5 @@
 import { defer, LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
-import { fetch } from '~/utils/.server/fetch-session.util';
+import { fetch } from '~/.server/fetch';
 import { Grid } from '@chakra-ui/react';
 import { Notices } from '~/routes/_nav/dashboard/notices/notices';
 import { Projects } from './projects/projects';

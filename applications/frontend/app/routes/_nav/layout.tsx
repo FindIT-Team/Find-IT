@@ -2,7 +2,7 @@ import { chakra, HStack, VStack } from '@chakra-ui/react';
 import { Outlet, redirect } from '@remix-run/react';
 import { NavLinks } from '~/routes/_nav/nav-links';
 import { LoaderFunctionArgs } from '@remix-run/node';
-import { fetch } from '~/utils/.server/fetch-session.util';
+import { fetch } from '~/.server/fetch';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookie = request.headers.get('Cookie');
