@@ -1,8 +1,4 @@
-async function fetchSession(
-  url: string,
-  cookie: string | null,
-  init?: RequestInit,
-) {
+async function f(url: string, cookie: string | null, init?: RequestInit) {
   const response = await fetch(new URL(url, process.env.API_URL), {
     headers: {
       Cookie: cookie ?? '',
@@ -23,4 +19,4 @@ async function fetchSession(
   return { headers, response };
 }
 
-export { fetchSession as fetch };
+export { f as fetch };

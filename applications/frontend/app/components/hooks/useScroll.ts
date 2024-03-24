@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { fetch } from '~/utils/fetch-sid.util';
+import { fetch } from '~/.client/fetch';
 
 export function useScroll({
   url,

@@ -2,17 +2,12 @@ import { Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { CloseButton } from '~/routes/_nav/dashboard/close-button';
 import { useContext } from 'react';
 import { NoticeContext } from '~/routes/_nav/dashboard/notices/notice.context';
+import { useReRender } from '~/components/hooks/useReRender';
 
 export function Notice() {
   const { message, type, createdAt } = useContext(NoticeContext);
-  //
-  // const [hydrated, setHydrated] = useState(false);
-  // useEffect(() => {
-  //   setHydrated(true);
-  // }, []);
-  // if (!hydrated) {
-  //   return null;
-  // }
+
+  if (useReRender() === null) return null;
 
   return (
     <HStack

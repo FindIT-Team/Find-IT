@@ -1,21 +1,7 @@
 import {
-  Box,
-  Center,
-  ChakraProvider,
-  Code,
-  CSSReset,
-  Flex,
-  Heading,
-  Text,
-} from '@chakra-ui/react';
-import { withEmotionCache } from '@emotion/react';
-import { cssBundleHref } from '@remix-run/css-bundle';
-import type { LinksFunction } from '@remix-run/node';
-import {
   isRouteErrorResponse,
   json,
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -23,21 +9,20 @@ import {
   useLoaderData,
   useRouteError,
 } from '@remix-run/react';
-import React, { useContext, useEffect } from 'react';
-import { ClientStyleContext, ServerStyleContext } from '~/emotion/context';
-import { theme } from '~/theme';
+import { useEmotion } from './emotion/use-emotion.hook';
+import {
+  Box,
+  Center,
+  ChakraProvider,
+  Code,
+  Flex,
+  Heading,
+  Text,
+} from '@chakra-ui/react';
+import { withEmotionCache } from '@emotion/react';
 import { Footer } from '~/components/footer';
-
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
-
-  // { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  // { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-  // {
-  //   rel: 'stylesheet',
-  //   href: 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap',
-  // },
-];
+import React from 'react';
+import { theme } from './theme';
 
 export async function loader() {
   return json({
@@ -48,42 +33,19 @@ export async function loader() {
   });
 }
 
-const Document = withEmotionCache(
-  (
-    { children, title }: { children: React.ReactNode; title?: string },
-    emotionCache,
-  ) => {
-    const serverStyleData = useContext(ServerStyleContext);
-    const clientStyleData = useContext(ClientStyleContext);
-
-    // Only executed on client
-    useEffect(() => {
-      // re-link sheet container
-      emotionCache.sheet.container = document.head;
-      // re-inject tags
-      const tags = emotionCache.sheet.tags;
-      emotionCache.sheet.flush();
-      tags.forEach((tag) => {
-        (
-          emotionCache.sheet as unknown as {
-            _insertTag: (tag: HTMLStyleElement) => void;
-          }
-        )._insertTag(tag);
-      });
-      // reset cache to reapply global styles
-      clientStyleData?.reset();
-    }, []);
+export const Layout = withEmotionCache(
+  ({ children }: { children: React.ReactNode }, emotionCache) => {
+    const { serverStyleData } = useEmotion(emotionCache);
 
     const data = useLoaderData<typeof loader>();
 
     return (
-      <html lang="en">
+      <html lang="ru">
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <Meta />
           <Links />
-          <title>{title}</title>
           {serverStyleData?.map(({ key, ids, css }) => (
             <style
               key={key}
@@ -94,13 +56,11 @@ const Document = withEmotionCache(
         </head>
         <body>
           <ChakraProvider theme={theme}>
-            <CSSReset />
             {children}
             <Footer />
           </ChakraProvider>
           <ScrollRestoration />
           <Scripts />
-          <LiveReload />
           <script
             dangerouslySetInnerHTML={{
               __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
@@ -113,23 +73,15 @@ const Document = withEmotionCache(
 );
 
 export default function App() {
-  // throw new Error('💣💥 Booooom');
-
-  return (
-    <Document>
-      <Outlet />
-    </Document>
-  );
+  return <Outlet />;
 }
 
 export function ErrorBoundary() {
   const error = useRouteError();
 
   let errorView: React.ReactNode;
-  let title: string;
 
   if (isRouteErrorResponse(error)) {
-    title = `${error.status}: ${error.statusText} | Find IT`;
     errorView = (
       <>
         <Heading fontSize={'x-large'}>
@@ -149,7 +101,6 @@ export function ErrorBoundary() {
       </>
     );
   } else if (error instanceof Error) {
-    title = `${error.message} | Find IT`;
     errorView = (
       <>
         <Heading fontSize={'x-large'}>
@@ -170,7 +121,6 @@ export function ErrorBoundary() {
       </>
     );
   } else {
-    title = 'Unknown error | Find IT';
     errorView = (
       <>
         <Heading fontSize={'x-large'}>Something bad happened</Heading>
@@ -180,12 +130,10 @@ export function ErrorBoundary() {
   }
 
   return (
-    <Document title={title}>
-      <Center height={'100vh'}>
-        <Flex flexDirection={'column'} alignItems={'center'} gap={'2vh'}>
-          {errorView}
-        </Flex>
-      </Center>
-    </Document>
+    <Center height={'100vh'}>
+      <Flex flexDirection={'column'} alignItems={'center'} gap={'2vh'}>
+        {errorView}
+      </Flex>
+    </Center>
   );
 }

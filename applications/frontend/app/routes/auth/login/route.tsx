@@ -19,7 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Schema, schema } from '~/routes/auth/login/schema';
 import { Form, redirect } from '@remix-run/react';
 import { UniqField } from '~/routes/auth/login/fields/uniq-field';
-import { fetch } from '~/utils/.server/fetch-session.util';
+import { fetch } from '~/.server/fetch';
 import { ExternalAuth } from '~/routes/auth/login/external-auth';
 import { Buttons } from './buttons';
 

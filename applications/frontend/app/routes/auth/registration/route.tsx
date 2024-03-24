@@ -17,7 +17,7 @@ import { schema, Schema } from '~/routes/auth/registration/schema';
 import { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { Form, redirect } from '@remix-run/react';
 import { Box } from '@chakra-ui/react';
-import { fetch } from '~/utils/.server/fetch-session.util';
+import { fetch } from '~/.server/fetch';
 
 export const meta: MetaFunction = () => [{ title: 'Регистрация | FindIT' }];
 
