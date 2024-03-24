@@ -37,10 +37,7 @@ export function Field({
   const [g, n] = name.split('.') as ['user', DownerUserFields];
   const error: string = formState.errors[g]?.[n]?.message as string;
   const isTouched: boolean | undefined = formState.dirtyFields[g]?.[n];
-
-  // TODO: Wait for bugfix on React-Hook-Form dependency to use async validations
-  // const isValidating: boolean | undefined = formState.validatingFields[g]?.[n];
-  // console.log(isValidating, formState.isValidating);
+  const isValidating = formState.validatingFields[g]?.[n];
 
   return (
     <VStack width={'full'}>
@@ -49,7 +46,7 @@ export function Field({
           <Input type={type} {...register(name)} />
           <InputRightElement>
             <IconButton
-              isDisabled={!!error || !isTouched}
+              isDisabled={!!error || !isTouched || isValidating}
               icon={<RiArrowRightLine />}
               borderLeftRadius={0}
               colorScheme={'blue'}
@@ -59,21 +56,18 @@ export function Field({
             />
           </InputRightElement>
         </InputGroup>
-        {
-          //   isValidating === true ? (
-          //   <FormHelperText>Проверка...</FormHelperText>
-          // ) :
-          error ? (
-            <FormErrorMessage>{error}</FormErrorMessage>
-          ) : (
-            <FormHelperText
-              fontFamily={['IBM Plex Mono, monospace']}
-              color={'transparent'}
-            >
-              Null
-            </FormHelperText>
-          )
-        }
+        {error ? (
+          <FormErrorMessage>{error}</FormErrorMessage>
+        ) : isValidating === true ? (
+          <FormHelperText textAlign={'left'}>Проверка...</FormHelperText>
+        ) : (
+          <FormHelperText
+            fontFamily={['IBM Plex Mono, monospace']}
+            color={'transparent'}
+          >
+            Null
+          </FormHelperText>
+        )}
       </FormControl>
       <Button
         width={'full'}

@@ -30,7 +30,7 @@ export function Outro() {
           Я даю согласие на обработку персональных данных
         </Checkbox>
         {error ? (
-          <FormErrorMessage>{error}</FormErrorMessage>
+          <FormErrorMessage justifyContent={'center'}>{error}</FormErrorMessage>
         ) : (
           <FormHelperText
             fontFamily={['IBM Plex Mono, monospace']}

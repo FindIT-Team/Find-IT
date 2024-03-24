@@ -40,7 +40,7 @@ export function AnimateLayout({
         >
           <Center width={'100vw'} height={'100vh'} position={'absolute'}>
             <VStack
-              width={['90%', '60%', '35%', '35%']}
+              width={['90%', '60%', '40%', '40%']}
               spacing={2}
               textAlign={'center'}
               {...vStackProps}

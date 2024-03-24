@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { fetch } from '~/.client/fetch';
 
 export const schema = z.object({
   user: z.object({
@@ -6,25 +7,21 @@ export const schema = z.object({
       .string()
       .trim()
       .min(3, 'Слишком короткое имя')
-      .max(15, 'Слишком длинное имя'),
-    // TODO: Wait for bugfix on React-Hook-Form dependency to use async validations
-    // .refine(
-    //   (field) =>
-    //     fetch(
-    //       new URL(
-    //         `/auth/available-username/${field}`,
-    //         'http://api.findit.test',
-    //       ),
-    //     )
-    //       .then((res) => res.json())
-    //       .then(({ isAvailable }) => !isAvailable),
-    //   'Занято',
-    // ),
+      .max(15, 'Слишком длинное имя')
+      .refine(
+        (field) =>
+          field !== '' &&
+          fetch(`/auth/available-username/${field}`).then(
+            ({ isAvailable }) => !isAvailable,
+          ),
+        'Занято',
+      ),
 
     email: z.string().trim().email('Это не похоже на адрес электронной почты'),
 
     password: z
       .string()
+      .trim()
       .min(8, 'Слишком короткий пароль')
       .max(32, 'Слишком длинный пароль')
       .refine(
@@ -49,6 +46,7 @@ export const schema = z.object({
   profile: z.object({
     name: z
       .string()
+      .trim()
       .refine(
         (field) => !/[^a-zA-ZА-Яа-я0-9_\-\s]/.test(field),
         'Специальные символы не допускаются',
@@ -70,7 +68,7 @@ export const schema = z.object({
     .boolean()
     .refine(
       (field) => field,
-      'К сожалению, мы не можем обрабатывать твои данные без согласия',
+      'Мы не можем обрабатывать твои данные без согласия',
     ),
 });
 
