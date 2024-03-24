@@ -9,11 +9,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { PasswordField } from '~/routes/auth/login/fields/password-field';
-import {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from '@remix-run/node';
+import { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import {
   getValidatedFormData,
   RemixFormProvider,
@@ -21,7 +17,6 @@ import {
 } from 'remix-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Schema, schema } from '~/routes/auth/login/schema';
-import { getSession } from '~/session.server';
 import { Form, redirect } from '@remix-run/react';
 import { UniqField } from '~/routes/auth/login/fields/uniq-field';
 import { fetch } from '~/utils/.server/fetch-session.util';
@@ -30,22 +25,11 @@ import { Buttons } from './buttons';
 
 export const meta: MetaFunction = () => [{ title: 'Войти | FindIT' }];
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const session = await getSession(request.headers.get('Cookie'));
-
-  if (!session?.get('sid')) return null;
-
-  const { headers, response } = await fetch('/auth', session);
-  const { isAuthenticated } = await response.json();
-
-  return isAuthenticated ? redirect('/dashboard', { headers }) : null;
-}
-
 export async function action({ request }: ActionFunctionArgs) {
   const data = (await getValidatedFormData(request, zodResolver(schema))).data;
-  const session = await getSession(request.headers.get('Cookie'));
+  const cookie = request.headers.get('Cookie');
 
-  const { headers } = await fetch('/auth/login', session, {
+  const { headers } = await fetch('/auth/login', cookie, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {

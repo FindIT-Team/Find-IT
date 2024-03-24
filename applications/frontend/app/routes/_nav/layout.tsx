@@ -1,6 +1,24 @@
 import { chakra, HStack, VStack } from '@chakra-ui/react';
-import { Outlet } from '@remix-run/react';
+import { Outlet, redirect } from '@remix-run/react';
 import { NavLinks } from '~/routes/_nav/nav-links';
+import { LoaderFunctionArgs } from '@remix-run/node';
+import { fetch } from '~/utils/.server/fetch-session.util';
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookie = request.headers.get('Cookie');
+  if (!cookie?.includes('sid')) return redirect('/auth/login');
+
+  const { headers, isAuthenticated } = await fetch('/auth', cookie).then(
+    async ({ response, headers }) => ({
+      isAuthenticated: (await response.json()).isAuthenticated as boolean,
+      headers,
+    }),
+  );
+
+  return isAuthenticated
+    ? new Response(null, { headers })
+    : redirect('/auth/login');
+}
 
 export default function Layout() {
   return (

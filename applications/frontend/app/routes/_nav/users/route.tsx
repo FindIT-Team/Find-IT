@@ -2,19 +2,19 @@ import { defer, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { Center, Grid, Heading, VStack } from '@chakra-ui/react';
 import { User } from '~/routes/_nav/users/user';
 import { fetch } from '~/utils/.server/fetch-session.util';
-import { getSession } from '~/session.server';
 import { Await, useLoaderData } from '@remix-run/react';
 import { Suspense, useRef, useState } from 'react';
 import { useScroll } from '~/components/hooks/useScroll';
 import { UserProvider } from '~/routes/_nav/users/user.context';
+import { UserDto } from './user.dto';
 
 export const meta: MetaFunction = () => [{ title: 'Пользователи | FindIT' }];
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const session = await getSession(request.headers.get('Cookie'));
+  const cookie = request.headers.get('Cookie');
 
-  const users: Promise<UserDto> = fetch('/users', session).then(
-    ({ response }) => response.json(),
+  const users: Promise<UserDto> = fetch('/users', cookie).then(({ response }) =>
+    response.json(),
   );
 
   return defer({ users });

@@ -28,14 +28,12 @@
     "react-hook-form": "latest",
     "react-icons": "latest",
     "remix-hook-form": "latest",
-    "set-cookie-parser": "latest",
     "zod": "latest"
   },
   "devDependencies": {
     "@remix-run/dev": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@types/set-cookie-parser": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "eslint": "latest",
     "eslint-import-resolver-typescript": "latest",
