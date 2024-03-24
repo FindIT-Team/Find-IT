@@ -1,57 +1,43 @@
-// import { Controller, Get, Param, Post, Query } from '@nestjs/common';
-// import { User } from '../../decorators/http/profile.decorator';
-// import { NoticeEntity } from '../../entities/notice.entity';
-// import { ProjectEntity } from '../../entities/project.entity';
-// import { UserEntity } from '../../entities/profile.entity';
+import { Controller, Get, Post, Query } from '@nestjs/common';
+import { User } from 'src/decorators/http/user.decorator';
+import { Notice, Project, UsersToProjects } from '@prisma/client';
 import { DashboardService } from './dashboard.service';
-import { Controller } from '@nestjs/common';
+import { ApiConfig } from '../../configs/api.config';
+import { AuthenticatedRequest } from '../../decorators/authenticated-request.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('dashboard')
+@Controller(ApiConfig({ path: 'dashboard' }))
+@AuthenticatedRequest()
+@ApiTags('Dashboard')
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
-  //   @Get('profile')
-  //   async getUser(@User() profile: UserEntity): Promise<{
-  //     id: string;
-  //     username: string;
-  //     subscription: { type: string; expiresIn: Date };
-  //   }> {
-  //     return await this.dashboardService.getUser(profile);
-  //   }
-  //
-  //   @Get('notices')
-  //   async getNotices(
-  //     @Query() query: Record<string, any>,
-  //     @User() profile: UserEntity,
-  //   ): Promise<[NoticeEntity[], number]> {
-  //     return await this.dashboardService.getNotices(profile.id, query);
-  //   }
-  //
-  //   @Post('notices/:id')
-  //   async noticesActions(
-  //     @Param('id') noticeId: string,
-  //     @Query('action') action: string,
-  //     @User() profile: UserEntity,
-  //   ): Promise<string> {
-  //     switch (action) {
-  //       case 'remove':
-  //         return await this.dashboardService.removeNotice(profile.id, noticeId);
-  //     }
-  //   }
-  //
-  //   @Get('projects')
-  //   async getProjects(
-  //     @Query() query: Record<string, any>,
-  //     @User() profile: UserEntity,
-  //   ): Promise<[ProjectEntity[], number]> {
-  //     return await this.dashboardService.getProjects(profile.id, query);
-  //   }
-  //
-  //   @Get('responses-offers')
-  //   async getResponsesOffers(
-  //     @Query() query: Record<string, any>,
-  //     @User() profile: UserEntity,
-  //   ): Promise<[ProjectEntity[], number]> {
-  //     return await this.dashboardService.getResponsesOffers(profile.id, query);
-  //   }
+  @Get('notices')
+  async getNotices(
+    @User() user: Express.User,
+    @Query('offset') offset?: string,
+  ): Promise<Notice[]> {
+    return await this.dashboardService.getNotices(user.id, offset);
+  }
+
+  @Get('projects')
+  async getProjects(
+    @User() user: Express.User,
+    @Query('offset') offset?: string,
+  ): Promise<Project[]> {
+    return await this.dashboardService.getProjects(user.id, offset);
+  }
+
+  @Get('responses-offers')
+  async getResponsesOffers(
+    @User() user: Express.User,
+    @Query('offset') offset?: string,
+  ): Promise<UsersToProjects[]> {
+    return await this.dashboardService.getResponsesOffers(user.id, offset);
+  }
+
+  @Post()
+  async create(@User() user: Express.User) {
+    await this.dashboardService.create(user.id);
+  }
 }

@@ -7,8 +7,10 @@ export const SessionConfig: SessionOptions = {
   rolling: true,
   unset: 'destroy',
   cookie: {
+    domain: process.env.DOMAIN,
     signed: true,
     maxAge: 1000 * 60 * 60 * 24,
+    sameSite: 'lax',
   },
-  secret: undefined,
+  secret: '',
 };

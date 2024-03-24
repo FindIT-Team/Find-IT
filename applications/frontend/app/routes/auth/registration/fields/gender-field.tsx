@@ -16,9 +16,9 @@ import { useRemixFormContext } from 'remix-hook-form';
 import { Schema } from '~/routes/auth/registration/schema';
 
 enum Sex {
-  Male = 'Мужской',
-  Female = 'Женский',
-  Unselected = 'Не выбрано',
+  MALE = 'Мужской',
+  FEMALE = 'Женский',
+  UNKNOWN = 'Не выбрано',
 }
 
 export function GenderField() {
@@ -26,12 +26,11 @@ export function GenderField() {
 
   const { screenSearch, next, previous } = useContext(Context);
   const { setValue } = useRemixFormContext<Schema>();
-  const [selected, setSelected] = useState<keyof typeof Sex>('Unselected');
-  const isTouched = selected !== 'Unselected';
+  const [selected, setSelected] = useState<keyof typeof Sex>('UNKNOWN');
 
   const position = screenSearch('gender');
 
-  if (selected !== 'Unselected') setValue('gender', selected);
+  setValue('profile.gender', selected);
 
   return (
     <AnimateLayout position={position}>
@@ -51,7 +50,7 @@ export function GenderField() {
           <PopoverBody padding={0}>
             <VStack spacing={0}>
               {Object.keys(Sex).map((key) =>
-                key !== 'Unselected' ? (
+                key !== selected ? (
                   <Button
                     _first={{ borderTopRadius: 'md' }}
                     _last={{ borderBottomRadius: 'md', borderBottom: 'none' }}
@@ -82,7 +81,6 @@ export function GenderField() {
         alignItems={'stretch'}
       >
         <Button
-          isDisabled={!isTouched}
           flexGrow={1}
           colorScheme={'blue'}
           type={'button'}

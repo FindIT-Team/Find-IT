@@ -1,26 +1,18 @@
-import { Heading, StackDivider, VStack } from '@chakra-ui/react';
+import { Area } from '~/routes/_nav/dashboard/area';
+import { Flex } from '@chakra-ui/react';
 
 export function Subscription() {
   return (
-    <VStack
-      border={'1px solid'}
-      borderColor={'gray.300'}
-      borderRadius={'lg'}
-      padding={4}
-      alignItems={'flex-start'}
-      width={500}
-      height={400}
-    >
-      <Heading fontSize={'md'}>Подписка</Heading>
-      <VStack
-        justifyContent={'space-between'}
-        border={'1px solid'}
-        borderColor={'gray.300'}
-        borderRadius={'lg'}
-        width={'full'}
-        height={'full'}
-        divider={<StackDivider />}
-      ></VStack>
-    </VStack>
+    <Area name={'subscription'}>
+      <Flex
+        justifyContent={'center'}
+        alignItems={'center'}
+        boxSize={'full'}
+        fontSize={'sm'}
+        color={'gray.600'}
+      >
+        Beta v0.3.2
+      </Flex>
+    </Area>
   );
 }

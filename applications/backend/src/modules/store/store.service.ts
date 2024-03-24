@@ -20,7 +20,7 @@ export class StoreService {
     this._connection.connect().then();
   }
 
-  private _websocketSessions: Record<string, string[]>;
+  private _websocketSessions!: Record<string, string[]>;
 
   get websocketSessions(): Record<string, string[]> {
     if (!this._websocketSessions) {
@@ -29,7 +29,7 @@ export class StoreService {
     return this._websocketSessions;
   }
 
-  private _session: RedisStore;
+  private _session!: RedisStore;
 
   get session(): RedisStore {
     if (!this._session) {

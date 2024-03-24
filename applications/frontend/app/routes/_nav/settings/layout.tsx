@@ -11,7 +11,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Layout() {
   return (
-    <Center padding={10} boxSize={'full'}>
+    <Center padding={3} paddingBottom={10} boxSize={'full'}>
       <HStack
         border={'1px solid'}
         borderColor={'gray.300'}

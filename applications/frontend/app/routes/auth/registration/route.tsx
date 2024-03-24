@@ -14,31 +14,24 @@ import {
 } from 'remix-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, Schema } from '~/routes/auth/registration/schema';
-import {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from '@remix-run/node';
+import { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { Form, redirect } from '@remix-run/react';
 import { Box } from '@chakra-ui/react';
-import { fetch } from '~/fetch.util';
-import { getSession } from '~/session.server';
+import { fetch } from '~/.server/fetch';
 
 export const meta: MetaFunction = () => [{ title: 'Регистрация | FindIT' }];
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const session = await getSession(request.headers.get('Cookie'));
-
-  if (session?.get('sid')) return redirect('/dashboard');
-
-  return null;
-}
-
 export async function action({ request }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get('Cookie'));
+  const cookie = request.headers.get('Cookie');
 
   const data = (await getValidatedFormData(request, zodResolver(schema))).data;
-  const { headers } = await fetch('/auth/registration', session, {
+  Object.assign(data?.profile, {
+    firstName: data?.profile.name.split(' ')[0],
+    lastName: data?.profile.name.split(' ')[1],
+  });
+  delete data?.profile.name;
+
+  const { headers } = await fetch('/auth/registration', cookie, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
@@ -55,12 +48,12 @@ export default function Page() {
     resolver: zodResolver(schema),
     defaultValues: {
       skills: {
-        ProjectManagement: 0,
-        Frontend: 0,
-        Backend: 0,
-        MachineLearning: 0,
-        DevOps: 0,
-        QA: 0,
+        projectManagement: 0,
+        frontend: 0,
+        backend: 0,
+        machineLearning: 0,
+        devOps: 0,
+        qa: 0,
       },
     },
   });

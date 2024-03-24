@@ -20,12 +20,12 @@ import { useRemixFormContext } from 'remix-hook-form';
 import { schema, Schema } from '~/routes/auth/registration/schema';
 
 const fields = {
-  ProjectManagement: 'Проектный менеджмент',
-  Backend: 'Бэкенд',
-  Frontend: 'Фронтенд',
-  MachineLearning: 'Машинное обучение',
-  DevOps: 'DevOps',
-  QA: 'QA',
+  projectManagement: 'Проектный менеджмент',
+  backend: 'Бэкенд',
+  frontend: 'Фронтенд',
+  machineLearning: 'Машинное обучение',
+  devOps: 'DevOps',
+  qa: 'QA',
 };
 
 export function SkillsField() {

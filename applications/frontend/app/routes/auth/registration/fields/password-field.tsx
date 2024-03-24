@@ -11,7 +11,7 @@ export function PasswordField() {
   return (
     <AnimateLayout position={position}>
       <Heading>И последнее... твой пароль</Heading>
-      <Field position={position} name={'password'} type={'password'} />
+      <Field position={position} name={'user.password'} type={'password'} />
     </AnimateLayout>
   );
 }
