@@ -15,25 +15,40 @@ export class DashboardController {
   @Get('notices')
   async getNotices(
     @User() user: Express.User,
-    @Query('offset') offset?: string,
+    @Query() params: Record<string, string>,
   ): Promise<Notice[]> {
-    return await this.dashboardService.getNotices(user.id, offset);
+    const { offset, take } = params;
+    return await this.dashboardService.getNotices(
+      user.id,
+      Number(take ?? 10),
+      offset,
+    );
   }
 
   @Get('projects')
   async getProjects(
     @User() user: Express.User,
-    @Query('offset') offset?: string,
+    @Query() params: Record<string, string>,
   ): Promise<Project[]> {
-    return await this.dashboardService.getProjects(user.id, offset);
+    const { offset, take } = params;
+    return await this.dashboardService.getProjects(
+      user.id,
+      Number(take ?? 10),
+      offset,
+    );
   }
 
   @Get('responses-offers')
   async getResponsesOffers(
     @User() user: Express.User,
-    @Query('offset') offset?: string,
+    @Query() params: Record<string, string>,
   ): Promise<UsersToProjects[]> {
-    return await this.dashboardService.getResponsesOffers(user.id, offset);
+    const { offset, take } = params;
+    return await this.dashboardService.getResponsesOffers(
+      user.id,
+      Number(take ?? 10),
+      offset,
+    );
   }
 
   @Post()

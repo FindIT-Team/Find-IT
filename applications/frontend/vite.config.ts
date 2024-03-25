@@ -42,7 +42,7 @@ export default ({ mode }: ConfigEnv) => {
               route('/users', 'routes/_nav/users/route.tsx', {
                 index: true,
               });
-              route('/user', 'routes/_nav/user/route.tsx', {
+              route('/users/:username', 'routes/_nav/user/route.tsx', {
                 index: true,
               });
               route('/project', 'routes/_nav/project/route.tsx', {

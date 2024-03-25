@@ -27,7 +27,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   ).then(({ response }) => response.json());
 
   const notices: Promise<NoticeDto[]> = fetch(
-    '/dashboard/notices',
+    '/dashboard/notices?take=15',
     cookie,
   ).then(({ response }) => response.json());
 

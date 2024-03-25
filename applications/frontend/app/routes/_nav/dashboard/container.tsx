@@ -1,6 +1,6 @@
 import { Heading, VStack } from '@chakra-ui/react';
 import { Area } from '~/routes/_nav/dashboard/area';
-import { useRef } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import { useScroll } from '~/components/hooks/useScroll';
 
 export function Container({
@@ -14,7 +14,7 @@ export function Container({
   areaName: string;
   label: string;
   array: Promise<{ id: string }[]>[];
-  setFunction: React.Dispatch<React.SetStateAction<any>>;
+  setFunction: Dispatch<SetStateAction<Promise<unknown[]>[]>>;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 

@@ -8,6 +8,8 @@ import {
   RiSettings3Line,
   RiTeamFill,
   RiTeamLine,
+  RiWindowFill,
+  RiWindowLine,
 } from 'react-icons/ri';
 
 export function NavLinks() {
@@ -27,6 +29,7 @@ export function NavLinks() {
       icon: RiTeamLine,
       activeIcon: RiTeamFill,
     },
+    { to: '/projects', icon: RiWindowLine, activeIcon: RiWindowFill },
   ];
 
   return (

@@ -1,7 +1,7 @@
 import { Container } from '~/routes/_nav/dashboard/container';
 import { Await, useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/_nav/dashboard/route';
-import { Suspense, useState } from 'react';
+import { Dispatch, SetStateAction, Suspense, useState } from 'react';
 import { Heading } from '@chakra-ui/react';
 import { Project } from '~/routes/_nav/dashboard/projects/project';
 import { ProjectProvider } from '~/routes/_nav/dashboard/projects/project.context';
@@ -14,7 +14,9 @@ export function Projects() {
     <Container
       areaName={'projects'}
       label={'Проекты'}
-      setFunction={setProjects}
+      setFunction={
+        setProjects as Dispatch<SetStateAction<Promise<unknown[]>[]>>
+      }
       array={projects}
     >
       {projects.map((pack, index) => (

@@ -3,7 +3,7 @@ import { Center, Grid, Heading, VStack } from '@chakra-ui/react';
 import { User } from '~/routes/_nav/users/user';
 import { fetch } from '~/.server/fetch';
 import { Await, useLoaderData } from '@remix-run/react';
-import { Suspense, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, Suspense, useRef, useState } from 'react';
 import { useScroll } from '~/components/hooks/useScroll';
 import { UserProvider } from '~/routes/_nav/users/user.context';
 import { UserDto } from './user.dto';
@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => [{ title: 'Пользователи | Fi
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookie = request.headers.get('Cookie');
 
-  const users: Promise<UserDto[]> = fetch('/users', cookie).then(
+  const users: Promise<UserDto[]> = fetch('/users?take=20', cookie).then(
     ({ response }) => response.json(),
   );
 
@@ -26,7 +26,12 @@ export default function Page() {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  useScroll({ url: '/users', ref, array: users, setFunction: setUsers });
+  useScroll({
+    url: 'users',
+    ref,
+    array: users,
+    setFunction: setUsers as Dispatch<SetStateAction<Promise<unknown[]>[]>>,
+  });
 
   return (
     <Center padding={3} paddingBottom={10} boxSize={'full'}>

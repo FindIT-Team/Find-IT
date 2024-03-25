@@ -2,29 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import {
   Notice,
-  NoticeType,
   Prisma,
   Project,
   UsersToProjects,
   UsersToProjectsStatus,
 } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import slug from 'slug';
 
 @Injectable()
 export class DashboardService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async getNotices(userId: string, offset?: string): Promise<Notice[]> {
+  async getNotices(
+    userId: string,
+    take: number,
+    offset?: string,
+  ): Promise<Notice[]> {
     return await this.databaseService.notice.findMany({
       where: { userId },
       orderBy: { createdAt: Prisma.SortOrder.desc },
       cursor: offset ? { id: offset } : undefined,
       skip: offset ? 1 : 0,
-      take: offset ? 10 : 20,
+      take,
     });
   }
 
-  async getProjects(userId: string, offset?: string): Promise<Project[]> {
+  async getProjects(
+    userId: string,
+    take: number,
+    offset?: string,
+  ): Promise<Project[]> {
     return await this.databaseService.project.findMany({
       where: {
         users: {
@@ -48,12 +56,13 @@ export class DashboardService {
       },
       cursor: offset ? { id: offset } : undefined,
       skip: offset ? 1 : 0,
-      take: 10,
+      take,
     });
   }
 
   async getResponsesOffers(
     userId: string,
+    take: number,
     offset?: string,
   ): Promise<UsersToProjects[]> {
     return await this.databaseService.usersToProjects.findMany({
@@ -63,10 +72,6 @@ export class DashboardService {
           notIn: [UsersToProjectsStatus.JOINED, UsersToProjectsStatus.DECLINED],
         },
       },
-      orderBy: {},
-      cursor: offset ? { id: offset } : undefined,
-      skip: offset ? 1 : 0,
-      take: 10,
       include: {
         project: {
           include: {
@@ -83,17 +88,30 @@ export class DashboardService {
           },
         },
       },
+      orderBy: {},
+      cursor: offset ? { id: offset } : undefined,
+      skip: offset ? 1 : 0,
+      take,
     });
   }
 
   async create(userId: string): Promise<void> {
-    for (let i = 0; i < 10; i++)
-      await this.databaseService.notice.create({
+    for (let i = 0; i < 10; i++) {
+      const title = faker.lorem.sentence();
+      await this.databaseService.project.create({
         data: {
-          message: faker.lorem.sentence(),
-          type: NoticeType.SECURITY,
-          userId,
+          title,
+          description: faker.lorem.paragraph(),
+          slug: slug(title),
+          users: {
+            create: {
+              userId,
+              isOwner: true,
+              status: UsersToProjectsStatus.JOINED,
+            },
+          },
         },
       });
+    }
   }
 }

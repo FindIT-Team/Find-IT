@@ -1,7 +1,7 @@
 import { Container } from '~/routes/_nav/dashboard/container';
 import { Await, useLoaderData } from '@remix-run/react';
 import { loader } from '~/routes/_nav/dashboard/route';
-import { Suspense, useState } from 'react';
+import { Dispatch, SetStateAction, Suspense, useState } from 'react';
 import { Heading } from '@chakra-ui/react';
 import { ResponseOffer } from '~/routes/_nav/dashboard/responses-offers/response-offer';
 import { ResponseOfferProvider } from '~/routes/_nav/dashboard/responses-offers/response-offer.context';
@@ -14,7 +14,9 @@ export function ResponsesOffers() {
     <Container
       areaName={'responses-offers'}
       label={'Отклики и предложения'}
-      setFunction={setResponsesOffers}
+      setFunction={
+        setResponsesOffers as Dispatch<SetStateAction<Promise<unknown[]>[]>>
+      }
       array={responsesOffers}
     >
       {responsesOffers.map((pack, index) => (

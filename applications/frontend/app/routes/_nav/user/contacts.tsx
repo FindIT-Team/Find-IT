@@ -1,16 +1,26 @@
-import { Heading, HStack, Spacer } from '@chakra-ui/react';
-import { Contact } from '~/routes/_nav/user/contact';
+import { Heading, HStack, Spacer, Tag, Text, VStack } from '@chakra-ui/react';
+import { UserContext } from './user.context';
+import { useContext } from 'react';
 
-export function Contacts({ contacts }: { contacts: Record<string, string> }) {
+export function Contacts() {
+  const { profile } = useContext(UserContext);
+
   return (
-    <HStack width={900}>
-      <Heading fontSize={'xl'}>
+    <HStack>
+      <Text fontSize={'md'}>
         Контакты:
         <Spacer height={5} />
-        {Object.entries(contacts).map((contact) => (
-          <Contact key={contact[0]} contact={contact} />
+        {Object.entries(profile.contacts).map((contact) => (
+          <VStack alignItems={'flex-start'}>
+            <HStack>
+              <Heading fontSize={'xl'}>{contact[1]}</Heading>
+              <Tag justifySelf={'flex-end'} borderRadius={8} bg={'gray.200'}>
+                {contact[0]}
+              </Tag>
+            </HStack>
+          </VStack>
         ))}
-      </Heading>
+      </Text>
     </HStack>
   );
 }

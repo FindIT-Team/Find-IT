@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { fetch } from '~/.client/fetch';
 
 export function useScroll({
@@ -6,11 +6,13 @@ export function useScroll({
   ref,
   array,
   setFunction,
+  take = 10,
 }: {
   url: string;
   ref: React.RefObject<HTMLDivElement>;
   array: Promise<{ id: string }[]>[];
-  setFunction: React.Dispatch<React.SetStateAction<Promise<unknown>[]>>;
+  setFunction: Dispatch<SetStateAction<Promise<unknown[]>[]>>;
+  take?: number;
 }) {
   useEffect(() => {
     const check = async () => {
@@ -29,7 +31,7 @@ export function useScroll({
       if (offset)
         setFunction((prevState: Promise<unknown>[]) => [
           ...prevState,
-          fetch(`${url}?offset=${offset}`),
+          fetch(`${url}?offset=${offset}&take=${take}`),
         ]);
       else {
         ref.current?.removeEventListener('scroll', handleScroll);
