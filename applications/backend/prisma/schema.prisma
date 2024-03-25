@@ -169,7 +169,7 @@ model Skills {
 
 model ExtraSkill {
   name  String
-  value String
+  value Int
 
   profile   Profile @relation(fields: [profileId], references: [userId], onDelete: Cascade)
   profileId String  @id
