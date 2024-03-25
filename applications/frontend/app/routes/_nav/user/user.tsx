@@ -28,7 +28,7 @@ export function User() {
         spacing={20}
         padding={5}
       >
-        <VStack alignItems={'flex-start'} spacing={10}>
+        <VStack alignItems={'flex-start'} spacing={10} width={'full'}>
           <VStack alignItems={'flex-start'} spacing={0}>
             <Heading>{username}</Heading>
             <Heading as={'h3'} fontSize={'lg'} fontWeight={'medium'}>
@@ -36,7 +36,12 @@ export function User() {
             </Heading>
           </VStack>
 
-          <HStack divider={<StackDivider />}>
+          <HStack
+            divider={<StackDivider />}
+            alignItems={'flex-start'}
+            spacing={5}
+            width={'full'}
+          >
             {profile.contacts && <Contacts />}
             {profile.skills && <Skills />}
           </HStack>

@@ -12,16 +12,8 @@ import {
 import { useContext } from 'react';
 import { Context } from '~/routes/auth/registration/context';
 import { useRemixFormContext } from 'remix-hook-form';
-import { schema, Schema } from '~/routes/auth/registration/schema';
+import { Schema } from '~/routes/auth/registration/schema';
 import { RiArrowRightLine } from 'react-icons/ri';
-
-type fieldsNames =
-  | 'user.username'
-  | 'user.email'
-  | 'user.password'
-  | 'profile.name';
-
-type DownerUserFields = keyof typeof schema.shape.user.shape;
 
 export function Field({
   position,
@@ -29,21 +21,24 @@ export function Field({
   type,
 }: {
   position: number;
-  name: fieldsNames;
+  name: string;
   type?: string;
 }) {
   const { next, previous } = useContext(Context);
   const { register, formState } = useRemixFormContext<Schema>();
-  const [g, n] = name.split('.') as ['user', DownerUserFields];
-  const error: string = formState.errors[g]?.[n]?.message as string;
+  const [g, n] = name.split('.') as [keyof Schema, keyof Schema[keyof Schema]];
+  // @ts-ignore
+  const error: string = formState.errors[g]?.[n]?.message;
+  // @ts-ignore
   const isTouched: boolean | undefined = formState.dirtyFields[g]?.[n];
+  // @ts-ignore
   const isValidating = formState.validatingFields[g]?.[n];
 
   return (
     <VStack width={'full'}>
       <FormControl isInvalid={!!error}>
         <InputGroup>
-          <Input type={type} {...register(name)} />
+          <Input type={type} {...register(name as any)} />
           <InputRightElement>
             <IconButton
               isDisabled={!!error || !isTouched || isValidating}

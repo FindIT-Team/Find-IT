@@ -1,12 +1,12 @@
 import { defer, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { Box, Button, Center, HStack } from '@chakra-ui/react';
-import { UserDto } from '~/routes/_nav/users/user.dto';
 import { fetch } from '~/.server/fetch';
 import { Await, useLoaderData, useNavigate } from '@remix-run/react';
 import { Suspense } from 'react';
 import { UserProvider } from '~/routes/_nav/user/user.context';
 import { User } from './user';
 import { ArrowBackIcon, Icon } from '@chakra-ui/icons';
+import { UserDto } from './user.dto';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: `${data?.username} | FindIT` }];

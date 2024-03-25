@@ -156,6 +156,7 @@ export class AuthService {
           create: {
             ...registerDto.profile,
             skills: { create: registerDto.skills },
+            contacts: { create: { email: registerDto.user.email } },
           },
         },
         oAuth: { create: registerDto.oAuth ?? {} },

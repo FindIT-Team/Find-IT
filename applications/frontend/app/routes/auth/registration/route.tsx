@@ -8,7 +8,7 @@ import { GenderField } from '~/routes/auth/registration/fields/gender-field';
 import { PasswordField } from '~/routes/auth/registration/fields/password-field';
 import { Outro } from '~/routes/auth/registration/outro';
 import {
-  getValidatedFormData,
+  parseFormData,
   RemixFormProvider,
   useRemixForm,
 } from 'remix-hook-form';
@@ -24,12 +24,12 @@ export const meta: MetaFunction = () => [{ title: 'Регистрация | Find
 export async function action({ request }: ActionFunctionArgs) {
   const cookie = request.headers.get('Cookie');
 
-  const data = (await getValidatedFormData(request, zodResolver(schema))).data;
+  const data = (await parseFormData(request)) as Schema;
   Object.assign(data?.profile, {
     firstName: data?.profile.name.split(' ')[0],
     lastName: data?.profile.name.split(' ')[1],
   });
-  delete data?.profile.name;
+  delete (data?.profile as { name?: string }).name;
 
   const { headers } = await fetch('/auth/registration', cookie, {
     method: 'POST',

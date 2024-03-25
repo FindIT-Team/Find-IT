@@ -6,18 +6,46 @@ export const schema = z.object({
     username: z
       .string()
       .trim()
-      .min(3, 'Слишком короткое имя')
-      .max(15, 'Слишком длинное имя')
-      .refine(
-        (field) =>
-          field !== '' &&
-          fetch(`/auth/available-username/${field}`).then(
-            ({ isAvailable }) => !isAvailable,
-          ),
-        'Занято',
-      ),
+      .superRefine(async (val, ctx) => {
+        if (val.length < 3 || val.length > 16) {
+          if (val.length < 3)
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'Слишком короткое имя',
+              fatal: true,
+            });
 
-    email: z.string().trim().email('Это не похоже на адрес электронной почты'),
+          if (val.length > 16)
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'Слишком длинное имя',
+              fatal: true,
+            });
+
+          return z.NEVER;
+        }
+
+        const isAvailable: boolean = await fetch(
+          `auth/available-username/${val}`,
+        ).then((res) => res.isAvailable);
+        console.log(isAvailable);
+
+        if (isAvailable) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Занято',
+            fatal: true,
+          });
+
+          return z.NEVER;
+        }
+      }),
+
+    email: z
+      .string()
+      .trim()
+      .toLowerCase()
+      .email('Это не похоже на адрес электронной почты'),
 
     password: z
       .string()
