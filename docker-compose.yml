@@ -9,6 +9,7 @@ services:
       - 6379
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      start_period: "3s"
 
 
   database:
@@ -33,3 +34,6 @@ services:
         - path: ./applications/frontend
           action: sync
           target: /project/apps/frontend
+
+  nginx:
+    image: nginx:latest

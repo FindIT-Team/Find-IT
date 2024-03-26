@@ -28,7 +28,6 @@ export const schema = z.object({
         const isAvailable: boolean = await fetch(
           `auth/available-username/${val}`,
         ).then((res) => res.isAvailable);
-        console.log(isAvailable);
 
         if (isAvailable) {
           ctx.addIssue({
