@@ -1,36 +1,67 @@
-start-dev:
-	@docker compose -f docker-compose.dev.yml watch
-
-start:
-	@docker compose -f docker-compose.prod.yml up -d --build
-
 migrate-dev:
-	@docker compose -f docker-compose.dev.yml run --rm -d --service-ports database || true
-	@sleep 3
-	@cd applications/backend; DATABASE_URL=postgresql://webserver:123456@localhost:5432/findit-development npx prisma migrate dev
+	@make database-dev-start
+	@make migrate-dev-build-run
+	@make migrate-dev-copy
+	@make migrate-dev-cleanup
+	@make database-dev-cleanup
 
-migrate-reset:
-	@docker compose -f docker-compose.dev.yml run --rm -d --service-ports database || true
-	@sleep 3
-	@cd applications/backend; DATABASE_URL=postgresql://webserver:123456@localhost:5432/findit-development npx prisma migrate reset
+reset-dev:
+	@make database-dev-start
+	@make reset-dev-build-run
+	@make reset-dev-copy
+	@make reset-dev-cleanup
+	@make database-dev-cleanup
 
-test-backend:
-	@docker compose -f docker-compose.test.yml run --rm backend "npm run build"
-	@docker compose -f docker-compose.test.yml run --rm backend "npm run test"
-	@docker image prune --filter "label=ENV=test" -f -a
+migrate-dev-build-run:
+	@echo "Building migrate..."
+	@docker build --target migrate-development -t migrate-development --build-arg ENV=development -q .
+	@echo "Running migrate..."
+	@docker run -it --network=findit-development_default --name=migrate-dev migrate-development
 
-test-frontend:
-	@docker compose -f docker-compose.test.yml run --rm frontend "npm run build"
-	@docker image prune --filter "label=ENV=test" -f -a
+migrate-dev-copy:
+	@echo "Copying migrations..."
+	@docker cp -q migrate-dev:/project/apps/backend/prisma ./applications/backend/
+	@docker cp -q migrate-dev:/project/apps/backend/node_modules/.prisma/client ./node_modules/.prisma/
 
-tests:
-	@make test-backend
-	@make test-frontend
+migrate-dev-cleanup:
+	@echo "Removing migrate..."
+	@docker rm migrate-dev
+	@echo "Removing migrate image..."
+	@docker rmi migrate-development
 
-stop:
-	@docker compose -f docker-compose.test.yml -f docker-compose.dev.yml -f docker-compose.prod.yml down --remove-orphans -v
-	@rm applications/backend/package-lock.json
+reset-dev-build-run:
+	@echo "Building reset..."
+	@docker build --target reset-development -t reset-development --build-arg ENV=development -q .
+	@echo "Running reset..."
+	@docker run -it --network=findit-development_default --name=reset-dev reset-development
 
-cleanup:
-	@docker system prune -a
-	@rm applications/backend/package-lock.json
+reset-dev-copy:
+	@echo "Copying migrations..."
+	@docker cp -q reset-dev:/project/apps/backend/prisma ./applications/backend/
+	@docker cp -q reset-dev:/project/apps/backend/node_modules/.prisma/client ./node_modules/.prisma/
+
+reset-dev-cleanup:
+	@echo "Removing reset..."
+	@docker rm reset-dev
+	@echo "Removing reset image..."
+	@docker rmi reset-development
+
+database-dev-start:
+	@echo "Starting database..."
+	@docker compose -f docker-compose.dev.yml --progress quiet up -d database
+
+database-dev-cleanup:
+	@echo "Cleaning up database..."
+	@docker compose -f docker-compose.dev.yml --progress quiet down
+	@docker volume prune -f
+
+start-dev:
+	@echo "Starting development environment..."
+	@docker compose -f docker-compose.dev.yml --progress tty watch
+
+stop-dev:
+	@echo "Copying OpenAPI..."
+	@docker cp findit-development-backend-1:/project/apps/backend/openapi.json ./applications/backend/openapi.json
+	@echo "Downing development environment and cleaning up database..."
+	@make database-dev-cleanup
+

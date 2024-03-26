@@ -13,8 +13,8 @@ export default ({ mode }: ConfigEnv) => {
 
   return defineConfig({
     server: {
-      host: process.env.DOMAIN,
-      port: 3000,
+      host: '0.0.0.0',
+      port: Number(process.env.PORT),
     },
     plugins: [
       remix({

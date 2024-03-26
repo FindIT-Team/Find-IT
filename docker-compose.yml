@@ -2,45 +2,38 @@ version: "3.9"
 name: findit
 services:
   store:
-    build:
-        context: ./applications/store
+    image: redis:latest
+    environment:
+      - REDIS_PROTECTED_MODE=no
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      start_period: "3s"
 
-    restart: always
 
   database:
-    build:
-      context: ./applications/database
-
-    restart: always
-
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=webserver
+      - POSTGRES_PASSWORD=123456
+      - PGDATA=/var/lib/postgresql/data/pg-data
+    expose:
+      - 5432
 
   backend:
-    build:
-      context: ./applications/backend
-
     develop:
       watch:
         - path: ./applications/backend
           action: sync
           target: /project/apps/backend
-          ignore:
-            - node_modules
-            - dist
-
-    restart: always
-
 
   frontend:
-    build:
-      context: ./applications/frontend
-
     develop:
       watch:
         - path: ./applications/frontend
           action: sync
           target: /project/apps/frontend
-          ignore:
-            - node_modules
-            - .next
 
-    restart: always
+  nginx:
+    image: nginx:latest

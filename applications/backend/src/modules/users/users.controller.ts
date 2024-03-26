@@ -1,10 +1,9 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AuthenticatedRequest } from '../../decorators/authenticated-request.decorator';
-import { ApiConfig } from '../../configs/api.config';
 import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 
-@Controller(ApiConfig({ path: 'users' }))
+@Controller('users')
 @AuthenticatedRequest()
 @ApiTags('Users')
 export class UsersController {
