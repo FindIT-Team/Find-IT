@@ -28,7 +28,7 @@ export async function loader() {
   return json({
     ENV: {
       FRONT_URL: process.env.FRONT_URL,
-      API_URL: process.env.CLIENT_API_URL,
+      API_URL: process.env.API_URL,
     },
   });
 }

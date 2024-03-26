@@ -19,7 +19,7 @@ ENV DB_USERNAME=webserver
 ENV DB_PASSWD=123456
 
 ENV DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
-ENV PORT=3001
+ENV PORT=80
 EXPOSE ${PORT}
 COPY .eslintrc.js ../../
 COPY node_modules ./node_modules
@@ -58,7 +58,7 @@ LABEL APP=frontend
 
 WORKDIR /project/apps/frontend
 
-ENV PORT=3000
+ENV PORT=80
 EXPOSE ${PORT}
 
 COPY .eslintrc.js ../../

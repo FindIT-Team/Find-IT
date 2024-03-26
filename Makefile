@@ -51,9 +51,8 @@ database-dev-start:
 	@docker compose -f docker-compose.dev.yml --progress quiet up -d database
 
 database-dev-cleanup:
-	@echo "Removing database..."
+	@echo "Cleaning up database..."
 	@docker compose -f docker-compose.dev.yml --progress quiet down
-	@echo "Removing volumes..."
 	@docker volume prune -f
 
 start-dev:
@@ -63,6 +62,6 @@ start-dev:
 stop-dev:
 	@echo "Copying OpenAPI..."
 	@docker cp findit-development-backend-1:/project/apps/backend/openapi.json ./applications/backend/openapi.json
-	@echo "Downing development environment..."
-	@docker compose -f docker-compose.dev.yml --progress quiet down
+	@echo "Downing development environment and cleaning up database..."
+	@make database-dev-cleanup
 

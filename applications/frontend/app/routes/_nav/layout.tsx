@@ -6,8 +6,6 @@ import { fetch } from '~/.server/fetch';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookie = request.headers.get('Cookie');
-  const ip = request.headers.get('X-Real-IP');
-  console.log(ip);
   if (!cookie?.includes('sid')) return redirect('/auth/login');
 
   const { headers, isAuthenticated } = await fetch('/auth', cookie).then(
