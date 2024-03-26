@@ -13,7 +13,7 @@ export default ({ mode }: ConfigEnv) => {
 
   return defineConfig({
     server: {
-      host: process.env.DOMAIN,
+      host: '0.0.0.0',
       port: 3000,
     },
     plugins: [

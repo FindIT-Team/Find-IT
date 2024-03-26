@@ -1,11 +1,5 @@
 .idea
-
-dist
-.next
 node_modules
-volumes
-migrations
-
-/applications/*/package-lock.json
+data
 
 .env.production

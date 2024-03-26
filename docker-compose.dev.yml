@@ -5,74 +5,59 @@ services:
     extends:
       file: docker-compose.yml
       service: store
-
     build:
       args:
         - ENV=development
-
     volumes:
       - ./applications/store/data/development:/data:rw
-
-    ports:
-      - '6379:6379'
 
   database:
     extends:
       file: docker-compose.yml
       service: database
-
-    build:
-      args:
-        - ENV=development
-
+    environment:
+      - POSTGRES_DB=development
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "webserver", "-d", "development" ]
     volumes:
       - ./applications/database/data/development:/var/lib/postgresql/data/pg-data:rw
-
-    ports:
-      - '5432:5432'
-
 
   backend:
     extends:
       file: docker-compose.yml
       service: backend
-
     build:
-      target: development
+      target: backend-development
       args:
         - ENV=development
-
     depends_on:
       database:
         condition: service_healthy
-
+      store:
+        condition: service_healthy
     env_file:
       - ./applications/backend/.env.development
 
-    volumes:
-      - ./applications/backend/postman:/project/apps/backend/postman
-      - ./applications/backend/prisma:/project/apps/backend/prisma
+    #    volumes:
+    #      - ./applications/backend/:/project/apps/backend/
 
     ports:
       - '3001:3001'
       - '5555:5555'
 
-#  frontend:
-#    extends:
-#      file: docker-compose.yml
-#      service: frontend
-#
-#    build:
-#      target: development
-#      args:
-#        - ENV=development
-#
-#    depends_on:
-#      backend:
-#        condition: service_healthy
-#
-#    env_file:
-#        - ./applications/frontend/.env.development
-#
-#    ports:
-#      - '0.0.0.0:80:3000'
+  frontend:
+    extends:
+      file: docker-compose.yml
+      service: frontend
+    build:
+      target: frontend-development
+      args:
+        - ENV=development
+    depends_on:
+      backend:
+        condition: service_healthy
+    env_file:
+      - ./applications/frontend/.env.development
+
+    ports:
+      - '3000:3000'

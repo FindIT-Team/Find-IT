@@ -20,7 +20,7 @@ const createHttpDocs = async (app: INestApplication) => {
 
   SwaggerModule.setup(`/docs`, app, document);
 
-  fs.writeFileSync(path.join('postman', 'http.json'), JSON.stringify(document));
+  fs.writeFileSync(path.join('openapi.json'), JSON.stringify(document));
 };
 
 // const createAsyncDocs = async (app: INestApplication) => {
