@@ -14,7 +14,7 @@ LABEL APP=backend
 
 WORKDIR /project/apps/backend
 
-HEALTHCHECK --interval=5s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT}/health || exit 1" ]
+HEALTHCHECK --interval=10s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT}/health || exit 1" ]
 
 ENV DB_NAME=${ENV}
 ENV DB_HOST=database
