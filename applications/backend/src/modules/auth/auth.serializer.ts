@@ -1,44 +1,30 @@
 import { PassportSerializer } from '@nestjs/passport';
-import { UserEntity } from '../../entities/user.entity';
-import { UsersService } from '../users/users.service';
 import { Injectable } from '@nestjs/common';
+import { DatabaseService } from '../database/database.service';
+import { IDeserializedUser, ISerializedUser } from './user.interface';
 
 @Injectable()
 export class AuthSerializer extends PassportSerializer {
-  constructor(private readonly usersService: UsersService) {
+  constructor(private readonly databaseService: DatabaseService) {
     super();
   }
 
-  serializeUser(
-    user: UserEntity,
-    done: (
-      err: Error,
-      payload: {
-        id: string;
-        role: string;
-        subscription: { type: string; expiresIn: Date };
-      },
-    ) => void,
-  ): void {
-    done(null, {
-      id: user.id,
-      role: user.role,
-      subscription: user.subscription,
-    });
+  async serializeUser(
+    { id }: IDeserializedUser,
+    done: (err: Error | null, payload: ISerializedUser) => void,
+  ) {
+    done(null, { id });
   }
 
   async deserializeUser(
-    payload: {
-      id: string;
-      role: string;
-      subscription: { type: string; expiresIn: Date };
-    },
-    done: (err: Error, user: UserEntity) => void,
+    { id }: ISerializedUser,
+    done: (err: Error | null, user: IDeserializedUser | null) => void,
   ) {
-    const user = await this.usersService.findOne({
-      where: { id: payload.id },
-      select: ['id', 'username', 'role', 'subscription'],
-    });
+    const user: IDeserializedUser | null =
+      await this.databaseService.user.findUnique({
+        where: { id },
+        select: { id: true, subscriptions: true, role: true },
+      });
     done(null, user);
   }
 }

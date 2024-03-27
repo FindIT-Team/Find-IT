@@ -1,8 +1,5 @@
 .idea
-
-dist
-.next
 node_modules
-volumes
+data
 
 .env.production

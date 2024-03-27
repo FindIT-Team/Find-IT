@@ -1,40 +1,45 @@
-version: "3.9"
+version: "3.8"
 name: findit
 services:
+  store:
+    image: redis:alpine
+    environment:
+      - REDIS_PROTECTED_MODE=no
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+  
   database:
-    build:
-      context: ./applications/database
-
-    restart: always
-
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=webserver
+      - POSTGRES_PASSWORD=123456
+      - PGDATA=/var/lib/postgresql/data/pg-data
+    expose:
+      - 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 5s
+      timeout: 10s
+      retries: 3
 
   backend:
-    build:
-      context: ./applications/backend
-
     develop:
       watch:
         - path: ./applications/backend
           action: sync
           target: /project/apps/backend
-          ignore:
-            - node_modules
-            - dist
-
-    restart: always
-
 
   frontend:
-    build:
-      context: ./applications/frontend
-
     develop:
       watch:
         - path: ./applications/frontend
           action: sync
           target: /project/apps/frontend
-          ignore:
-            - node_modules
-            - .next
 
-    restart: always
+  nginx:
+    image: nginx:alpine
