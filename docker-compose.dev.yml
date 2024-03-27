@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 name: findit-development
 services:
   store:
@@ -19,9 +19,6 @@ services:
       service: database
     environment:
       - POSTGRES_DB=development
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "webserver", "-d", "development" ]
-      start_period: "3s"
     volumes:
       - ./applications/database/data/development:/var/lib/postgresql/data/pg-data:rw
     networks:

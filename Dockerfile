@@ -1,9 +1,11 @@
-FROM node:latest AS base
+FROM node:alpine AS base
 
 ARG ENV
 
 ENV NODE_ENV=${ENV}
 LABEL ENV=${ENV}
+
+RUN apk --no-cache add curl
 
 
 FROM base AS backend-base
@@ -11,6 +13,8 @@ FROM base AS backend-base
 LABEL APP=backend
 
 WORKDIR /project/apps/backend
+
+HEALTHCHECK --interval=5s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT}/health || exit 1" ]
 
 ENV DB_NAME=${ENV}
 ENV DB_HOST=database
@@ -22,12 +26,16 @@ ENV DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWD}@${DB_HOST}:${DB_PORT}/
 ENV PORT=80
 EXPOSE ${PORT}
 COPY .eslintrc.js ../../
-COPY node_modules ./node_modules
-COPY applications/backend package-lock.json .
+COPY applications/backend/package.json package-lock.json .
 
-RUN [ "sh", "-c", "npm ci" ]
+RUN npm config set registry https://registry.npmjs.org/
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT}/health || exit 1" ]
+RUN mkdir node_modules
+RUN [ "sh", "-c", "npm ci", "--no-audit" ]
+
+COPY node_modules/.prisma/client ./node_modules/.prisma/client
+COPY applications/backend/prisma ./prisma
+COPY applications/backend .
 
 
 FROM backend-base AS migrate-development
@@ -58,17 +66,20 @@ LABEL APP=frontend
 
 WORKDIR /project/apps/frontend
 
+HEALTHCHECK --interval=5s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT} || exit 1" ]
+
 ENV PORT=80
 EXPOSE ${PORT}
 
 COPY .eslintrc.js ../../
-COPY node_modules ./node_modules
-COPY applications/frontend package-lock.json .
+COPY applications/frontend/package.json package-lock.json .
 
-RUN ["sh", "-c", "npm ci"]
+RUN npm config set registry https://registry.npmjs.org/
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT} || exit 1" ]
+RUN mkdir node_modules
+RUN [ "sh", "-c", "npm ci", "--no-audit" ]
 
+COPY applications/frontend .
 
 FROM frontend-base AS frontend-development
 
