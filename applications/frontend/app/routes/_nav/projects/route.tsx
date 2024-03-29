@@ -14,123 +14,116 @@ import { ProjectDto } from '../dashboard/projects/project.dto';
 import { Icon } from '@chakra-ui/icons';
 import { FaUsers } from 'react-icons/fa';
 import { RiStarFill, RiWallet3Fill } from 'react-icons/ri';
+import { MouseEventHandler, ReactNode } from 'react';
+import { IconType } from 'react-icons';
+import useLanguage from '../../../components/hooks/useLanguage';
 
 export default function Page() {
-  const { budget, users, rating, _count }: ProjectDto = {
-    _count: { users: 0 },
-    budget: { currency: 'RUB', value: 0 },
-    description: '',
-    id: '',
-    rating: [{ mark: 0 }],
-    slug: '',
-    title: '',
+  const project: ProjectDto = {
+    budget: { currency: 'RUB', value: 1000000 },
+    id: '0',
+    title: 'Project',
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, tempora consequuntur vitae tenetur in sed quam ea ex dicta exercitationem error, ipsa culpa laudantium quasi natus cumque hic quis. Aut?',
+    rating: [{ mark: 5 }],
+    slug: 'project',
     updatedAt: '',
     users: [{ user: { username: '' } }],
+    _count: { users: 4 },
   };
+  return (
+    <Box m="16px" display="flex" gap="16px" flexWrap="wrap">
+      <ProjectCard project={project} />
+      <ProjectCard project={project} />
+      <ProjectCard project={project} />
+    </Box>
+  );
+}
+
+function ProjectCard({
+  project,
+  onCheckProject,
+  onRespond,
+}: {
+  project: ProjectDto;
+  onCheckProject?: MouseEventHandler<HTMLButtonElement>;
+  onRespond?: MouseEventHandler<HTMLButtonElement>;
+}) {
+  const language = useLanguage();
 
   return (
     <Card maxW="sm">
       <CardBody>
         <VStack mt="2" alignItems={'flex-start'}>
-          <Heading size="md">Колян</Heading>
-          <HStack>
-            <Box backgroundColor={'gray.300'} height={200} width={250}>
-              <Text>
-                Вроде уже по кайфу, но вот обрезка текста хромает пока
-              </Text>
-            </Box>
-            <VStack spacing={3.5}>
-              <Heading
-                as={'h6'}
-                color={'gray.600'}
-                fontSize={'xs'}
-                fontWeight={'medium'}
-              >
-                {users[0] ? users[0].user.username : 'Не назначен'}
-              </Heading>
-              <HStack
-                spacing={0.5}
-                width={'full'}
-                justifyContent={'justify-between'}
-              >
-                <Icon as={FaUsers} boxSize={3} color={'gray.600'} />
-                <Heading
-                  as={'h6'}
-                  color={'gray.600'}
-                  fontSize={'xs'}
-                  fontWeight={'medium'}
-                >
-                  {Intl.NumberFormat(navigator.language, {
-                    style: 'decimal',
-                    notation: 'compact',
-                  }).format(_count.users)}
-                </Heading>
-              </HStack>
-
-              <HStack
-                spacing={0.5}
-                width={'full'}
-                justifyContent={'justify-between'}
-              >
-                <Icon as={RiStarFill} boxSize={3} color={'gray.600'} />
-                <Heading
-                  as={'h6'}
-                  color={'gray.600'}
-                  fontSize={'xs'}
-                  fontWeight={'medium'}
-                >
-                  {Intl.NumberFormat(navigator.language, {
-                    style: 'decimal',
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  }).format(
-                    rating.length > 0
-                      ? rating
-                          .map(({ mark }: { mark: number }) => mark)
-                          .reduce(
-                            (previousValue: number, currentValue: number) =>
-                              (previousValue += currentValue),
-                          ) / rating.length
-                      : 0,
-                  )}
-                </Heading>
-              </HStack>
-
-              <HStack
-                spacing={0.5}
-                width={'full'}
-                justifyContent={'justify-between'}
-              >
-                <Icon as={RiWallet3Fill} boxSize={3} color={'gray.600'} />
-                <Heading
-                  as={'h6'}
-                  color={'gray.600'}
-                  fontSize={'xs'}
-                  fontWeight={'medium'}
-                >
-                  {budget
-                    ? Intl.NumberFormat(navigator.language, {
-                        style: 'currency',
-                        currency: budget.currency,
-                        notation: 'compact',
-                      }).format(budget.value)
-                    : 'Не указан'}
-                </Heading>
-              </HStack>
-            </VStack>
-          </HStack>
+          <Heading size="lg">{project.title}</Heading>
+          <Box display="flex" gap="16px" my="12px">
+            <IconValue icon={FaUsers}>
+              {Intl.NumberFormat(language, {
+                style: 'decimal',
+                notation: 'compact',
+              }).format(project._count.users)}
+            </IconValue>
+            <IconValue icon={RiStarFill}>
+              {Intl.NumberFormat(language, {
+                style: 'decimal',
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1,
+              }).format(
+                project.rating.length > 0
+                  ? project.rating
+                      .map(({ mark }: { mark: number }) => mark)
+                      .reduce(
+                        (previousValue: number, currentValue: number) =>
+                          (previousValue += currentValue),
+                      ) / project.rating.length
+                  : 0,
+              )}
+            </IconValue>
+            {project.budget && (
+              <IconValue icon={RiWallet3Fill}>
+                {Intl.NumberFormat(language, {
+                  style: 'currency',
+                  currency: project.budget.currency,
+                  notation: 'compact',
+                }).format(project.budget.value)}
+              </IconValue>
+            )}
+          </Box>
+          <Text>{project.description}</Text>
         </VStack>
       </CardBody>
       <CardFooter>
         <ButtonGroup>
-          <Button variant="solid" colorScheme="purple">
+          <Button onClick={onCheckProject} variant="outline">
             Посмотреть
           </Button>
-          <Button variant="solid" colorScheme="green">
+          <Button onClick={onRespond} variant="solid">
             Откликнуться
           </Button>
         </ButtonGroup>
       </CardFooter>
     </Card>
+  );
+}
+
+function IconValue({
+  children,
+  icon,
+}: {
+  children: ReactNode;
+  icon: IconType;
+}) {
+  return (
+    <HStack>
+      <Icon as={icon} boxSize={6} color={'gray.600'} />
+      <Heading
+        as={'h6'}
+        color={'gray.600'}
+        fontSize={'m'}
+        fontWeight={'medium'}
+      >
+        {children}
+      </Heading>
+    </HStack>
   );
 }
