@@ -32,7 +32,7 @@ COPY applications/backend/package.json package-lock.json .
 RUN npm config set registry https://registry.npmjs.org/
 
 RUN mkdir node_modules
-RUN [ "sh", "-c", "npm ci", "--no-audit" ]
+RUN [ "sh", "-c", "npm ci --no-audit" ]
 
 COPY node_modules/.prisma/client ./node_modules/.prisma/client
 COPY applications/backend/prisma ./prisma
@@ -75,7 +75,7 @@ COPY applications/frontend/package.json ./package-lock.json ./
 RUN npm config set registry https://registry.npmjs.org/
 
 RUN mkdir node_modules
-RUN [ "sh", "-c", "npm ci", "--no-audit" ]
+RUN [ "sh", "-c", "npm ci --no-audit" ]
 
 COPY applications/frontend .
 

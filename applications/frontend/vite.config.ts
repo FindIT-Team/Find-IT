@@ -48,6 +48,9 @@ export default ({ mode }: ConfigEnv) => {
               route('/project', 'routes/_nav/project/route.tsx', {
                 index: true,
               });
+              route('/projects', 'routes/_nav/projects/route.tsx', {
+                index: true,
+              });
             });
           });
         },
