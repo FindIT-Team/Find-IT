@@ -24,7 +24,7 @@ export default function Page() {
     id: '0',
     title: 'Project',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, tempora consequuntur vitae tenetur in sed quam ea ex dicta exercitationem error, ipsa culpa laudantium quasi natus cumque hic quis. Aut?',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, tempora consequuntur vitae tenetur in sed quam ea ex dicta exercitationem error, ipsa culpa laudantium quasi natus cumque hic quis. Aut? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, tempora consequuntur vitae tenetur in sed quam ea ex dicta exercitationem error, ipsa culpa laudantium quasi natus cumque hic quis. Aut? ',
     rating: [{ mark: 5 }],
     slug: 'project',
     updatedAt: '',
@@ -89,7 +89,14 @@ function ProjectCard({
               </IconValue>
             )}
           </Box>
-          <Text>{project.description}</Text>
+          <Text
+            textOverflow="ellipsis"
+            overflow="hidden"
+            display="-webkit-box"
+            style={{ WebkitLineClamp: 5, WebkitBoxOrient: 'vertical' }}
+          >
+            {project.description}
+          </Text>
         </VStack>
       </CardBody>
       <CardFooter>
