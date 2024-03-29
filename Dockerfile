@@ -7,6 +7,8 @@ LABEL ENV=${ENV}
 
 RUN apk --no-cache add curl
 
+ENV PORT=80
+EXPOSE ${PORT}
 
 FROM base AS backend-base
 
@@ -23,8 +25,7 @@ ENV DB_USERNAME=webserver
 ENV DB_PASSWD=123456
 
 ENV DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
-ENV PORT=80
-EXPOSE ${PORT}
+
 COPY .eslintrc.js ../../
 COPY applications/backend/package.json package-lock.json .
 
@@ -68,11 +69,8 @@ WORKDIR /project/apps/frontend
 
 HEALTHCHECK --interval=5s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -f http://localhost:${PORT} || exit 1" ]
 
-ENV PORT=80
-EXPOSE ${PORT}
-
 COPY .eslintrc.js ../../
-COPY applications/frontend/package.json package-lock.json .
+COPY applications/frontend/package.json ./package-lock.json ./
 
 RUN npm config set registry https://registry.npmjs.org/
 
