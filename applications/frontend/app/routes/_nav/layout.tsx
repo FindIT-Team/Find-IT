@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Layout() {
   return (
-    <HStack height={'100vh'} userSelect={'none'}>
+    <HStack height={'100vh'} userSelect={'none'} spacing={0}>
       <VStack
         as={'nav'}
         height={'full'}

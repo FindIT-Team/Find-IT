@@ -2,12 +2,12 @@ import { Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { CloseButton } from '~/routes/_nav/dashboard/close-button';
 import { useContext } from 'react';
 import { NoticeContext } from '~/routes/_nav/dashboard/notices/notice.context';
-import { useReRender } from '~/components/hooks/useReRender';
+import useLanguage from '~/components/hooks/useLanguage';
 
 export function Notice() {
   const { message, type, createdAt } = useContext(NoticeContext);
 
-  if (useReRender() === null) return null;
+  const language = useLanguage();
 
   return (
     <HStack
@@ -45,7 +45,9 @@ export function Notice() {
       >
         <CloseButton />
 
-        <Text fontSize={'xs'}>{new Date(createdAt).toLocaleTimeString()}</Text>
+        <Text fontSize={'xs'}>
+          {new Date(createdAt).toLocaleDateString(language)}
+        </Text>
       </VStack>
     </HStack>
   );

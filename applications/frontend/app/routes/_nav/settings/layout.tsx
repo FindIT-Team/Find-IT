@@ -14,7 +14,7 @@ export default function Layout() {
     <Center padding={3} paddingBottom={10} boxSize={'full'}>
       <HStack
         border={'1px solid'}
-        borderColor={'gray.300'}
+        borderColor={'gray.200'}
         borderRadius={'md'}
         shadow={'md'}
         boxSize={'full'}

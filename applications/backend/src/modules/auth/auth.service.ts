@@ -162,8 +162,6 @@ export class AuthService {
         oAuth: { create: registerDto.oAuth ?? {} },
       };
 
-      delete (parsedDto.profile.create as { name?: string }).name;
-
       const user = await this.databaseService.user.create({
         data: parsedDto,
       });

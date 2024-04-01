@@ -10,9 +10,13 @@ import {
 import { useContext } from 'react';
 import { ResponseOfferContext } from '~/routes/_nav/dashboard/responses-offers/response-offer.context';
 import { FaUsers } from 'react-icons/fa';
+import useLanguage from '~/components/hooks/useLanguage';
+import { IconWithValue } from '~/components/icon-with-value';
 
 export function ResponseOffer() {
   const { status, project } = useContext(ResponseOfferContext);
+
+  const language = useLanguage();
 
   return (
     <HStack
@@ -44,63 +48,54 @@ export function ResponseOffer() {
                 ? project.users[0].user.username
                 : 'Не назначен'}
             </Heading>
-            <HStack spacing={0.5}>
-              <Icon as={FaUsers} boxSize={3} color={'gray.600'} />
-              <Heading
-                as={'h6'}
-                color={'gray.600'}
-                fontSize={'xs'}
-                fontWeight={'medium'}
-              >
-                {Intl.NumberFormat(navigator.language, {
-                  style: 'decimal',
-                  notation: 'compact',
-                }).format(project._count.users)}
-              </Heading>
-            </HStack>
+            <IconWithValue
+              icon={FaUsers}
+              boxSize={3}
+              fontSize={'xs'}
+              spacing={0.5}
+            >
+              {Intl.NumberFormat(language, {
+                style: 'decimal',
+                notation: 'compact',
+              }).format(project._count.users)}
+            </IconWithValue>
 
-            <HStack spacing={0.5}>
-              <Icon as={RiStarFill} boxSize={3} color={'gray.600'} />
-              <Heading
-                as={'h6'}
-                color={'gray.600'}
-                fontSize={'xs'}
-                fontWeight={'medium'}
-              >
-                {Intl.NumberFormat(navigator.language, {
-                  style: 'decimal',
-                  minimumFractionDigits: 1,
-                  maximumFractionDigits: 1,
-                }).format(
-                  project.rating.length > 0
-                    ? project.rating
-                        .map(({ mark }: { mark: number }) => mark)
-                        .reduce(
-                          (previousValue: number, currentValue: number) =>
-                            (previousValue += currentValue),
-                        ) / project.rating.length
-                    : 0,
-                )}
-              </Heading>
-            </HStack>
+            <IconWithValue
+              icon={RiStarFill}
+              boxSize={3}
+              fontSize={'xs'}
+              spacing={0.5}
+            >
+              {Intl.NumberFormat(language, {
+                style: 'decimal',
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1,
+              }).format(
+                project.rating.length > 0
+                  ? project.rating
+                      .map(({ mark }: { mark: number }) => mark)
+                      .reduce(
+                        (previousValue: number, currentValue: number) =>
+                          (previousValue += currentValue),
+                      ) / project.rating.length
+                  : 0,
+              )}
+            </IconWithValue>
 
-            <HStack spacing={0.5}>
-              <Icon as={RiWallet3Fill} boxSize={3} color={'gray.600'} />
-              <Heading
-                as={'h6'}
-                color={'gray.600'}
-                fontSize={'xs'}
-                fontWeight={'medium'}
-              >
-                {project.budget
-                  ? Intl.NumberFormat(navigator.language, {
-                      style: 'currency',
-                      currency: project.budget.currency,
-                      notation: 'compact',
-                    }).format(project.budget.value)
-                  : 'Не указан'}
-              </Heading>
-            </HStack>
+            <IconWithValue
+              icon={RiWallet3Fill}
+              boxSize={3}
+              fontSize={'xs'}
+              spacing={0.5}
+            >
+              {project.budget
+                ? Intl.NumberFormat(navigator.language, {
+                    style: 'currency',
+                    currency: project.budget.currency,
+                    notation: 'compact',
+                  }).format(project.budget.value)
+                : 'Не указан'}
+            </IconWithValue>
           </HStack>
         </VStack>
       </HStack>

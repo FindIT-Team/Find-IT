@@ -38,6 +38,7 @@ export default function Page() {
         boxSize={'full'}
         alignItems={'flex-start'}
         padding={5}
+        spacing={0}
       >
         <Suspense>
           <Await resolve={user}>

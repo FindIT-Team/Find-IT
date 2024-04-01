@@ -1,6 +1,6 @@
 import { defer, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { Center, Grid, Heading, VStack } from '@chakra-ui/react';
-import { User } from '~/routes/_nav/users/user';
+import { Grid, Heading, HStack, VStack } from '@chakra-ui/react';
+import { UserCard } from '~/routes/_nav/users/user-card';
 import { fetch } from '~/.server/fetch';
 import { Await, useLoaderData } from '@remix-run/react';
 import { Dispatch, SetStateAction, Suspense, useRef, useState } from 'react';
@@ -34,44 +34,39 @@ export default function Page() {
   });
 
   return (
-    <Center padding={3} paddingBottom={10} boxSize={'full'}>
-      <VStack
-        border={'1px solid'}
-        borderColor={'gray.300'}
-        borderRadius={'md'}
-        shadow={'md'}
-        boxSize={'full'}
-        alignItems={'flex-start'}
-        padding={5}
-      >
+    <VStack alignItems={'flex-start'} boxSize={'full'} padding={3}>
+      <HStack padding={2}>
         <Heading fontSize={'2xl'}>Пользователи</Heading>
-        <Grid
-          gridTemplateColumns={'repeat(auto-fill, minmax(350px, 1fr))'}
-          gap={3}
-          overflow={'scroll'}
-          width={'full'}
-          ref={ref}
-        >
-          {users.map((pack, index) => (
+      </HStack>
+      <Grid
+        flexGrow={1}
+        gridTemplateColumns={'repeat(auto-fill, minmax(350px, 1fr))'}
+        gap={3}
+        overflow={'scroll'}
+        boxSize={'full'}
+        ref={ref}
+      >
+        {Array(400)
+          .fill(null)
+          .map((pack, index) => (
             <Suspense
               key={index}
               fallback={
                 <Heading aria-details={'skeleton'}>Skeleton need</Heading>
               }
             >
-              <Await resolve={pack}>
+              <Await resolve={users[0]}>
                 {(pack) =>
                   pack.map((user) => (
                     <UserProvider key={user.id} value={user}>
-                      <User />
+                      <UserCard />
                     </UserProvider>
                   ))
                 }
               </Await>
             </Suspense>
           ))}
-        </Grid>
-      </VStack>
-    </Center>
+      </Grid>
+    </VStack>
   );
 }

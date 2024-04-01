@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 import { useContext } from 'react';
 import { UserContext } from '~/routes/_nav/users/user.context';
 
-export function User() {
+export function UserCard() {
   const { username, profile } = useContext(UserContext);
 
   return (
