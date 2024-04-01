@@ -1,52 +1,78 @@
-version: '3.9'
+version: '3.8'
 name: findit-development
 services:
+  store:
+    extends:
+      file: docker-compose.yml
+      service: store
+    build:
+      args:
+        - ENV=development
+    volumes:
+      - ./applications/store/data/development:/data:rw
+    networks:
+      - default
+
   database:
     extends:
       file: docker-compose.yml
       service: database
-
-    build:
-      args:
-        - ENV=development
-
+    environment:
+      - POSTGRES_DB=development
     volumes:
       - ./applications/database/data/development:/var/lib/postgresql/data/pg-data:rw
-
+    networks:
+      - default
 
   backend:
     extends:
       file: docker-compose.yml
       service: backend
-
     build:
-      target: development
+      target: backend-development
       args:
         - ENV=development
-
     depends_on:
       database:
         condition: service_healthy
-
+      store:
+        condition: service_healthy
     env_file:
       - ./applications/backend/.env.development
+    networks:
+      default:
+        aliases:
+          - api.findit.test
 
   frontend:
     extends:
       file: docker-compose.yml
       service: frontend
-
     build:
-      target: development
+      target: frontend-development
       args:
         - ENV=development
+    env_file:
+      - ./applications/frontend/.env.development
+    networks:
+      - default
 
+  nginx:
+    extends:
+      file: docker-compose.yml
+      service: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
     depends_on:
       backend:
         condition: service_healthy
+      frontend:
+        condition: service_healthy
+    networks:
+      - default
 
-    env_file:
-        - ./applications/frontend/.env.development
-
-    ports:
-      - '0.0.0.0:80:3000'
+networks:
+  default:

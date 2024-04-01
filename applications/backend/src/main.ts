@@ -1,19 +1,21 @@
 import { NestFactory } from '@nestjs/core';
-import passport from 'passport';
-import { CorsConfig } from './configs/cors.config';
 import { AppModule } from './modules/app.module';
-import { AuthGuard } from './modules/auth/auth.guard';
-import session from 'express-session';
 import { ConfigService } from '@nestjs/config';
+import { StoreService } from './modules/store/store.service';
+import { createDocs } from './utils/create-docs.util';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { CorsConfig } from './configs/cors.config';
 import { ValidationPipe } from '@nestjs/common';
-
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import session from 'express-session';
+import { SessionConfig } from './configs/session.config';
+import passport from 'passport';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { abortOnError: false });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    abortOnError: false,
+  });
 
-  const configService = app.get(ConfigService);
-
+  // app.use(helmet());
   app.enableCors(CorsConfig);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -21,36 +23,22 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.setGlobalPrefix('api');
 
-  if (configService.get('NODE_ENV') === 'development') {
-    const options = new DocumentBuilder()
-      .setTitle('FindIT API')
-      .setVersion('1.0')
-      .build();
-    const document = SwaggerModule.createDocument(app, options, {
-      ignoreGlobalPrefix: true,
-    });
-    SwaggerModule.setup('/api/docs', app, document);
-  }
+  const configService: ConfigService = app.get(ConfigService);
+  const storeService: StoreService = app.get(StoreService);
+
+  if (configService.get('NODE_ENV') === 'development') await createDocs(app);
 
   app.use(
     session({
-      secret: configService.get('SECRET'),
-      saveUninitialized: false,
-      resave: false,
-      cookie: {
-        signed: true,
-        maxAge: 1000 * 60 * 60 * 24,
-        domain: 'localhost',
-      },
+      ...SessionConfig,
+      store: storeService.session,
+      secret: configService.get('SECRET') ?? '',
     }),
   );
   app.use(passport.session());
 
-  app.useGlobalGuards(new AuthGuard());
-
-  await app.listen(configService.get('PORT'));
+  await app.listen(configService.get('PORT') ?? 3000);
 }
 
 bootstrap().then();

@@ -3,11 +3,9 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "entryFile": "main",
-  "plugins": [{
-    "name": "@nestjs/swagger",
-    "options": {
-      "documentation": true,
-      "spec": true
-    }
-  }]
+  "compilerOptions": {
+    "builder": "swc",
+    "typeCheck": true
+  },
+  "plugins": ["@nestjs/swagger"]
 }

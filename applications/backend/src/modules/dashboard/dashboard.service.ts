@@ -1,120 +1,117 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ProjectsService } from '../projects/projects.service';
-import { ProjectEntity } from '../../entities/project.entity';
-import { NoticesService } from '../notices/notices.service';
-import { NoticeEntity } from '../../entities/notice.entity';
-import { UserEntity } from '../../entities/user.entity';
+import { Injectable } from '@nestjs/common';
+import { DatabaseService } from '../database/database.service';
+import {
+  Notice,
+  Prisma,
+  Project,
+  UsersToProjects,
+  UsersToProjectsStatus,
+} from '@prisma/client';
+import { faker } from '@faker-js/faker';
+import slug from 'slug';
 
 @Injectable()
 export class DashboardService {
-  constructor(
-    private readonly projectsService: ProjectsService,
-    private readonly noticesService: NoticesService,
-  ) {}
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async getNotices(
-    id: string,
-    query: Record<string, any>,
-  ): Promise<[NoticeEntity[], number]> {
-    try {
-      query = query as Record<string, number>;
-    } catch (err) {
-      query.take = 10;
-      query.skip = 0;
-      console.log(err);
-    }
-
-    return this.noticesService.find({
-      take: query.take,
-      skip: query.skip,
-      where: { user: { id } },
-      order: { createdAt: 'DESC' },
+    userId: string,
+    take: number,
+    offset?: string,
+  ): Promise<Notice[]> {
+    return await this.databaseService.notice.findMany({
+      where: { userId },
+      orderBy: { createdAt: Prisma.SortOrder.desc },
+      cursor: offset ? { id: offset } : undefined,
+      skip: offset ? 1 : 0,
+      take,
     });
-  }
-
-  async removeNotice(userId: string, noticeId: string): Promise<string> {
-    const notice: NoticeEntity = await this.noticesService.findOne({
-      where: { id: noticeId, user: { id: userId } },
-      select: ['id', 'removedAt'],
-      withDeleted: true,
-    });
-
-    if (!notice) throw new NotFoundException();
-
-    return await this.noticesService.remove(notice);
   }
 
   async getProjects(
-    id: string,
-    query: Record<string, any>,
-  ): Promise<[ProjectEntity[], number]> {
-    try {
-      query = query as Record<string, number>;
-    } catch (err) {
-      query.take = 10;
-      query.skip = 0;
-      console.log(err);
-    }
-
-    return await this.projectsService.find({
-      take: query.take,
-      skip: query.skip,
-      where: [
-        {
-          projectToUsers: [
-            { user: { id }, isOwner: true },
-            { user: { id }, status: 'userJoined' },
-          ],
+    userId: string,
+    take: number,
+    offset?: string,
+  ): Promise<Project[]> {
+    return await this.databaseService.project.findMany({
+      where: {
+        users: {
+          some: { userId, status: UsersToProjectsStatus.JOINED },
         },
-      ],
-      select: [
-        'id',
-        'title',
-        'budget',
-        'createdAt',
-        'updatedAt',
-        'projectToUsers',
-      ],
-      relations: ['projectToUsers', 'projectToUsers.user'],
-      order: { updatedAt: 'DESC' },
+      },
+      include: {
+        users: {
+          where: { isOwner: true },
+          select: { user: { select: { username: true } } },
+        },
+        rating: {
+          select: { mark: true },
+        },
+        _count: {
+          select: { users: true },
+        },
+      },
+      orderBy: {
+        updatedAt: Prisma.SortOrder.desc,
+      },
+      cursor: offset ? { id: offset } : undefined,
+      skip: offset ? 1 : 0,
+      take,
     });
   }
 
   async getResponsesOffers(
-    id: string,
-    query: Record<string, any>,
-  ): Promise<[ProjectEntity[], number]> {
-    try {
-      query = query as Record<string, number>;
-    } catch (err) {
-      query.take = 10;
-      query.skip = 0;
-      console.log(err);
-    }
-
-    return await this.projectsService.find({
-      take: query.take,
-      skip: query.skip,
+    userId: string,
+    take: number,
+    offset?: string,
+  ): Promise<UsersToProjects[]> {
+    return await this.databaseService.usersToProjects.findMany({
       where: {
-        projectToUsers: [
-          { user: { id }, status: 'userRequested' },
-          { user: { id }, status: 'userInvited' },
-        ],
+        userId,
+        status: {
+          notIn: [UsersToProjectsStatus.JOINED, UsersToProjectsStatus.DECLINED],
+        },
       },
-      select: [
-        'id',
-        'title',
-        'budget',
-        'createdAt',
-        'updatedAt',
-        'projectToUsers',
-      ],
-      relations: ['projectToUsers', 'projectToUsers.user'],
-      order: { updatedAt: 'DESC' },
+      include: {
+        project: {
+          include: {
+            users: {
+              where: { isOwner: true },
+              select: { user: { select: { username: true } } },
+            },
+            rating: {
+              select: { mark: true },
+            },
+            _count: {
+              select: { users: true },
+            },
+          },
+        },
+      },
+      orderBy: {},
+      cursor: offset ? { id: offset } : undefined,
+      skip: offset ? 1 : 0,
+      take,
     });
   }
 
-  async getUser(user: UserEntity): Promise<UserEntity> {
-    return user;
+  async create(userId: string): Promise<void> {
+    for (let i = 0; i < 10; i++) {
+      const title = faker.lorem.sentence();
+      await this.databaseService.project.create({
+        data: {
+          title,
+          description: faker.lorem.paragraph(),
+          slug: slug(title),
+          users: {
+            create: {
+              userId,
+              isOwner: true,
+              status: UsersToProjectsStatus.JOINED,
+            },
+          },
+        },
+      });
+    }
   }
 }
