@@ -19,13 +19,14 @@ export function InviteParticipants() {
         onClick={() => {
           clipboard?.writeText(url);
           toast({
-            title: 'Ссылка есть.',
+            title: 'Ссылка скопирована.',
             status: 'success',
             duration: 3000,
           });
         }}
         colorScheme="gray"
         variant="outline"
+        _hover={{ background: 'gray.300' }}
       >
         Пригласить участника
       </Button>

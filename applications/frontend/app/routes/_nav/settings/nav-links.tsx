@@ -14,7 +14,13 @@ export function NavLinks() {
   ];
 
   return (
-    <VStack spacing={1} flexGrow={0.2} padding={4} divider={<StackDivider />}>
+    <VStack
+      width={'20%'}
+      spacing={1}
+      flexGrow={0.2}
+      padding={4}
+      divider={<StackDivider />}
+    >
       {navLinks.map(({ to, label }) => (
         <NavLink
           to={to}
