@@ -1,6 +1,7 @@
 import { vitePlugin as remix } from '@remix-run/dev';
 import { installGlobals } from '@remix-run/node';
 import { ConfigEnv, defineConfig, loadEnv } from 'vite';
+import envOnly from 'vite-env-only';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 installGlobals();
@@ -18,43 +19,88 @@ export default ({ mode }: ConfigEnv) => {
     },
     plugins: [
       remix({
+        appDirectory: 'src/app',
         routes: async (defineRoutes) => {
           return defineRoutes((route) => {
-            route('/auth', 'routes/auth/layout.tsx', () => {
-              route('registration', 'routes/auth/registration/route.tsx', {
+            // Home
+            route('', '../pages/home/index.tsx', { index: true });
+
+            // Auth layout
+            route('/auth', '../pages/layouts/auth/index.tsx', () => {
+              route('login', '../pages/auth/login/index.tsx');
+              route('registration', '../pages/auth/registration/index.tsx');
+            });
+
+            // Navigation layout
+            route('/', '../pages/layouts/nav/index.tsx', () => {
+              // Dashboard
+              route('dashboard', '../pages/dashboard/index.tsx');
+
+              // Settings
+              route(
+                'settings',
+                '../pages/layouts/settings-nav/index.tsx',
+                () => {
+                  route('profile', '../pages/settings/profile/index.tsx', {
+                    index: true,
+                  });
+                },
+              );
+
+              // Users
+              route('users', '../pages/users/index.tsx', { index: true });
+
+              // Projects
+              route('projects', '../pages/projects/index.tsx', { index: true });
+
+              // User
+              route('users/:username', '../pages/user/index.tsx', {
                 index: true,
               });
-              route('login', 'routes/auth/login/route.tsx', {
+
+              // Project
+              route('projects/:projectId', '../pages/project/index.tsx', {
                 index: true,
               });
             });
 
             // Dashboard
-            route('', 'routes/_nav/layout.tsx', () => {
-              route('/dashboard', 'routes/_nav/dashboard/route.tsx', {
-                index: true,
-              });
-              route('/settings', 'routes/_nav/settings/layout.tsx', () => {
-                route('profile', 'routes/_nav/settings/profile/route.tsx', {
-                  index: true,
-                });
-              });
-              route('/users', 'routes/_nav/users/route.tsx', {
-                index: true,
-              });
-              route('/users/:username', 'routes/_nav/user/route.tsx', {
-                index: true,
-              });
-              route('/project', 'routes/_nav/project/route.tsx', {
-                index: true,
-              });
-              route('/projects', 'routes/_nav/projects/route.tsx', {
-                index: true,
-              });
-            });
+            // route('/auth', 'routes/auth/layout.tsx', () => {
+            //   route('registration', 'routes/auth/registration/index.tsx', {
+            //     index: true,
+            //   });
+            //   route('login', 'routes/auth/login/index.tsx', {
+            //     index: true,
+            //   });
+            // });
+            //
+            // // Dashboard
+            // route('', 'routes/_nav/layout.tsx', () => {
+            //   route('/dashboard', 'routes/_nav/dashboard/index.tsx', {
+            //     index: true,
+            //   });
+            //   route('/settings', 'routes/_nav/settings/layout.tsx', () => {
+            //     route('profile', 'routes/_nav/settings/profile/index.tsx', {
+            //       index: true,
+            //     });
+            //   });
+            //   route('/users', 'routes/_nav/users/index.tsx', {
+            //     index: true,
+            //   });
+            //   route('/users/:username', 'routes/_nav/user/index.tsx', {
+            //     index: true,
+            //   });
+            //   route('/project', 'routes/_nav/project/index.tsx', {
+            //     index: true,
+            //   });
+            //   route('/projects', 'routes/_nav/projects/index.tsx', {
+            //     index: true,
+            //   });
+            // });
           });
         },
       }),
+      envOnly(),
       tsconfigPaths(),
     ],
   });

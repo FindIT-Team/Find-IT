@@ -57,10 +57,10 @@
 //
 //     jest
 //       .spyOn(service, 'removeNotice')
-//       .mockImplementation(async () => 'Notice removed');
+//       .mockImplementation(async () => 'Row removed');
 //
 //     expect(await controller.noticesActions(noticeId, action, user)).toBe(
-//       'Notice removed',
+//       'Row removed',
 //     );
 //   });
 //

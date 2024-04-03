@@ -6,8 +6,10 @@
 
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
+  root: true,
   parserOptions: {
     ecmaVersion: 'latest',
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
@@ -18,10 +20,8 @@ module.exports = {
     es6: true,
   },
 
-  extends: ['../../.eslintrc.js'],
-
   // Base config
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', '@feature-sliced'],
 
   overrides: [
     // React
@@ -80,4 +80,14 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.ts', '.tsx'],
+      },
+      typescript: {
+        alwaysTryTypes: true,
+      },
+    },
+  },
 };

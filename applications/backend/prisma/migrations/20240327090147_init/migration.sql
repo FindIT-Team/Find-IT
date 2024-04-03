@@ -115,7 +115,7 @@ CREATE TABLE "ExtraSkill" (
 );
 
 -- CreateTable
-CREATE TABLE "Notice" (
+CREATE TABLE "Row" (
     "id" TEXT NOT NULL,
     "type" "NoticeType" NOT NULL,
     "message" TEXT NOT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE "RatingToProjects" (
 );
 
 -- CreateTable
-CREATE TABLE "Project" (
+CREATE TABLE "Row" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
@@ -208,7 +208,7 @@ CREATE INDEX "Skills_profileId_idx" ON "Skills"("profileId");
 CREATE INDEX "ExtraSkill_profileId_idx" ON "ExtraSkill"("profileId");
 
 -- CreateIndex
-CREATE INDEX "Notice_id_userId_idx" ON "Notice"("id", "userId");
+CREATE INDEX "Notice_id_userId_idx" ON "Row"("id", "userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UsersToProjects_id_key" ON "UsersToProjects"("id");
@@ -220,10 +220,10 @@ CREATE INDEX "UsersToProjects_id_userId_projectId_isOwner_permissions_idx" ON "U
 CREATE INDEX "RatingToProjects_profileId_projectId_idx" ON "RatingToProjects"("profileId", "projectId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Project_slug_key" ON "Project"("slug");
+CREATE UNIQUE INDEX "Project_slug_key" ON "Row"("slug");
 
 -- CreateIndex
-CREATE INDEX "Project_id_title_slug_idx" ON "Project"("id", "title", "slug");
+CREATE INDEX "Project_id_title_slug_idx" ON "Row"("id", "title", "slug");
 
 -- AddForeignKey
 ALTER TABLE "OAuth" ADD CONSTRAINT "OAuth_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -250,16 +250,16 @@ ALTER TABLE "Skills" ADD CONSTRAINT "Skills_profileId_fkey" FOREIGN KEY ("profil
 ALTER TABLE "ExtraSkill" ADD CONSTRAINT "ExtraSkill_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Notice" ADD CONSTRAINT "Notice_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Row" ADD CONSTRAINT "Notice_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UsersToProjects" ADD CONSTRAINT "UsersToProjects_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UsersToProjects" ADD CONSTRAINT "UsersToProjects_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UsersToProjects" ADD CONSTRAINT "UsersToProjects_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Row"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "RatingToProjects" ADD CONSTRAINT "RatingToProjects_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "RatingToProjects" ADD CONSTRAINT "RatingToProjects_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "RatingToProjects" ADD CONSTRAINT "RatingToProjects_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Row"("id") ON DELETE CASCADE ON UPDATE CASCADE;

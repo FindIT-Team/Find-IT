@@ -1,0 +1,97 @@
+import {
+  AbsoluteCenter,
+  Box,
+  Center,
+  chakra,
+  Divider,
+  HStack,
+  Image,
+  VStack,
+} from '@chakra-ui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
+import { Form, redirect } from '@remix-run/react';
+import {
+  getValidatedFormData,
+  RemixFormProvider,
+  useRemixForm,
+} from 'remix-hook-form';
+import { fetchServer } from '@/shared';
+import { Buttons } from './buttons';
+import { ExternalAuth } from './external-auth';
+import { PasswordField, UniqField } from './fields';
+import { Schema, schema } from './schema';
+
+export const meta: MetaFunction = () => [{ title: 'Войти | FindIT' }];
+
+export async function action({ request }: ActionFunctionArgs) {
+  const data = (await getValidatedFormData(request, zodResolver(schema))).data;
+  const cookie = request.headers.get('Cookie');
+
+  const { headers } = await fetchServer('/auth/login', cookie, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return redirect('/dashboard', { headers });
+}
+
+export default function Page() {
+  const remixForm = useRemixForm<Schema>({
+    mode: 'all',
+    resolver: zodResolver(schema),
+  });
+
+  return (
+    <Center as={'main'} height={'100vh'} userSelect={'none'}>
+      <HStack
+        border={'1px solid'}
+        borderColor={'gray.200'}
+        shadow={'md'}
+        background={'white'}
+        borderRadius={'lg'}
+        spacing={0}
+        alignItems={'stretch'}
+        overflow={'hidden'}
+      >
+        <VStack
+          padding={12}
+          spacing={6}
+          flexShrink={0}
+          justifyContent={'center'}
+        >
+          <ExternalAuth />
+          <Box width={'full'} position={'relative'}>
+            <Divider />
+            <AbsoluteCenter
+              px={2}
+              background={'white'}
+              fontSize={'md'}
+              fontWeight={'semibold'}
+            >
+              <chakra.span opacity={0.6}>или</chakra.span>
+            </AbsoluteCenter>
+          </Box>
+          <VStack>
+            <RemixFormProvider {...remixForm}>
+              <Form onSubmit={remixForm.handleSubmit}>
+                <UniqField />
+                <PasswordField />
+                <Buttons />
+              </Form>
+            </RemixFormProvider>
+          </VStack>
+        </VStack>
+        <Image
+          objectFit={'cover'}
+          objectPosition={'center'}
+          maxWidth={[0, 0, 0, '30vw']}
+          src={'/login-side-image.jpg'}
+        />
+      </HStack>
+    </Center>
+  );
+}

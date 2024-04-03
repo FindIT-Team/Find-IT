@@ -30,6 +30,7 @@
     "zod": "latest"
   },
   "devDependencies": {
+    "@feature-sliced/eslint-config": "latest",
     "@remix-run/dev": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
@@ -37,12 +38,14 @@
     "@typescript-eslint/parser": "latest",
     "eslint": "latest",
     "eslint-import-resolver-typescript": "latest",
+    "eslint-plugin-boundaries": "latest",
     "eslint-plugin-import": "latest",
     "eslint-plugin-jsx-a11y": "latest",
     "eslint-plugin-react": "latest",
     "eslint-plugin-react-hooks": "latest",
     "typescript": "latest",
     "vite": "latest",
+    "vite-env-only": "latest",
     "vite-tsconfig-paths": "latest"
   },
   "engines": {
