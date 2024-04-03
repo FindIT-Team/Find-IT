@@ -11,6 +11,10 @@ export function NavLinks() {
       to: 'account',
       label: 'Аккаунт',
     },
+    {
+      to: 'link-accounts',
+      label: 'Привязанные уч.записи',
+    },
   ];
 
   return (

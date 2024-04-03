@@ -41,6 +41,13 @@ export default ({ mode }: ConfigEnv) => {
                 route('account', 'routes/_nav/settings/account/route.tsx', {
                   index: true,
                 });
+                route(
+                  'link-accounts',
+                  'routes/_nav/settings/link-accounts/route.tsx',
+                  {
+                    index: true,
+                  },
+                );
               });
               route('/users', 'routes/_nav/users/route.tsx', {
                 index: true,
