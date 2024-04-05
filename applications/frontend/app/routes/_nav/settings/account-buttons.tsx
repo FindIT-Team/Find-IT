@@ -1,6 +1,6 @@
 import { Button, Text, VStack } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/icons';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
+import { FaGithub, FaGoogle, FaTwitter } from 'react-icons/fa';
 import { RiCloseLine } from 'react-icons/ri';
 
 export function AccountButtons() {
@@ -30,6 +30,19 @@ export function AccountButtons() {
       >
         <Icon as={FaGithub} />
         <Text>GitHub</Text>
+        <Icon as={RiCloseLine} />
+      </Button>
+      <Button
+        width={'full'}
+        justifyContent={'space-between'}
+        boxSize={'full'}
+        alignItems={'end'}
+        padding={3}
+        variant="outline"
+        _hover={{ background: 'gray.300' }}
+      >
+        <Icon as={FaTwitter} />
+        <Text>Twitter</Text>
         <Icon as={RiCloseLine} />
       </Button>
     </VStack>
