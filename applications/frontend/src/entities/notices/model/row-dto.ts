@@ -3,6 +3,6 @@ import { NoticeCategory } from '.';
 export interface NoticeRowDto {
   id: string;
   message: string;
-  type: NoticeCategory;
+  category: NoticeCategory;
   createdAt: string;
 }
