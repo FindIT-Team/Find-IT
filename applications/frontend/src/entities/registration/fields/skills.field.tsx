@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { useRemixFormContext } from 'remix-hook-form';
-import { AnimateLayout } from '../animate-layout';
-import { Context } from '../context';
-import { Schema, schema } from '../schema';
+import { AnimateLayout } from '../../../pages/auth/registration/animate-layout';
+import { Context } from '../../../pages/auth/registration/context';
+import { Schema, schema } from '../../../pages/auth/registration/schema';
 
 const fields = {
   projectManagement: 'Проектный менеджмент',

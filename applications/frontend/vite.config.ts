@@ -59,7 +59,7 @@ export default ({ mode }: ConfigEnv) => {
               });
 
               // Project
-              route('projects/:projectId', '../pages/project/index.tsx', {
+              route('projects/:projectId', '../pages/dsahboard/index.tsx', {
                 index: true,
               });
             });
@@ -90,7 +90,7 @@ export default ({ mode }: ConfigEnv) => {
             //   route('/users/:username', 'routes/_nav/user/index.tsx', {
             //     index: true,
             //   });
-            //   route('/project', 'routes/_nav/project/index.tsx', {
+            //   route('/dsahboard', 'routes/_nav/dsahboard/index.tsx', {
             //     index: true,
             //   });
             //   route('/projects', 'routes/_nav/projects/index.tsx', {

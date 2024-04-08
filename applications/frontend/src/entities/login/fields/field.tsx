@@ -6,7 +6,7 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { useRemixFormContext } from 'remix-hook-form';
-import { Schema } from '../schema';
+import { Schema } from '../../../pages/auth/login/schema';
 
 export function Field({
   name,

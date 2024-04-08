@@ -2,7 +2,7 @@ import { Icon } from '@chakra-ui/icons';
 import { Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { RiStarFill } from 'react-icons/ri';
-import { Developers } from './developers';
+import { Developers } from '../../widgets/project/developers';
 
 export const meta: MetaFunction = () => [{ title: 'Проект | FindIT' }];
 

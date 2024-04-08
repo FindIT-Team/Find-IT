@@ -16,7 +16,7 @@ import {
   PasswordField,
   SkillsField,
   UsernameField,
-} from './fields';
+} from '../../../entities/registration/fields';
 import { Intro } from './intro';
 import { Outro } from './outro';
 import { Schema, schema } from './schema';

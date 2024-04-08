@@ -3,7 +3,7 @@ import { Await, useLoaderData } from '@remix-run/react';
 import { Dispatch, SetStateAction, Suspense, useState } from 'react';
 import { ProjectProvider, ProjectRow } from '@/entities/projects';
 import { Container } from './container';
-import { loader } from './index';
+import { loader } from '../../pages/dashboard';
 
 export function Projects() {
   const { projects: initPack } = useLoaderData<typeof loader>();

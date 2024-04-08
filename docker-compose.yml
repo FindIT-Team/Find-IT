@@ -32,14 +32,14 @@ services:
       watch:
         - path: ./applications/backend
           action: sync
-          target: /project/apps/backend
+          target: /dsahboard/apps/backend
 
   frontend:
     develop:
       watch:
         - path: ./applications/frontend
           action: sync
-          target: /project/apps/frontend
+          target: /dsahboard/apps/frontend
 
   nginx:
     image: nginx:alpine

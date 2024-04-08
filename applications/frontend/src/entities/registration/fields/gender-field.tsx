@@ -11,9 +11,9 @@ import {
 } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import { useRemixFormContext } from 'remix-hook-form';
-import { AnimateLayout } from '../animate-layout';
-import { Context } from '../context';
-import { Schema } from '../schema';
+import { AnimateLayout } from '../../../pages/auth/registration/animate-layout';
+import { Context } from '../../../pages/auth/registration/context';
+import { Schema } from '../../../pages/auth/registration/schema';
 
 enum Sex {
   MALE = 'Мужской',

@@ -3,11 +3,11 @@ import { defer, LoaderFunctionArgs, type MetaFunction } from '@remix-run/node';
 import { NoticeDto } from '@/entities/notices';
 import { ProjectDto } from '@/entities/projects';
 import { fetchServer } from '@/shared';
-import { Notices } from './notices';
-import { Projects } from './projects';
-import { ResponsesOffers } from './responses-offers';
-import { Subscription } from './subscription';
+import { Projects } from '../../widgets/dashboard/projects';
+import { ResponsesOffers } from '../../widgets/dashboard/responses-offers';
+import { Subscription } from '../../widgets/dashboard/subscription';
 import { ResponseOfferDto } from '@/entities/responses-offers';
+import { Notices } from '@/widgets/dashboard/notices';
 
 export const meta: MetaFunction = () => [
   { title: 'Панель управления | FindIT' },

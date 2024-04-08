@@ -1,5 +1,5 @@
 import { Heading, VStack } from '@chakra-ui/react';
-import { Developer } from './developer';
+import { Developer } from '../../entities/project/developer';
 
 export function Developers() {
   return (

@@ -3,7 +3,7 @@ import { Await, useLoaderData } from '@remix-run/react';
 import { Dispatch, SetStateAction, Suspense, useState } from 'react';
 import { NoticeProvider, NoticeRow } from '@/entities/notices';
 import { Container } from './container';
-import { loader } from './index';
+import { loader } from '../../pages/dashboard';
 
 export function Notices() {
   const { notices: initPack } = useLoaderData<typeof loader>();

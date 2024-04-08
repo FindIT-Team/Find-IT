@@ -17,9 +17,9 @@ import {
   useRemixForm,
 } from 'remix-hook-form';
 import { fetchServer } from '@/shared';
-import { Buttons } from './buttons';
-import { ExternalAuth } from './external-auth';
-import { PasswordField, UniqField } from './fields';
+import { Buttons } from '@/entities/login/buttons';
+import { ExternalAuth } from '../../../widgets/login/external-auth';
+import { PasswordField, UniqField } from '../../../entities/login/fields';
 import { Schema, schema } from './schema';
 
 export const meta: MetaFunction = () => [{ title: 'Войти | FindIT' }];

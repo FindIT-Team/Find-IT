@@ -6,7 +6,7 @@ import {
   ResponseOfferRow,
 } from '@/entities/responses-offers';
 import { Container } from './container';
-import { loader } from './index';
+import { loader } from '../../pages/dashboard';
 
 export function ResponsesOffers() {
   const { responsesOffers: initPack } = useLoaderData<typeof loader>();

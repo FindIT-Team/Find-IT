@@ -1,8 +1,8 @@
 import { Heading } from '@chakra-ui/react';
 import { useContext } from 'react';
-import { AnimateLayout } from '../animate-layout';
-import { Context } from '../context';
-import { Field } from '.';
+import { AnimateLayout } from '../../../pages/auth/registration/animate-layout';
+import { Context } from '../../../pages/auth/registration/context';
+import { Field } from './index';
 
 export function EmailField() {
   const { screenSearch } = useContext(Context);

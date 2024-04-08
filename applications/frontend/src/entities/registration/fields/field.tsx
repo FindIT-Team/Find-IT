@@ -12,8 +12,8 @@ import {
 import { useContext } from 'react';
 import { RiArrowRightLine } from 'react-icons/ri';
 import { useRemixFormContext } from 'remix-hook-form';
-import { Context } from '../context';
-import { Schema } from '../schema';
+import { Context } from '../../../pages/auth/registration/context';
+import { Schema } from '../../../pages/auth/registration/schema';
 
 export function Field({
   position,

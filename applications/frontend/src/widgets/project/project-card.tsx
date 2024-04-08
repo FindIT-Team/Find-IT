@@ -39,7 +39,7 @@ export function ProjectCard() {
         <ButtonGroup>
           <Button
             as={Link}
-            to={'/project'}
+            to={'/dsahboard'}
             variant="solid"
             colorScheme="purple"
           >
